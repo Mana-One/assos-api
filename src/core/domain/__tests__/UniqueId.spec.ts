@@ -4,12 +4,12 @@ describe("UniqueId", () => {
     describe("creation", () => {
         it("should be truthy when passing undefined", () => {
             const uid = UniqueId.create();
-            expect(uid.id).toBeTruthy();
+            expect(uid.value).toBeTruthy();
         })
     
         it("should be truthy when passing a string", () => {
             const uid = UniqueId.create("an id");
-            expect(uid.id).toBeTruthy();
+            expect(uid.value).toBeTruthy();
         })
     })
 

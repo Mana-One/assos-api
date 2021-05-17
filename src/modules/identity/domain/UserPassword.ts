@@ -1,34 +1,34 @@
-import { Guard } from "../../core/logic";
+import { Guard } from "../../../core/logic";
 import { IdentityErrors } from "./errors";
 import bcrypt from "bcryptjs";
 
-interface UserPasswordProps {
+export interface UserPasswordProps {
     isHashed: boolean;
-    password: string;
+    value: string;
 }
 
 const strongRegex = new RegExp(/(?=^.{8,32}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\x21-\x2F\x3A-\x40\x5B-\x60\x7B-\x7E])/g);
 
 export namespace UserPassword {
-    export function create(props: UserPasswordProps) {
+    export function create(password: string, isHashed: boolean = false) {
         Guard.againstNullOrUndefined({
-            value: props.password,
+            value: password,
             key: "password"
         });
     
-        if(!props.isHashed && !strongRegex.test(props.password)){
+        if(!isHashed && !strongRegex.test(password)){
             throw new IdentityErrors.InvalidPassword();
         }
     
-        return Object.freeze(props);
+        return Object.freeze({ value: password, isHashed });
     }
 
     export async function hash(pwd: UserPasswordProps): Promise<UserPasswordProps>{
         if(!pwd.isHashed){
-            const password = await bcrypt.hash(pwd.password, 10);
+            const password = await bcrypt.hash(pwd.value, 10);
             return Object.freeze({
                 isHashed: true,
-                password
+                value: password
             });
         }
 
@@ -37,9 +37,9 @@ export namespace UserPassword {
 
     export async function compare(clearPassword: string, pwd: UserPasswordProps): Promise<boolean> {
         if(!pwd.isHashed){
-            return pwd.password === clearPassword;
+            return pwd.value === clearPassword;
         }
 
-        return bcrypt.compare(clearPassword, pwd.password);
+        return bcrypt.compare(clearPassword, pwd.value);
     }
 }
