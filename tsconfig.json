@@ -3,9 +3,13 @@
         "target": "es5",
         "module": "commonjs",
         "noEmit": true,
+        "rootDir": "src",
         "strict": true,
         "esModuleInterop": true,
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true
-    }
+    },
+    "exclude": [
+        "src/**/*.spec.ts"
+    ]
 }
