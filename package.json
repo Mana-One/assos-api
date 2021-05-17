@@ -6,7 +6,7 @@
   "scripts": {
     "prebuild": "rimraf bin && npm test",
     "build": "tsc && babel src -d bin --extensions .ts --ignore src/**/__tests__",
-    "test": "jest"
+    "test": "jest src"
   },
   "author": "",
   "license": "ISC",
