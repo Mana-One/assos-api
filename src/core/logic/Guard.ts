@@ -1,24 +1,28 @@
 export namespace Guard {
-    export class MissingValue extends Error {
-        constructor(propertyName: string){
-            super(`Missing value for ${propertyName}`);
-        }
-    }
-
-    interface GuardArgument {
+    export interface Argument {
         value: any;
         key: string;
     }
 
-    export function againstNullOrUndefined(arg: GuardArgument){
-        if(arg.value === undefined || arg.value === null){
-            throw new MissingValue(arg.key);
-        }
+    export interface Result {
+        success: boolean;
+        message?: string;
     }
 
-    export function bulkAgainstNullOrUndefined(args: GuardArgument[]){
-        for(const arg of args){
-            againstNullOrUndefined(arg);
+    export function againstNullOrUndefined(arg: Argument): Result {
+        if(arg.value === undefined || arg.value === null){
+           return { success: false, message: `Missing value for '${arg.key}'` };
         }
+        return { success: true };
+    }
+
+    export function bulkAgainstNullOrUndefined(args: Argument[]): Result {
+        for(const arg of args){
+            const result = againstNullOrUndefined(arg);
+            if(!result.success){
+                return result;
+            }
+        }
+        return { success: true };
     }
 }
