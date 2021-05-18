@@ -1,7 +1,8 @@
-import { UniqueId } from "../../../core/domain";
-import { UserEmail } from "./UserEmail";
-import { UserName } from "./UserName";
-import { UserPassword } from "./UserPassword";
+import { UniqueId, UniqueIdProps } from "../../../core/domain";
+import { Role } from "./Role";
+import { UserEmail, UserEmailProps } from "./UserEmail";
+import { UserName, UserNameProps } from "./UserName";
+import { UserPassword, UserPasswordProps } from "./UserPassword";
 
 interface UserProps {
     firstName: string;
@@ -11,7 +12,16 @@ interface UserProps {
 }
 
 export namespace User {
-    export function create(props: UserProps, id?: string){
+    export type Type = {
+        id: UniqueIdProps;
+        firstName: UserNameProps;
+        lastName: UserNameProps;
+        email: UserEmailProps;
+        password: UserPasswordProps;
+        Role: Role.Type
+    }
+
+    export function create(props: UserProps, Role: Role.Type, id?: string): Type {
         const uid = UniqueId.create(id);
         const firstName = UserName.create(props.firstName);
         const lastName = UserName.create(props.lastName);
@@ -23,7 +33,8 @@ export namespace User {
             firstName,
             lastName,
             email,
-            password
+            password,
+            Role
         });
     }
 }

@@ -1,7 +1,9 @@
 import { IdentityErrors } from "../errors";
+import { Role } from "../Role";
 import { User } from "../User";
 
 describe("User entity", () => {
+    const role = Role.create("donator");
     describe("creation", () => {
         it("should return a new User when passing an undefined id", () => {
             const user = User.create({
@@ -9,7 +11,7 @@ describe("User entity", () => {
                 lastName: "Manaois",
                 email: "username@yahoo.com",
                 password: "azertyUIOP123$"
-            });
+            }, role);
 
             expect(user).toBeTruthy();
             expect(user.id.value).toBeTruthy();
@@ -26,7 +28,7 @@ describe("User entity", () => {
                 lastName: "Manaois",
                 email: "username@yahoo.com",
                 password: "azertyUIOP123$"
-            })).toThrow(IdentityErrors.InvalidName);
+            }, role)).toThrow(IdentityErrors.InvalidName);
         })
 
         it("should fail when lastName is invalid", () => {
@@ -35,7 +37,7 @@ describe("User entity", () => {
                 lastName: "",
                 email: "username@yahoo.com",
                 password: "azertyUIOP123$"
-            })).toThrow(IdentityErrors.InvalidName);
+            }, role)).toThrow(IdentityErrors.InvalidName);
         })
 
         it("should fail when password is invalid", () => {
@@ -44,7 +46,7 @@ describe("User entity", () => {
                 lastName: "Manaois",
                 email: "username@yahoo.com",
                 password: "azertyuiop123$"
-            })).toThrow(IdentityErrors.InvalidPassword);
+            }, role)).toThrow(IdentityErrors.InvalidPassword);
         })
 
         it("should fail when email is invalid", () => {
@@ -53,7 +55,7 @@ describe("User entity", () => {
                 lastName: "Manaois",
                 email: "username@yahoo..com",
                 password: "azertyUIOP123$"
-            })).toThrow(IdentityErrors.InvalidEmail);
+            }, role)).toThrow(IdentityErrors.InvalidEmail);
         })
     })
 })

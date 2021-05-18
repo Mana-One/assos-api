@@ -1,8 +1,13 @@
-import { UniqueId } from "../../../core/domain";
+import { UniqueId, UniqueIdProps } from "../../../core/domain";
 import { Guard } from "../../../core/logic";
 import { IdentityErrors } from "./errors";
 
 export namespace Role {
+    export type Type = {
+        readonly id: UniqueIdProps;
+        readonly name: string;
+    } 
+
     export enum Values {
         DONATOR = "donator",
         VOLUNTEER = "volunteer",
@@ -17,7 +22,7 @@ export namespace Role {
             value === Values.ADMIN;
     }
 
-    export function create(rolename: string, id?: string){
+    export function create(rolename: string, id?: string): Type {
         Guard.againstNullOrUndefined({
             value: rolename,
             key: "role name"
