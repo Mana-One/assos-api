@@ -1,8 +1,8 @@
-import { Response } from "../Response";
+import { Result } from "../Result";
 
-describe("Response data structure", () => {
+describe("Result data structure", () => {
     it("should be successful even if value is not passed", () => {
-        const result = Response.ok<boolean>();
+        const result = Result.ok<boolean>();
         expect(result).toBeTruthy();
         expect(result.success).toBe(true);
         expect(result.value).toBe(undefined);
@@ -10,7 +10,7 @@ describe("Response data structure", () => {
     })
 
     it("should be successful with a value", () => {
-        const result = Response.ok<string>("hey");
+        const result = Result.ok<string>("hey");
         expect(result).toBeTruthy();
         expect(result.success).toBe(true);
         expect(result.value).toBe("hey");
@@ -18,7 +18,7 @@ describe("Response data structure", () => {
     })
 
     it("should be a failure with always an error value", () => {
-        const result = Response.ko<string>("oops");
+        const result = Result.ko<string>("oops");
         expect(result).toBeTruthy();
         expect(result.success).toBe(false);
         expect(result.value).toBe("oops");

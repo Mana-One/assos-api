@@ -45,4 +45,18 @@ describe("UserEmail value object", () => {
             }
         })
     })
+
+    describe("equals", () => {
+        it("should return false if comparing with null", () => {
+            const emailOrError = UserEmail.create("username@yahoo.com");
+            expect(emailOrError).toBeTruthy();
+            if(emailOrError.isRight()){
+                expect(emailOrError.value.getValue()).toBe("username@yahoo.com");
+                const check = emailOrError.value.equals(null);
+                expect(check).toBe(false);
+            } else {
+                fail("Should be successful");
+            }
+        })
+    })
 })
