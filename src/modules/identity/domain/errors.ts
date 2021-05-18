@@ -16,4 +16,10 @@ export namespace IdentityErrors {
             super("Invalid email");
         }
     }
+
+    export class InvalidRole extends Error {
+        constructor(){
+            super("Invalid role name");
+        }
+    }
 }
