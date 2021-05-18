@@ -5,7 +5,7 @@ interface ValueObjectProps {
 }
 
 export abstract class ValueObject<T extends ValueObjectProps> {
-    constructor(readonly props: T){}
+    constructor(protected props: T){}
 
     equals(obj?: ValueObject<T>): boolean {
         if(obj === null || obj === undefined){
