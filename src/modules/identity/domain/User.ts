@@ -1,4 +1,5 @@
 import { UniqueId } from "../../../core/domain";
+import { UserEmail } from "./UserEmail";
 import { UserName } from "./UserName";
 import { UserPassword } from "./UserPassword";
 
@@ -14,15 +15,15 @@ export namespace User {
         const uid = UniqueId.create(id);
         const firstName = UserName.create(props.firstName);
         const lastName = UserName.create(props.lastName);
-        const email = props.email;
+        const email = UserEmail.create(props.email);
         const password = UserPassword.create(props.password); 
 
         return Object.freeze({
             id: uid,
-            firstName: firstName,
-            lastName: lastName,
+            firstName,
+            lastName,
             email,
-            password: password
+            password
         });
     }
 }

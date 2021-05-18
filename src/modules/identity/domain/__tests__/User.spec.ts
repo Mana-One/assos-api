@@ -7,7 +7,7 @@ describe("User entity", () => {
             const user = User.create({
                 firstName: "Paolo",
                 lastName: "Manaois",
-                email: "pmanaois@test.com",
+                email: "username@yahoo.com",
                 password: "azertyUIOP123$"
             });
 
@@ -15,7 +15,7 @@ describe("User entity", () => {
             expect(user.id.value).toBeTruthy();
             expect(user.firstName.value).toBe("Paolo");
             expect(user.lastName.value).toBe("Manaois");
-            expect(user.email).toBe("pmanaois@test.com");
+            expect(user.email.value).toBe("username@yahoo.com");
             expect(user.password.isHashed).toBe(false);
             expect(user.password.value).toBe("azertyUIOP123$");
         })
@@ -24,7 +24,7 @@ describe("User entity", () => {
             expect(() => User.create({
                 firstName: "",
                 lastName: "Manaois",
-                email: "pmanaois@test.com",
+                email: "username@yahoo.com",
                 password: "azertyUIOP123$"
             })).toThrow(IdentityErrors.InvalidName);
         })
@@ -33,7 +33,7 @@ describe("User entity", () => {
             expect(() => User.create({
                 firstName: "Paolo",
                 lastName: "",
-                email: "pmanaois@test.com",
+                email: "username@yahoo.com",
                 password: "azertyUIOP123$"
             })).toThrow(IdentityErrors.InvalidName);
         })
@@ -42,9 +42,18 @@ describe("User entity", () => {
             expect(() => User.create({
                 firstName: "Paolo",
                 lastName: "Manaois",
-                email: "pmanaois@test.com",
+                email: "username@yahoo.com",
                 password: "azertyuiop123$"
             })).toThrow(IdentityErrors.InvalidPassword);
+        })
+
+        it("should fail when email is invalid", () => {
+            expect(() => User.create({
+                firstName: "Paolo",
+                lastName: "Manaois",
+                email: "username@yahoo..com",
+                password: "azertyUIOP123$"
+            })).toThrow(IdentityErrors.InvalidEmail);
         })
     })
 })

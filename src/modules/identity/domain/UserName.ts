@@ -12,6 +12,8 @@ export namespace UserName {
             key: "name"
         });
 
+        value = value.trim();
+
         if(value.length <= 0 || value.length > 100){
             throw new IdentityErrors.InvalidName();
         }

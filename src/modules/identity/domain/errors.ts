@@ -10,4 +10,10 @@ export namespace IdentityErrors {
             super("Invalid name entry: must have 1 to 100 chars");
         }
     }
+
+    export class InvalidEmail extends Error {
+        constructor(){
+            super("Invalid email");
+        }
+    }
 }
