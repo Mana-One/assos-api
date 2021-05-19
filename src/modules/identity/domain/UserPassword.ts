@@ -1,4 +1,4 @@
-import { Either, Guard, left, Result, right } from "../../../core/logic";
+import { Guard, Result } from "../../../core/logic";
 import bcrypt from "bcryptjs";
 import { ValueObject } from "../../../core/domain";
 

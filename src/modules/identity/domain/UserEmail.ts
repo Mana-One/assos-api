@@ -1,9 +1,10 @@
 import { ValueObject } from "../../../core/domain";
 import { Guard, Result } from "../../../core/logic";
 
-export interface UserEmailProps {
+interface UserEmailProps {
     value: string;
 }
+
 export class UserEmail extends ValueObject<UserEmailProps> {
     // RFC compliance
     private static emailRegex = new RegExp("^[\\w!#$%&’*+/=?`{|}~^-]+(\?\:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(\?\:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$");

@@ -1,5 +1,5 @@
 import { ValueObject } from "../../../core/domain";
-import { Either, left, Result, right } from "../../../core/logic";
+import { Result } from "../../../core/logic";
 
 export enum RoleName {
     DONATOR = "donator",
