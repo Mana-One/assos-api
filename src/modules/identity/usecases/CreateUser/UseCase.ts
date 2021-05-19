@@ -41,14 +41,15 @@ export class CreateUser implements UseCase<Input, Promise<Response>> {
         });
 
         const user = userRes.getValue();
-        const check = await this.userRepo.findByEmail(user.getEmail());
-        if(check != null){
-            const email = user.getEmail().getValue();
-            return left(new IdentityErrors.AccountAlreadyExists(email))
-        }
-
         try {
+            const check = await this.userRepo.findByEmail(user.getEmail());
+            if(check != null){
+                const email = user.getEmail().getValue();
+                return left(new IdentityErrors.AccountAlreadyExists(email))
+            }
+
             await this.userRepo.save(user);
+            
         } catch(err) {
             return left(new AppErrors.UnexpectedError(err));
         }

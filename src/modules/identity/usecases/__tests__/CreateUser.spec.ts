@@ -68,6 +68,22 @@ describe("Create User Usecase", () => {
         expect(res.isRight()).toBe(false);
     })
 
+    it("should return ko result when search by email fails", async () => {
+        const usecase = new CreateUser({
+            save: Save.ok,
+            findByEmail: FindByEmail.throw
+        });
+
+        const res = await usecase.execute({
+            firstName: "a name",
+            lastName: "a name",
+            email: "test@test.test",
+            password: "azertyUIOP123$"
+        });
+        expect(res.isLeft()).toBe(true);
+        expect(res.isRight()).toBe(false);
+    })
+
     it("should return ko result when persistence has failed", async () => {
         const usecase = new CreateUser({
             save: Save.throw,
