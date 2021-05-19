@@ -1,6 +1,5 @@
 import { UniqueId } from "../../../../core/domain";
 import { Result } from "../../../../core/logic";
-import { IdentityErrors } from "../errors";
 import { Role } from "../Role";
 import { User } from "../User";
 import { UserEmail } from "../UserEmail";
@@ -23,7 +22,7 @@ describe("User entity", () => {
         lastName: lastName.getValue(),
         email: email.getValue(),
         password: password.getValue(),
-        Role: role.getValue()
+        role: role.getValue()
     }
 
     describe("creation", () => {

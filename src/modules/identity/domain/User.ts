@@ -10,7 +10,7 @@ interface UserProps {
     lastName: UserName;
     email: UserEmail;
     password: UserPassword;
-    Role: Role
+    role: Role
 }
 
 export class User extends Entity<UserProps> {
@@ -31,7 +31,7 @@ export class User extends Entity<UserProps> {
     }
 
     getRole(): Role {
-        return this.props.Role;
+        return this.props.role;
     }
 
     static create(props: UserProps, id?: UniqueId): Result<User> {

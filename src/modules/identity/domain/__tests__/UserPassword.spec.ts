@@ -1,4 +1,3 @@
-import { IdentityErrors } from "../errors";
 import { UserPassword } from "../UserPassword";
 
 describe("UserPassword value object", () => {
