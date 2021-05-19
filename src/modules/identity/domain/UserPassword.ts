@@ -1,4 +1,4 @@
-import { Either, Guard, left, right } from "../../../core/logic";
+import { Either, Guard, left, Result, right } from "../../../core/logic";
 import bcrypt from "bcryptjs";
 import { ValueObject } from "../../../core/domain";
 
@@ -44,19 +44,19 @@ export class UserPassword extends ValueObject<UserPasswordProps> {
         return this.create(password, true);
     }
 
-    private static create(password: string, isHashed: boolean): Either<string, UserPassword> {
+    private static create(password: string, isHashed: boolean): Result<UserPassword> {
         const guardResult = Guard.againstNullOrUndefined({
             key: "password",
             value: password
         });
         if(!guardResult.success){
-            return left(guardResult.message);
+            return Result.ko<UserPassword>(guardResult.message);
         }
 
         if(!isHashed && !this.strongRegex.test(password)){
-            return left("Invalid length or format for password");
+            return Result.ko<UserPassword>("Invalid length or format for password");
         }
 
-        return right(new UserPassword({ value: password, isHashed }));
+        return Result.ok<UserPassword>(new UserPassword({ value: password, isHashed }));
     }
 }

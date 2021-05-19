@@ -3,46 +3,30 @@ import { UserName } from "../UserName";
 describe("UserName value object", () => {
     describe("creation", () => {
         it("should return a UserName object", () => {
-            const userName = UserName.create("name");
-            expect(userName).toBeTruthy();
-            if(userName.isRight()){
-                expect(userName.value.getValue()).toBe("name");
-            } else {
-                fail("Should be successful")
-            }
+            const res = UserName.create("name");
+            expect(res.success).toBe(true);
+            expect(res.getValue().getValue()).toBe("name");
         })
 
         it("should fail when passing an empty string", () => {
-            const userName = UserName.create("");
-            expect(userName).toBeTruthy();
-            if(userName.isLeft()){
-                expect(userName.value).toBe("Invalid length for 'name'");
-            } else {
-                fail("Should not be successful");
-            }
+            const res = UserName.create("");
+            expect(res.success).toBe(false);
+            expect(res.getValue()).toBe("Invalid length for 'name'");
         })
 
         it("should fail when passing a name with more than 100 chars", () => {
-            const userName = UserName.create("azertyuiopqsdfghjklmwxcvbn".repeat(4));
-            expect(userName).toBeTruthy();
-            if(userName.isLeft()){
-                expect(userName.value).toBe("Invalid length for 'name'");
-            } else {
-                fail("Should not be successful");
-            }
+            const res = UserName.create("azertyuiopqsdfghjklmwxcvbn".repeat(4));
+            expect(res.success).toBe(false);
+            expect(res.getValue()).toBe("Invalid length for 'name'");
         })
     })
 
     describe("equals", () => {
         it("should return false if comparing with null", () => {
-            const userNameOrError = UserName.create("name");
-            if(userNameOrError.isRight()){
-                const userName = userNameOrError.value;
-                const check = userName.equals(null);
-                expect(check).toBe(false);
-            } else {
-                fail("Should be successful when creating name");
-            }
+            const res = UserName.create("name");
+            const check = res.getValue().equals(null);
+            expect(check).toBe(false);
+            
         })
     })
 })

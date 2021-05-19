@@ -1,5 +1,5 @@
 import { ValueObject } from "../../../core/domain";
-import { Either, left, right } from "../../../core/logic";
+import { Either, left, Result, right } from "../../../core/logic";
 
 export enum RoleName {
     DONATOR = "donator",
@@ -28,10 +28,10 @@ export class Role extends ValueObject<RoleProps> {
         return this.props.value;
     }
 
-    static create(role: string): Either<string, Role> {
+    static create(role: string): Result<Role> {
         if(!isRoleName(role)){
-            return left("Invalid role name");
+            return Result.ko<Role>("Invalid role name");
         }
-        return right(new Role({ value: role }));
+        return Result.ok<Role>(new Role({ value: role }));
     }
 }
