@@ -3,6 +3,7 @@ import { UseCase } from "../../../../core/domain";
 import { Authentication } from "../../services";
 import { UserRepo } from "../../infra/repositories";
 import { AccessToken, UserEmail, UserPassword } from "../../domain";
+import { IdentityErrors } from "../errors";
 
 interface Input {
     email: string,
@@ -10,6 +11,7 @@ interface Input {
 }
 
 type Response = Either<
+    IdentityErrors.UserNotFound |
     Result<any>,
     Result<AccessToken>
 >;
@@ -31,7 +33,7 @@ export class Login implements UseCase<Input, Promise<Response>> {
         try {
             const user = await this.userRepo.findByEmail(email);
             if(user === null || !await user.comparePassword(password.getValue())){
-                return left(Result.ko("Not found"));
+                return left(Result.ko(new IdentityErrors.UserNotFound()));
             }
     
             const token = await this.authService.createToken({

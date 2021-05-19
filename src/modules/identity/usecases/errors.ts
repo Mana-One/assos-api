@@ -8,4 +8,12 @@ export namespace IdentityErrors {
             });
         }
     }
+
+    export class UserNotFound extends Result<UseCaseError> {
+        constructor(){
+            super(false, {
+                message: "Could not find user"
+            });
+        }
+    }
 }
