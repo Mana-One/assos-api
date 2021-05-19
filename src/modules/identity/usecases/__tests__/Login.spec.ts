@@ -1,6 +1,6 @@
-import { findByEmailNotNull, findByEmailNull } from "../../infra/repositories/__mocks__/UserRepo";
+import { FindByEmail } from "../../infra/repositories/__mocks__/UserRepo";
 import { Login } from "../Login/UseCase";
-import { createTokenKo, createTokenOk } from "../../services/__mocks__/Authentication";
+import { CreateToken } from "../../services/__mocks__/Authentication";
 import { RoleName } from "../../domain";
 
 describe("Login Usecase", () => {
@@ -15,9 +15,9 @@ describe("Login Usecase", () => {
     it("should return ok result", async () => {
         const usecase = new Login({
             save,
-            findByEmail: findByEmailNotNull
+            findByEmail: FindByEmail.notNull
         }, {
-            createToken: createTokenOk,
+            createToken: CreateToken.ok,
             verifyAndRetrievePayload
         });
 
@@ -32,9 +32,9 @@ describe("Login Usecase", () => {
     it("should return ko result when passing invalid values", async () => {
         const usecase = new Login({
             save,
-            findByEmail: findByEmailNotNull
+            findByEmail: FindByEmail.notNull
         }, {
-            createToken: createTokenOk,
+            createToken: CreateToken.ok,
             verifyAndRetrievePayload
         });
 
@@ -49,9 +49,9 @@ describe("Login Usecase", () => {
     it("should return ko result when email not found", async () => {
         const usecase = new Login({
             save,
-            findByEmail: findByEmailNull
+            findByEmail: FindByEmail.null
         }, {
-            createToken: createTokenOk,
+            createToken: CreateToken.ok,
             verifyAndRetrievePayload
         });
 
@@ -66,9 +66,9 @@ describe("Login Usecase", () => {
     it("should return ko result when password does not match", async () => {
         const usecase = new Login({
             save,
-            findByEmail: findByEmailNotNull
+            findByEmail: FindByEmail.notNull
         }, {
-            createToken: createTokenOk,
+            createToken: CreateToken.ok,
             verifyAndRetrievePayload
         });
 
@@ -83,9 +83,9 @@ describe("Login Usecase", () => {
     it("should return ko result when token creation fails", async () => {
         const usecase = new Login({
             save,
-            findByEmail: findByEmailNotNull
+            findByEmail: FindByEmail.notNull
         }, {
-            createToken: createTokenKo,
+            createToken: CreateToken.throw,
             verifyAndRetrievePayload
         });
 

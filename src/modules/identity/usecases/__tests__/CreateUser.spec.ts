@@ -1,11 +1,11 @@
-import { saveKo, saveOk, findByEmailNotNull, findByEmailNull } from "../../infra/repositories/__mocks__/UserRepo";
+import { Save, FindByEmail } from "../../infra/repositories/__mocks__/UserRepo";
 import { CreateUser } from "../CreateUser";
 
 describe("Create User Usecase", () => {
     it("should return ok result", async () => {
         const usecase = new CreateUser({
-            save: saveOk,
-            findByEmail: findByEmailNull
+            save: Save.ok,
+            findByEmail: FindByEmail.null
         });
 
         const res = await usecase.execute({
@@ -21,8 +21,8 @@ describe("Create User Usecase", () => {
 
     it("should return ok result even without a rolename", async () => {
         const usecase = new CreateUser({
-            save: saveOk,
-            findByEmail: findByEmailNull
+            save: Save.ok,
+            findByEmail: FindByEmail.null
         });
 
         const res = await usecase.execute({
@@ -37,8 +37,8 @@ describe("Create User Usecase", () => {
 
     it("should return ko result if one of the parameters is invalid", async () => {
         const usecase = new CreateUser({
-            save: saveOk,
-            findByEmail: findByEmailNull
+            save: Save.ok,
+            findByEmail: FindByEmail.null
         });
 
         const res = await usecase.execute({
@@ -54,8 +54,8 @@ describe("Create User Usecase", () => {
 
     it("should return ko result when email is already used", async () => {
         const usecase = new CreateUser({
-            save: saveOk,
-            findByEmail: findByEmailNotNull
+            save: Save.ok,
+            findByEmail: FindByEmail.notNull
         });
 
         const res = await usecase.execute({
@@ -70,8 +70,8 @@ describe("Create User Usecase", () => {
 
     it("should return ko result when persistence has failed", async () => {
         const usecase = new CreateUser({
-            save: saveKo,
-            findByEmail: findByEmailNull
+            save: Save.throw,
+            findByEmail: FindByEmail.null
         });
 
         const res = await usecase.execute({

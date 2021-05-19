@@ -1,31 +1,29 @@
 import { AccessToken, RoleName, TokenPayload } from "../../domain";
 
-const createTokenKo = jest.fn()
-.mockImplementation(async function(payload: TokenPayload): Promise<AccessToken> {
-    throw new Error("oopsie");
-});
+const CreateToken = {
+    ok: async function(payload: TokenPayload): Promise<AccessToken> {
+        return "token_12346879/!;"
+    },
 
-const createTokenOk = jest.fn()
-.mockImplementation(async function(payload: TokenPayload): Promise<AccessToken> {
-    return "token_12346879/!;"
-});
+    throw: async function(payload: TokenPayload): Promise<AccessToken> {
+        throw new Error("oopsie");
+    }
+};
 
-const verifyOk = jest.fn()
-.mockImplementation(async function(token: AccessToken): Promise<TokenPayload> {
-    return {
-        id: "a valid id in a valid payload",
-        role: RoleName.DONATOR
-    };
-});
+const VerifyAndRetrievePayload = {
+    ok: async function(token: AccessToken): Promise<TokenPayload> {
+        return {
+            id: "a valid id in a valid payload",
+            role: RoleName.DONATOR
+        };
+    },
 
-const verifyKo = jest.fn()
-.mockImplementation(async function(token: AccessToken): Promise<TokenPayload> {
-    throw new Error("oopsie");
-});
+    throw: async function(token: AccessToken): Promise<TokenPayload> {
+        throw new Error("oopsie");
+    }
+};
 
 export {
-    createTokenKo,
-    createTokenOk,
-    verifyKo,
-    verifyOk
+    CreateToken,
+    VerifyAndRetrievePayload
 }

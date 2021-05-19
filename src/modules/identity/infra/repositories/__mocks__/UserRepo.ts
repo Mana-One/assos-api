@@ -8,30 +8,32 @@ const props = {
     role: Role.create("donator").getValue()
 }
 
-const findByEmailNotNull = jest.fn()
-.mockImplementation(async function(email: UserEmail): Promise<User | null>{
-    return User.create({
-        ...props,
-        email
-    }, new UniqueId("a valid id")).getValue();
-});
+const Save = {
+    throw: async function(user: User): Promise<void> {
+        throw new Error("oopsie");
+    },
 
-const findByEmailNull = jest.fn()
-.mockImplementation(async function(email: UserEmail): Promise<User | null>{
-    return null;
-});
+    ok: async function(user: User): Promise<void>{},
+};
 
-const saveOk = jest.fn()
-.mockImplementation(async function(user: User): Promise<void>{});
-
-const saveKo = jest.fn()
-.mockImplementation(async function(user: User): Promise<void> {
-    throw new Error("oopsie");
-})
+const FindByEmail = {
+    notNull: async function(email: UserEmail): Promise<User | null>{
+        return User.create({
+            ...props,
+            email
+        }, new UniqueId("a valid id")).getValue();
+    },
+    
+    null: async function(email: UserEmail): Promise<User | null>{
+        return null;
+    },
+    
+    throw: async function(email: UserEmail): Promise<User | null>{
+        throw new Error("oopsie");
+    }
+};
 
 export {
-    saveKo,
-    saveOk,
-    findByEmailNotNull,
-    findByEmailNull
+    Save,
+    FindByEmail
 }
