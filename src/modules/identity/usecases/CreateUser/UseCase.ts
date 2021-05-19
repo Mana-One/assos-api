@@ -26,7 +26,7 @@ export class CreateUser implements UseCase<Input, Promise<Response>> {
         const firstName = UserName.create(request.firstName);
         const lastName = UserName.create(request.lastName);
         const email = UserEmail.create(request.email);
-        const password = UserPassword.createHashed(request.password);
+        const password = UserPassword.createNotHashed(request.password);
         const res = Result.combine([role, firstName, lastName, email, password]);
         if(!res.success){
             return left(Result.ko(res.getValue()));

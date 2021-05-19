@@ -1,11 +1,10 @@
 import { UniqueId } from "../../../../../core/domain";
 import { Role, User, UserEmail, UserName, UserPassword } from "../../../domain";
-import { UserRepo } from "..";
 
 const props = {
     firstName: UserName.create("Paolo").getValue(),
     lastName: UserName.create("Manaois").getValue(),
-    password: UserPassword.createHashed("azertyUIOP123$").getValue(),
+    password: UserPassword.createNotHashed("azertyUIOP123$").getValue(),
     role: Role.create("donator").getValue()
 }
 
