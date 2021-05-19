@@ -1,4 +1,4 @@
-import { saveKo, saveOk, findByEmailNotNull, findByEmailNull } from "./__mocks__/UserRepo";
+import { saveKo, saveOk, findByEmailNotNull, findByEmailNull } from "../../infra/repositories/__mocks__/UserRepo";
 import { CreateUser } from "../CreateUser";
 
 describe("Create User Usecase", () => {
