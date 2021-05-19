@@ -28,4 +28,13 @@ export class Result<T> {
     static ko<U>(err: any): Result<U> {
         return new Result<U>(false, err);
     }
+
+    public static combine (results: Result<any>[]) : Result<any> {
+        for(let result of results){
+            if(!result.success){
+                return result;
+            }
+        }
+        return Result.ok();
+    }
 }

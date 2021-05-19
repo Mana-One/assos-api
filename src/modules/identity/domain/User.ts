@@ -1,40 +1,40 @@
-import { UniqueId, UniqueIdProps } from "../../../core/domain";
+import { Entity, UniqueId } from "../../../core/domain";
+import { Either, Guard, left, Result, right } from "../../../core/logic";
 import { Role } from "./Role";
-import { UserEmail, UserEmailProps } from "./UserEmail";
-import { UserName, UserNameProps } from "./UserName";
-import { UserPassword, UserPasswordProps } from "./UserPassword";
+import { UserEmail } from "./UserEmail";
+import { UserName } from "./UserName";
+import { UserPassword } from "./UserPassword";
 
 interface UserProps {
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
+    firstName: UserName;
+    lastName: UserName;
+    email: UserEmail;
+    password: UserPassword;
+    Role: Role
 }
 
-export namespace User {
-    export type Type = {
-        id: UniqueIdProps;
-        firstName: UserNameProps;
-        lastName: UserNameProps;
-        email: UserEmailProps;
-        password: UserPasswordProps;
-        Role: Role.Type
+export class User extends Entity<UserProps> {
+    getId(): UniqueId {
+        return this._id;
     }
 
-    export function create(props: UserProps, Role: Role.Type, id?: string): Type {
-        const uid = UniqueId.create(id);
-        const firstName = UserName.create(props.firstName);
-        const lastName = UserName.create(props.lastName);
-        const email = UserEmail.create(props.email);
-        const password = UserPassword.create(props.password); 
+    getFirstName(): UserName {
+        return this.props.firstName;
+    }
 
-        return Object.freeze({
-            id: uid,
-            firstName,
-            lastName,
-            email,
-            password,
-            Role
-        });
+    getLastName(): UserName {
+        return this.props.lastName;
+    }
+
+    getEmail(): UserEmail {
+        return this.props.email;
+    }
+
+    getRole(): Role {
+        return this.props.Role;
+    }
+
+    static create(props: UserProps, id?: UniqueId): Result<User> {
+        return Result.ok<User>(new User(props, id));
     }
 }
