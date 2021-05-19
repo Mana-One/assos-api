@@ -1,5 +1,5 @@
 export class Result<T> {       
-    private constructor(readonly success: boolean, private error?: T | string, private value?: T){
+    protected constructor(readonly success: boolean, private error?: T | string, private value?: T){
         if(success && !!error){
             throw new Error("Conflict: success cannot have an error");
         }

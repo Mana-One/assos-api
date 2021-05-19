@@ -1,6 +1,6 @@
-import { User, UserEmailProps } from "../../domain";
+import { User, UserEmail } from "../../domain";
 
 export interface UserRepo {
-    findByEmail(email: UserEmailProps): Promise<User.Type | null>
-    save(user: User.Type): Promise<User.Type>
+    findByEmail(email: UserEmail): Promise<User | null>
+    save(user: User): Promise<void>;
 }
