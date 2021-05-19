@@ -1,23 +1,33 @@
-import { Guard } from "../../../core/logic";
-import { IdentityErrors } from "./errors";
+import { ValueObject } from "../../../core/domain";
+import { Guard, Result } from "../../../core/logic";
 
-export interface UserNameProps {
+interface UserNameProps {
     value: string;
 }
 
-export namespace UserName {
-    export function create(value: string){
-        Guard.againstNullOrUndefined({
-            value,
-            key: "name"
+export class UserName extends ValueObject<UserNameProps> {
+    private constructor(props: UserNameProps){
+        super(props);
+    }
+
+    getValue(): string {
+        return this.props.value;
+    }
+
+    static create(name: string): Result<UserName> {
+        const guardResult = Guard.againstNullOrUndefined({
+            key: "name",
+            value: name
         });
 
-        value = value.trim();
-
-        if(value.length <= 0 || value.length > 100){
-            throw new IdentityErrors.InvalidName();
+        if(!guardResult.success){
+            return Result.ko<UserName>(guardResult.message);
         }
 
-        return Object.freeze({ value });
+        if(name.length === 0 || 100 < name.length){
+            return Result.ko<UserName>("Invalid length for 'name'");
+        }
+
+        return Result.ok<UserName>(new UserName({ value: name }));
     }
 }

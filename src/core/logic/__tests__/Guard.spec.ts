@@ -3,31 +3,37 @@ import { Guard } from "../Guard";
 describe("Guard", () => {
     describe("againstNullOrUndefined", () => {
         it("should fail when passing null", () => {
-            expect(() => Guard.againstNullOrUndefined({
+            const result = Guard.againstNullOrUndefined({
                 value: null,
                 key: "a key"
-            })).toThrow(Guard.MissingValue);
+            });
+            expect(result.success).toBe(false);
+            expect(result.message).toBe("Missing value for 'a key'");
         })
 
         it("should fail when passing undefined", () => {
-            expect(() => Guard.againstNullOrUndefined({
+            const result = Guard.againstNullOrUndefined({
                 value: undefined,
                 key: "a key"
-            })).toThrow(Guard.MissingValue);
+            });
+            expect(result.success).toBe(false);
+            expect(result.message).toBe("Missing value for 'a key'");
         })
 
         it("should succeed when passing a string", () => {
-            expect(() => Guard.againstNullOrUndefined({
+            const result = Guard.againstNullOrUndefined({
                 value: "a string",
                 key: "a key"
-            })).not.toThrow();
+            });
+            expect(result.success).toBe(true);
         })
 
         it("should succeed when passing a number", () => {
-            expect(() => Guard.againstNullOrUndefined({
+            const result = Guard.againstNullOrUndefined({
                 value: 123.56,
                 key: "a key"
-            })).not.toThrow();
+            });
+            expect(result.success).toBe(true);
         })
     })
 
@@ -35,15 +41,17 @@ describe("Guard", () => {
         it("should fail when at least one guard fails", () => {
             const args = [{
                 value: 123.56,
-                key: "a key"
+                key: "k1"
             }, {
                 value: "a string",
-                key: "a key"
+                key: "k2"
             }, {
                 value: null,
-                key: "a key"
+                key: "k3"
             }];
-            expect(() => Guard.bulkAgainstNullOrUndefined(args)).toThrow(Guard.MissingValue);
+            const result =  Guard.bulkAgainstNullOrUndefined(args);
+            expect(result.success).toBe(false);
+            expect(result.message).toBe("Missing value for 'k3'")
         })
 
         it("should succeed when all guards succeed", () => {
@@ -54,7 +62,8 @@ describe("Guard", () => {
                 value: "a string",
                 key: "a key"
             }];
-            expect(() => Guard.bulkAgainstNullOrUndefined(args)).not.toThrow();
+            const result = Guard.bulkAgainstNullOrUndefined(args);
+            expect(result.success).toBe(true);
         })
     })
 })

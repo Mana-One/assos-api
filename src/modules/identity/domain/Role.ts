@@ -1,36 +1,37 @@
-import { UniqueId } from "../../../core/domain";
-import { Guard } from "../../../core/logic";
-import { IdentityErrors } from "./errors";
+import { ValueObject } from "../../../core/domain";
+import { Either, left, Result, right } from "../../../core/logic";
 
-export namespace Role {
-    export enum Values {
-        DONATOR = "donator",
-        VOLUNTEER = "volunteer",
-        MANAGER = "manager",
-        ADMIN = "admin"
+export enum RoleName {
+    DONATOR = "donator",
+    VOLUNTEER = "volunteer",
+    MANAGER = "manager",
+    ADMIN = "admin"
+}
+
+function isRoleName(value: any): value is RoleName {
+    return value === RoleName.DONATOR ||
+        value === RoleName.MANAGER ||
+        value === RoleName.VOLUNTEER ||
+        value === RoleName.ADMIN;
+}
+
+interface RoleProps {
+    value: RoleName;
+}
+
+export class Role extends ValueObject<RoleProps> {
+    private constructor(props: RoleProps){
+        super(props);
     }
 
-    export function isRoleValue(value: any): value is Values {
-        return value === Values.DONATOR ||
-            value === Values.MANAGER ||
-            value === Values.VOLUNTEER ||
-            value === Values.ADMIN;
+    getValue(): RoleName {
+        return this.props.value;
     }
 
-    export function create(rolename: string, id?: string){
-        Guard.againstNullOrUndefined({
-            value: rolename,
-            key: "role name"
-        });
-
-        if(!isRoleValue(rolename)){
-            throw new IdentityErrors.InvalidRole();
+    static create(role: string): Result<Role> {
+        if(!isRoleName(role)){
+            return Result.ko<Role>("Invalid role name");
         }
-
-        const uid = UniqueId.create(id);
-        return Object.freeze({
-            id: uid,
-            name: rolename
-        })
+        return Result.ok<Role>(new Role({ value: role }));
     }
 }
