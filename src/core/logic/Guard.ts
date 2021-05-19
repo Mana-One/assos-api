@@ -25,4 +25,13 @@ export namespace Guard {
         }
         return { success: true };
     }
+
+    export function combine(results: Result[]): Result {
+        for(const result of results){
+            if(!result.success){
+                return result;
+            }
+        }
+        return { success: true };
+    }
 }
