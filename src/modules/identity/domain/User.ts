@@ -1,5 +1,5 @@
 import { Entity, UniqueId } from "../../../core/domain";
-import { Either, Guard, left, Result, right } from "../../../core/logic";
+import { Result } from "../../../core/logic";
 import { Role } from "./Role";
 import { UserEmail } from "./UserEmail";
 import { UserName } from "./UserName";
@@ -32,6 +32,10 @@ export class User extends Entity<UserProps> {
 
     getRole(): Role {
         return this.props.role;
+    }
+
+    async comparePassword(plain: string): Promise<boolean> {
+        return this.props.password.comparePassword(plain);
     }
 
     static create(props: UserProps, id?: UniqueId): Result<User> {
