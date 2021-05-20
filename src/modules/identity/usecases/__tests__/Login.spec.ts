@@ -2,6 +2,8 @@ import { FindByEmail, FindById } from "../../infra/repositories/__mocks__/UserRe
 import { Login } from "../Login/UseCase";
 import { CreateToken } from "../../services/__mocks__/Authentication";
 import { RoleName } from "../../domain";
+import { IdentityErrors } from "../errors";
+import { AppErrors, Result } from "../../../../core/logic";
 
 describe("Login Usecase", () => {
     const save = async () => {};
@@ -46,6 +48,7 @@ describe("Login Usecase", () => {
         });
         expect(res.isLeft()).toBe(true);
         expect(res.isRight()).toBe(false);
+        expect(res.value instanceof Result).toBe(true);
     })
 
     it("should return ko result when email not found", async () => {
@@ -64,6 +67,7 @@ describe("Login Usecase", () => {
         });
         expect(res.isLeft()).toBe(true);
         expect(res.isRight()).toBe(false);
+        expect(res.value instanceof IdentityErrors.UserNotFound).toBe(true);
     })
 
     it("should return ko result when password does not match", async () => {
@@ -82,6 +86,7 @@ describe("Login Usecase", () => {
         });
         expect(res.isLeft()).toBe(true);
         expect(res.isRight()).toBe(false);
+        expect(res.value instanceof Result).toBe(true);
     })
 
     it("should return ko result when token creation fails", async () => {
@@ -100,5 +105,6 @@ describe("Login Usecase", () => {
         });
         expect(res.isLeft()).toBe(true);
         expect(res.isRight()).toBe(false);
+        expect(res.value instanceof AppErrors.UnexpectedError).toBe(true);
     })
 })

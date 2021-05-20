@@ -1,5 +1,7 @@
+import { AppErrors, Result } from "../../../../core/logic";
 import { Save, FindByEmail, FindById } from "../../infra/repositories/__mocks__/UserRepo";
 import { CreateUser } from "../CreateUser";
+import { IdentityErrors } from "../errors";
 
 describe("Create User Usecase", () => {
     it("should return ok result", async () => {
@@ -53,6 +55,7 @@ describe("Create User Usecase", () => {
         });
         expect(res.isLeft()).toBe(true);
         expect(res.isRight()).toBe(false);
+        expect(res.value instanceof Result).toBe(true);
     })
 
     it("should return ko result when email is already used", async () => {
@@ -70,6 +73,7 @@ describe("Create User Usecase", () => {
         });
         expect(res.isLeft()).toBe(true);
         expect(res.isRight()).toBe(false);
+        expect(res.value instanceof IdentityErrors.AccountAlreadyExists).toBe(true);
     })
 
     it("should return ko result when search by email fails", async () => {
@@ -87,6 +91,7 @@ describe("Create User Usecase", () => {
         });
         expect(res.isLeft()).toBe(true);
         expect(res.isRight()).toBe(false);
+        expect(res.value instanceof AppErrors.UnexpectedError).toBe(true);
     })
 
     it("should return ko result when persistence has failed", async () => {
@@ -104,5 +109,6 @@ describe("Create User Usecase", () => {
         });
         expect(res.isLeft()).toBe(true);
         expect(res.isRight()).toBe(false);
+        expect(res.value instanceof AppErrors.UnexpectedError).toBe(true);
     })
 })
