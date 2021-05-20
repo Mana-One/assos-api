@@ -34,6 +34,21 @@ export class User extends Entity<UserProps> {
         return this.props.role;
     }
 
+    updateFirstName(firstName: UserName): Result<void> {
+        this.props.firstName = firstName;
+        return Result.ok<void>();
+    }
+
+    updateLastName(lastName: UserName): Result<void> {
+        this.props.lastName = lastName;
+        return Result.ok<void>();
+    }
+
+    updateEmail(email: UserEmail): Result<void> {
+        this.props.email = email;
+        return Result.ok<void>();
+    }
+
     async comparePassword(plain: string): Promise<boolean> {
         return this.props.password.comparePassword(plain);
     }
