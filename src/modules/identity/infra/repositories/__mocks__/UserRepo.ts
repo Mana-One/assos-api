@@ -4,6 +4,7 @@ import { Role, User, UserEmail, UserName, UserPassword } from "../../../domain";
 const props = {
     firstName: UserName.create("Paolo").getValue(),
     lastName: UserName.create("Manaois").getValue(),
+    email: UserEmail.create("test@test.test").getValue(),
     password: UserPassword.createNotHashed("azertyUIOP123$").getValue(),
     role: Role.create("donator").getValue()
 }
@@ -33,7 +34,24 @@ const FindByEmail = {
     }
 };
 
+const FindById = {
+    ok: async function(userId: string): Promise<User | null>{
+        return User.create({
+            ...props
+        }, new UniqueId("a valid id")).getValue();
+    },
+
+    ko: async function(userId: string): Promise<User | null>{
+        return null;
+    },
+
+    throw: async function(userId: string): Promise<User | null>{
+        throw new Error("oopsie");
+    }
+}
+
 export {
     Save,
-    FindByEmail
+    FindByEmail,
+    FindById
 }
