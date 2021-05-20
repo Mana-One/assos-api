@@ -1,7 +1,9 @@
-import { FindByEmail } from "../../infra/repositories/__mocks__/UserRepo";
+import { FindByEmail, FindById } from "../../infra/repositories/__mocks__/UserRepo";
 import { Login } from "../Login/UseCase";
 import { CreateToken } from "../../services/__mocks__/Authentication";
 import { RoleName } from "../../domain";
+import { IdentityErrors } from "../errors";
+import { AppErrors, Result } from "../../../../core/logic";
 
 describe("Login Usecase", () => {
     const save = async () => {};
@@ -15,7 +17,8 @@ describe("Login Usecase", () => {
     it("should return ok result", async () => {
         const usecase = new Login({
             save,
-            findByEmail: FindByEmail.notNull
+            findByEmail: FindByEmail.notNull,
+            findById: FindById.ok
         }, {
             createToken: CreateToken.ok,
             verifyAndRetrievePayload
@@ -32,7 +35,8 @@ describe("Login Usecase", () => {
     it("should return ko result when passing invalid values", async () => {
         const usecase = new Login({
             save,
-            findByEmail: FindByEmail.notNull
+            findByEmail: FindByEmail.notNull,
+            findById: FindById.ok
         }, {
             createToken: CreateToken.ok,
             verifyAndRetrievePayload
@@ -44,12 +48,14 @@ describe("Login Usecase", () => {
         });
         expect(res.isLeft()).toBe(true);
         expect(res.isRight()).toBe(false);
+        expect(res.value instanceof Result).toBe(true);
     })
 
     it("should return ko result when email not found", async () => {
         const usecase = new Login({
             save,
-            findByEmail: FindByEmail.null
+            findByEmail: FindByEmail.null,
+            findById: FindById.ok
         }, {
             createToken: CreateToken.ok,
             verifyAndRetrievePayload
@@ -61,12 +67,14 @@ describe("Login Usecase", () => {
         });
         expect(res.isLeft()).toBe(true);
         expect(res.isRight()).toBe(false);
+        expect(res.value instanceof IdentityErrors.UserNotFound).toBe(true);
     })
 
     it("should return ko result when password does not match", async () => {
         const usecase = new Login({
             save,
-            findByEmail: FindByEmail.notNull
+            findByEmail: FindByEmail.notNull,
+            findById: FindById.ok
         }, {
             createToken: CreateToken.ok,
             verifyAndRetrievePayload
@@ -78,12 +86,14 @@ describe("Login Usecase", () => {
         });
         expect(res.isLeft()).toBe(true);
         expect(res.isRight()).toBe(false);
+        expect(res.value instanceof Result).toBe(true);
     })
 
     it("should return ko result when token creation fails", async () => {
         const usecase = new Login({
             save,
-            findByEmail: FindByEmail.notNull
+            findByEmail: FindByEmail.notNull,
+            findById: FindById.ok
         }, {
             createToken: CreateToken.throw,
             verifyAndRetrievePayload
@@ -95,5 +105,6 @@ describe("Login Usecase", () => {
         });
         expect(res.isLeft()).toBe(true);
         expect(res.isRight()).toBe(false);
+        expect(res.value instanceof AppErrors.UnexpectedError).toBe(true);
     })
 })

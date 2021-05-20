@@ -29,7 +29,7 @@ export class CreateUser implements UseCase<Input, Promise<Response>> {
         const password = UserPassword.createNotHashed(request.password);
         const res = Result.combine([role, firstName, lastName, email, password]);
         if(!res.success){
-            return left(Result.ko(res.getValue()));
+            return left(res);
         }
 
         const userRes = User.create({

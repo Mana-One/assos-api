@@ -11,6 +11,7 @@ interface Input {
 }
 
 type Response = Either<
+    AppErrors.UnexpectedError |
     IdentityErrors.UserNotFound |
     Result<any>,
     Result<AccessToken>
@@ -24,7 +25,7 @@ export class Login implements UseCase<Input, Promise<Response>> {
         const passwordOrFail = UserPassword.createNotHashed(request.password);
         const res = Result.combine([emailOrFail, passwordOrFail]);
         if(!res.success){
-            return left(Result.ko(res.getValue()));
+            return left(res);
         }
 
         const email = emailOrFail.getValue();
@@ -33,7 +34,7 @@ export class Login implements UseCase<Input, Promise<Response>> {
         try {
             const user = await this.userRepo.findByEmail(email);
             if(user === null || !await user.comparePassword(password.getValue())){
-                return left(Result.ko(new IdentityErrors.UserNotFound()));
+                return left(new IdentityErrors.UserNotFound());
             }
     
             const token = await this.authService.createToken({
