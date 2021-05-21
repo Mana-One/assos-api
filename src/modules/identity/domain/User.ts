@@ -49,6 +49,11 @@ export class User extends Entity<UserProps> {
         return Result.ok<void>();
     }
 
+    updatePassword(password: UserPassword): Result<void> {
+        this.props.password = password;
+        return Result.ok<void>();
+    }
+
     async comparePassword(plain: string): Promise<boolean> {
         return this.props.password.comparePassword(plain);
     }
