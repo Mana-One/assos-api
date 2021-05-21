@@ -16,4 +16,12 @@ export namespace IdentityErrors {
             });
         }
     }
+
+    export class NewAndCheckPasswordNotMatching extends Result<UseCaseError> {
+        constructor(){
+            super(false, {
+                message: "Provided new and check password do not match"
+            });
+        }
+    }
 }
