@@ -1,5 +1,6 @@
 import { Entity, UniqueId } from "../../../core/domain";
 import { Result } from "../../../core/logic";
+import { AssociationId } from "./AssociationId";
 import { Role } from "./Role";
 import { UserEmail } from "./UserEmail";
 import { UserName } from "./UserName";
@@ -10,7 +11,17 @@ interface UserProps {
     lastName: UserName;
     email: UserEmail;
     password: UserPassword;
-    role: Role
+    role: Role;
+    associationId: AssociationId | null;
+}
+
+interface UserCreationProps {
+    firstName: UserName;
+    lastName: UserName;
+    email: UserEmail;
+    password: UserPassword;
+    role?: Role,
+    associationId?: AssociationId;
 }
 
 export class User extends Entity<UserProps> {
@@ -32,6 +43,10 @@ export class User extends Entity<UserProps> {
 
     getRole(): Role {
         return this.props.role;
+    }
+
+    getAssociationId(): AssociationId | null {
+        return this.props.associationId;
     }
 
     updateFirstName(firstName: UserName): Result<void> {
@@ -58,7 +73,24 @@ export class User extends Entity<UserProps> {
         return this.props.password.comparePassword(plain);
     }
 
-    static create(props: UserProps, id?: UniqueId): Result<User> {
-        return Result.ok<User>(new User(props, id));
+    static create(props: UserCreationProps, id?: UniqueId): Result<User> {
+        const checkedProps: UserProps = {
+            ...props,
+            role: props.role === undefined ? Role.DONATOR : props.role,
+            associationId: props.associationId === undefined ? null : props.associationId
+        };
+
+        if(checkedProps.associationId === null && 
+            (checkedProps.role === Role.VOLUNTEER || checkedProps.role === Role.MANAGER)){
+
+            return Result.ko<User>("Volunteers and Managers must be affiliated to an association");
+        }
+
+        if(checkedProps.associationId !== null && 
+            (checkedProps.role === Role.DONATOR || checkedProps.role === Role.ADMIN)){
+            return Result.ko<User>("Donators and Admins cannot be affiliated to an association");
+        }
+
+        return Result.ok<User>(new User(checkedProps, id));
     }
 }

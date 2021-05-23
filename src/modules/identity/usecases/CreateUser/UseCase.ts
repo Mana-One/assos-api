@@ -1,6 +1,6 @@
 import { UseCase } from "../../../../core/domain";
 import { AppErrors, Either, left, Result, right } from "../../../../core/logic";
-import { Role, RoleName, User, UserEmail, UserName, UserPassword } from "../../domain";
+import { Role, Role, User, UserEmail, UserName, UserPassword } from "../../domain";
 import { UserRepo } from "../../infra/repositories";
 import { IdentityErrors } from "../errors";
 
@@ -22,7 +22,7 @@ export class CreateUser implements UseCase<Input, Promise<Response>> {
     constructor(private userRepo: UserRepo){}
     
     async execute(request: Input): Promise<Response> {
-        const role = Role.create(request.roleName ? request.roleName : RoleName.DONATOR);
+        const role = Role.create(request.roleName ? request.roleName : Role.DONATOR);
         const firstName = UserName.create(request.firstName);
         const lastName = UserName.create(request.lastName);
         const email = UserEmail.create(request.email);

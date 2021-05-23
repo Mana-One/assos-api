@@ -1,4 +1,4 @@
-import { AccessToken, RoleName, TokenPayload } from "../../domain";
+import { AccessToken, Role, TokenPayload } from "../../domain";
 
 const CreateToken = {
     ok: async function(payload: TokenPayload): Promise<AccessToken> {
@@ -14,7 +14,7 @@ const VerifyAndRetrievePayload = {
     ok: async function(token: AccessToken): Promise<TokenPayload> {
         return {
             id: "a valid id in a valid payload",
-            role: RoleName.DONATOR
+            role: Role.DONATOR
         };
     },
 
