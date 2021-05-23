@@ -16,7 +16,7 @@ describe("Create User Usecase", () => {
             lastName: "a name",
             email: "test@test.test",
             password: "azertyUIOP123$",
-            roleName: "volunteer"
+            roleName: "donator"
         });
         expect(res.isLeft()).toBe(false);
         expect(res.isRight()).toBe(true);

@@ -36,10 +36,12 @@ export class Login implements UseCase<Input, Promise<Response>> {
             if(user === null || !await user.comparePassword(password.getValue())){
                 return left(new IdentityErrors.UserNotFound());
             }
-    
+            
+            const associationId = user.getAssociationId();
             const token = await this.authService.createToken({
                 id: user.getId().toString(),
-                role: user.getRole().getValue()
+                role: user.getRole(),
+                associationId: associationId !== null ? associationId.toString() : null
             });
             
             return right(Result.ok<AccessToken>(token));

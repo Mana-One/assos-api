@@ -6,7 +6,8 @@ const props = {
     lastName: UserName.create("Manaois").getValue(),
     email: UserEmail.create("test@test.test").getValue(),
     password: UserPassword.createNotHashed("azertyUIOP123$").getValue(),
-    role: Role.create("donator").getValue()
+    role: Role.DONATOR,
+    associationId: null
 }
 
 const Save = {

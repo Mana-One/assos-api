@@ -58,24 +58,9 @@ describe("User entity", () => {
             expect(user.getAssociationId().value).toBe(associationId.value);
         })
 
-        it("should return a new User with null associationId when no association id is passed", () => {
-            delete props.associationId;
+        it("should return a new User with null associationId when null association id is passed", () => {
+            props.associationId = null;
             props.role = Role.DONATOR;
-            const res = User.create(props, uid);
-            expect(res.success).toBe(true);
-
-            const user = res.getValue();
-            expect(user.getId().value).toBe("a valid id");
-            expect(user.getFirstName().getValue()).toBe("Paolo");
-            expect(user.getLastName().getValue()).toBe("Manaois");
-            expect(user.getEmail().getValue()).toBe("username@yahoo.com");
-            expect(user.getRole()).toBe(Role.DONATOR);
-            expect(user.getAssociationId()).toBe(null);
-        })
-
-        it("should return a new User with role as 'donator' when no role is passed", () => {
-            delete props.role;
-            delete props.associationId;
             const res = User.create(props, uid);
             expect(res.success).toBe(true);
 
@@ -100,15 +85,16 @@ describe("User entity", () => {
             expect(res.success).toBe(false);
         })
 
-        it("should fail when creating a volunteer without an association id", () => {
-            delete props.role;
+        it("should fail when creating a volunteer with a null association id", () => {
+            props.role = Role.VOLUNTEER;
+            props.associationId = null;
             const res = User.create(props, uid);
             expect(res.success).toBe(false);
         })
 
-        it("should fail when creating an admin with an association id", () => {
+        it("should fail when creating a manager with a null association id", () => {
             props.role = Role.MANAGER;
-            delete props.role;
+            props.associationId = null;
             const res = User.create(props, uid);
             expect(res.success).toBe(false);
         })

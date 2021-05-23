@@ -24,4 +24,12 @@ export namespace IdentityErrors {
             });
         }
     }
+
+    export class InvalidRole extends Result<UseCaseError> {
+        constructor(){
+            super(false, {
+                message: "Invalid Role value"
+            });
+        }
+    }
 }
