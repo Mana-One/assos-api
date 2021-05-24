@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prebuild": "rimraf bin && npm test",
-    "build": "tsc && babel src -d bin --extensions .ts --ignore src/**/__tests__,src/**/__mocks__",
+    "prebuild": "rimraf bin && tsc && npm test",
+    "build": "babel src -d bin --extensions .ts --ignore src/**/__tests__,src/**/__mocks__",
     "test": "jest src"
   },
   "author": "",
