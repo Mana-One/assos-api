@@ -1,7 +1,7 @@
 import { UniqueId } from "../../../../core/domain";
 import { Result } from "../../../../core/logic";
 import { AssociationId } from "../AssociationId";
-import { Role } from "../Role";
+import { Role } from "../../../../shared/domain";
 import { User } from "../User";
 import { UserEmail } from "../UserEmail";
 import { UserName } from "../UserName";

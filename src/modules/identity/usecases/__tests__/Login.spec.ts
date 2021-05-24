@@ -1,7 +1,6 @@
 import { DeleteUser, FindByEmail, FindById } from "../../infra/repositories/__mocks__/UserRepo";
 import { Login } from "../Login/UseCase";
-import { CreateToken, VerifyAndRetrievePayload } from "../../services/__mocks__/Authentication";
-import { Role } from "../../domain";
+import { CreateToken, VerifyAndRetrievePayload } from "../../../../shared/services/__mocks__/Authentication";
 import { IdentityErrors } from "../errors";
 import { AppErrors, Result } from "../../../../core/logic";
 

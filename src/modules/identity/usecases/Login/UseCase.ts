@@ -1,9 +1,10 @@
 import { AppErrors, Either, left, Result, right } from "../../../../core/logic";
 import { UseCase } from "../../../../core/domain";
-import { Authentication } from "../../services";
+import { Authentication } from "../../../../shared/services";
 import { UserRepo } from "../../infra/repositories";
-import { AccessToken, UserEmail, UserPassword } from "../../domain";
+import { UserEmail, UserPassword } from "../../domain";
 import { IdentityErrors } from "../errors";
+import { AccessToken } from "../../../../shared/domain";
 
 interface Input {
     email: string,
