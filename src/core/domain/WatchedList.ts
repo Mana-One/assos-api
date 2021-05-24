@@ -1,6 +1,6 @@
 export abstract class WatchedList<T> {
 
-    public currentItems: T[];
+    private currentItems: T[];
     private initial: T[];
     private new: T[];
     private removed: T[];
@@ -28,6 +28,10 @@ export abstract class WatchedList<T> {
   
     public exists(item: T): boolean {
         return this.isCurrentItem(item);
+    }
+
+    public countItems(): number {
+        return this.currentItems.length;
     }
   
     public add(item: T): void {
