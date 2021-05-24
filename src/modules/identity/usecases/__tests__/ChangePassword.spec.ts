@@ -1,17 +1,19 @@
 import { AppErrors, Result } from "../../../../core/logic";
-import { Save, FindByEmail, FindById } from "../../infra/repositories/__mocks__/UserRepo";
+import { Save, FindByEmail, FindById, DeleteUser } from "../../infra/repositories/__mocks__/UserRepo";
 import { ChangePassword } from "../ChangePassword.ts/UseCase";
 import { IdentityErrors } from "../errors";
 
 
 describe("Change Password Usecase", () => {
     const findByEmail = FindByEmail.null;
+    const deleteUser = DeleteUser.ok;
 
     it("should return ok result", async () => {
         const usecase = new ChangePassword({
             save: Save.ok,
             findById: FindById.ok,
-            findByEmail
+            findByEmail,
+            deleteUser
         });
 
         const res = await usecase.execute({
@@ -29,7 +31,8 @@ describe("Change Password Usecase", () => {
         const usecase = new ChangePassword({
             save: Save.ok,
             findById: FindById.ok,
-            findByEmail
+            findByEmail,
+            deleteUser
         });
 
         const res = await usecase.execute({
@@ -47,7 +50,8 @@ describe("Change Password Usecase", () => {
         const usecase = new ChangePassword({
             save: Save.ok,
             findById: FindById.ok,
-            findByEmail
+            findByEmail,
+            deleteUser
         });
 
         const res = await usecase.execute({
@@ -65,7 +69,8 @@ describe("Change Password Usecase", () => {
         const usecase = new ChangePassword({
             save: Save.ok,
             findById: FindById.ko,
-            findByEmail
+            findByEmail,
+            deleteUser
         });
 
         const res = await usecase.execute({
@@ -83,7 +88,8 @@ describe("Change Password Usecase", () => {
         const usecase = new ChangePassword({
             save: Save.ok,
             findById: FindById.throw,
-            findByEmail
+            findByEmail,
+            deleteUser
         });
 
         const res = await usecase.execute({
@@ -101,7 +107,8 @@ describe("Change Password Usecase", () => {
         const usecase = new ChangePassword({
             save: Save.ok,
             findById: FindById.ok,
-            findByEmail
+            findByEmail,
+            deleteUser
         });
 
         const res = await usecase.execute({
@@ -119,7 +126,8 @@ describe("Change Password Usecase", () => {
         const usecase = new ChangePassword({
             save: Save.throw,
             findById: FindById.ok,
-            findByEmail
+            findByEmail,
+            deleteUser
         });
 
         const res = await usecase.execute({

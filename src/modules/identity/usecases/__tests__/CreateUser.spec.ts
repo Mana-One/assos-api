@@ -1,14 +1,17 @@
 import { AppErrors, Result } from "../../../../core/logic";
-import { Save, FindByEmail, FindById } from "../../infra/repositories/__mocks__/UserRepo";
+import { Save, FindByEmail, FindById, DeleteUser } from "../../infra/repositories/__mocks__/UserRepo";
 import { CreateUser } from "../CreateUser";
 import { IdentityErrors } from "../errors";
 
 describe("Create User Usecase", () => {
+    const deleteUser = DeleteUser.ok;
+
     it("should return ok result", async () => {
         const usecase = new CreateUser({
             save: Save.ok,
             findByEmail: FindByEmail.null,
-            findById: FindById.ok
+            findById: FindById.ok,
+            deleteUser
         });
 
         const res = await usecase.execute({
@@ -26,7 +29,8 @@ describe("Create User Usecase", () => {
         const usecase = new CreateUser({
             save: Save.ok,
             findByEmail: FindByEmail.null,
-            findById: FindById.ok
+            findById: FindById.ok,
+            deleteUser
         });
 
         const res = await usecase.execute({
@@ -43,7 +47,8 @@ describe("Create User Usecase", () => {
         const usecase = new CreateUser({
             save: Save.ok,
             findByEmail: FindByEmail.null,
-            findById: FindById.ok
+            findById: FindById.ok,
+            deleteUser
         });
 
         const res = await usecase.execute({
@@ -62,7 +67,8 @@ describe("Create User Usecase", () => {
         const usecase = new CreateUser({
             save: Save.ok,
             findByEmail: FindByEmail.notNull,
-            findById: FindById.ok
+            findById: FindById.ok,
+            deleteUser
         });
 
         const res = await usecase.execute({
@@ -80,7 +86,8 @@ describe("Create User Usecase", () => {
         const usecase = new CreateUser({
             save: Save.ok,
             findByEmail: FindByEmail.throw,
-            findById: FindById.ok
+            findById: FindById.ok,
+            deleteUser
         });
 
         const res = await usecase.execute({
@@ -98,7 +105,8 @@ describe("Create User Usecase", () => {
         const usecase = new CreateUser({
             save: Save.throw,
             findByEmail: FindByEmail.null,
-            findById: FindById.ok
+            findById: FindById.ok,
+            deleteUser
         });
 
         const res = await usecase.execute({

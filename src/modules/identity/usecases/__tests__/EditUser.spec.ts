@@ -1,15 +1,18 @@
 import { AppErrors, Result } from "../../../../core/logic";
 import { UserName } from "../../domain";
-import { FindByEmail, FindById, Save } from "../../infra/repositories/__mocks__/UserRepo";
+import { DeleteUser, FindByEmail, FindById, Save } from "../../infra/repositories/__mocks__/UserRepo";
 import { EditUser } from "../EditUser/UseCase"; 
 import { IdentityErrors } from "../errors";
 
 describe("Edit User Usecase", () => {
+    const deleteUser = DeleteUser.ok;
+    
     it("should return ok result", async () => {
         const usecase = new EditUser({
             save: Save.ok,
             findByEmail: FindByEmail.null,
-            findById: FindById.ok
+            findById: FindById.ok,
+            deleteUser
         });
 
         const res = await usecase.execute({
@@ -26,7 +29,8 @@ describe("Edit User Usecase", () => {
         const usecase = new EditUser({
             save: Save.ok,
             findByEmail: FindByEmail.null,
-            findById: FindById.ok
+            findById: FindById.ok,
+            deleteUser
         });
 
         const res = await usecase.execute({
@@ -40,7 +44,8 @@ describe("Edit User Usecase", () => {
         const usecase = new EditUser({
             save: Save.ok,
             findByEmail: FindByEmail.null,
-            findById: FindById.ok
+            findById: FindById.ok,
+            deleteUser
         });
 
         const res = await usecase.execute({
@@ -56,7 +61,8 @@ describe("Edit User Usecase", () => {
         const usecase = new EditUser({
             save: Save.ok,
             findByEmail: FindByEmail.null,
-            findById: FindById.ko
+            findById: FindById.ko,
+            deleteUser
         });
 
         const res = await usecase.execute({
@@ -74,7 +80,8 @@ describe("Edit User Usecase", () => {
         const usecase = new EditUser({
             save: Save.ok,
             findByEmail: FindByEmail.null,
-            findById: FindById.throw
+            findById: FindById.throw,
+            deleteUser
         });
 
         const res = await usecase.execute({
@@ -92,7 +99,8 @@ describe("Edit User Usecase", () => {
         const usecase = new EditUser({
             save: Save.ok,
             findByEmail: FindByEmail.null,
-            findById: FindById.ok
+            findById: FindById.ok,
+            deleteUser
         });
 
         const res = await usecase.execute({
@@ -110,7 +118,8 @@ describe("Edit User Usecase", () => {
         const usecase = new EditUser({
             save: Save.ok,
             findByEmail: FindByEmail.null,
-            findById: FindById.ok
+            findById: FindById.ok,
+            deleteUser
         });
 
         const res = await usecase.execute({
@@ -128,7 +137,8 @@ describe("Edit User Usecase", () => {
         const usecase = new EditUser({
             save: Save.ok,
             findByEmail: FindByEmail.notNull,
-            findById: FindById.ok
+            findById: FindById.ok,
+            deleteUser
         });
 
         const res = await usecase.execute({
@@ -146,7 +156,8 @@ describe("Edit User Usecase", () => {
         const usecase = new EditUser({
             save: Save.ok,
             findByEmail: FindByEmail.throw,
-            findById: FindById.ok
+            findById: FindById.ok,
+            deleteUser
         });
 
         const res = await usecase.execute({
@@ -164,7 +175,8 @@ describe("Edit User Usecase", () => {
         const usecase = new EditUser({
             save: Save.throw,
             findByEmail: FindByEmail.null,
-            findById: FindById.ok
+            findById: FindById.ok,
+            deleteUser
         });
 
         const res = await usecase.execute({
