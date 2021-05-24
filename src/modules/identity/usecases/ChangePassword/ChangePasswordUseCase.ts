@@ -1,6 +1,6 @@
 import { UseCase } from "../../../../core/domain";
 import { AppErrors, Either, left, Result, right } from "../../../../core/logic";
-import { UserPassword } from "../../domain";
+import { UserPassword } from "../../../../shared/domain";
 import { UserRepo } from "../../infra/repositories";
 import { IdentityErrors } from "../errors";
 

@@ -2,7 +2,7 @@ import { AppErrors, Either, left, Result, right } from "../../../../core/logic";
 import { UseCase } from "../../../../core/domain";
 import { Authentication } from "../../../../shared/services";
 import { UserRepo } from "../../infra/repositories";
-import { UserEmail, UserPassword } from "../../domain";
+import { UserEmail, UserPassword } from "../../../../shared/domain";
 import { IdentityErrors } from "../errors";
 import { AccessToken } from "../../../../shared/domain";
 

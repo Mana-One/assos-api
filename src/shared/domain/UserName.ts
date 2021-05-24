@@ -1,5 +1,5 @@
-import { ValueObject } from "../../../core/domain";
-import { Guard, Result } from "../../../core/logic";
+import { ValueObject } from "../../core/domain";
+import { Guard, Result } from "../../core/logic";
 
 interface UserNameProps {
     value: string;

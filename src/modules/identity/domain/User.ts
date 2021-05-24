@@ -1,9 +1,7 @@
 import { Entity, UniqueId } from "../../../core/domain";
 import { Result } from "../../../core/logic";
 import { Role } from "../../../shared/domain";
-import { UserEmail } from "./UserEmail";
-import { UserName } from "./UserName";
-import { UserPassword } from "./UserPassword";
+import { UserEmail, UserName, UserPassword } from "../../../shared/domain";
 
 interface UserProps {
     firstName: UserName;

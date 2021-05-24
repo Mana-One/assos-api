@@ -1,6 +1,7 @@
 import { UniqueId } from "../../../../../core/domain";
 import { Role } from "../../../../../shared/domain";
-import { User, UserEmail, UserName, UserPassword } from "../../../domain";
+import { UserEmail, UserName, UserPassword } from "../../../../../shared/domain";
+import { User } from "../../../domain";
 
 const props = {
     firstName: UserName.create("Paolo").getValue(),
