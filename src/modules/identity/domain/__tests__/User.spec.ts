@@ -1,11 +1,8 @@
 import { UniqueId } from "../../../../core/domain";
 import { Result } from "../../../../core/logic";
-import { AssociationId } from "../AssociationId";
-import { Role } from "../Role";
+import { Role } from "../../../../shared/domain";
 import { User } from "../User";
-import { UserEmail } from "../UserEmail";
-import { UserName } from "../UserName";
-import { UserPassword } from "../UserPassword";
+import { UserEmail, UserName, UserPassword } from "../../../../shared/domain";
 
 describe("User entity", () => {
     const firstName = UserName.create("Paolo");
@@ -18,7 +15,6 @@ describe("User entity", () => {
     }
 
     const uid = new UniqueId("a valid id");
-    const associationId = new AssociationId("an id");
     let props;
 
     beforeEach(() => {
@@ -27,8 +23,7 @@ describe("User entity", () => {
             lastName: lastName.getValue(),
             email: email.getValue(),
             password: password.getValue(),
-            role: Role.VOLUNTEER,
-            associationId
+            role: Role.VOLUNTEER
         }
     })
 
@@ -43,7 +38,6 @@ describe("User entity", () => {
             expect(user.getLastName().getValue()).toBe("Manaois");
             expect(user.getEmail().getValue()).toBe("username@yahoo.com");
             expect(user.getRole()).toBe(Role.VOLUNTEER);
-            expect(user.getAssociationId().value).toBe(associationId.value);
         })      
         
         it("should return a new User when passing a valid id", () => {
@@ -55,48 +49,6 @@ describe("User entity", () => {
             expect(user.getLastName().getValue()).toBe("Manaois");
             expect(user.getEmail().getValue()).toBe("username@yahoo.com");
             expect(user.getRole()).toBe(Role.VOLUNTEER);
-            expect(user.getAssociationId().value).toBe(associationId.value);
-        })
-
-        it("should return a new User with null associationId when null association id is passed", () => {
-            props.associationId = null;
-            props.role = Role.DONATOR;
-            const res = User.create(props, uid);
-            expect(res.success).toBe(true);
-
-            const user = res.getValue();
-            expect(user.getId().value).toBe("a valid id");
-            expect(user.getFirstName().getValue()).toBe("Paolo");
-            expect(user.getLastName().getValue()).toBe("Manaois");
-            expect(user.getEmail().getValue()).toBe("username@yahoo.com");
-            expect(user.getRole()).toBe(Role.DONATOR);
-            expect(user.getAssociationId()).toBe(null);
-        })
-
-        it("should fail when creating a donator with an association id", () => {
-            props.role = Role.DONATOR;
-            const res = User.create(props, uid);
-            expect(res.success).toBe(false);
-        })
-
-        it("should fail when creating an admin with an association id", () => {
-            props.role = Role.ADMIN;
-            const res = User.create(props, uid);
-            expect(res.success).toBe(false);
-        })
-
-        it("should fail when creating a volunteer with a null association id", () => {
-            props.role = Role.VOLUNTEER;
-            props.associationId = null;
-            const res = User.create(props, uid);
-            expect(res.success).toBe(false);
-        })
-
-        it("should fail when creating a manager with a null association id", () => {
-            props.role = Role.MANAGER;
-            props.associationId = null;
-            const res = User.create(props, uid);
-            expect(res.success).toBe(false);
         })
     })
 })

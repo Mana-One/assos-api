@@ -1,19 +1,17 @@
 import { AppErrors, Result } from "../../../../core/logic";
-import { Save, FindByEmail, FindById, DeleteUser } from "../../infra/repositories/__mocks__/UserRepo";
-import { ChangePassword } from "../ChangePassword.ts/UseCase";
+import { Save, FindByEmail, FindById } from "../../infra/repositories/__mocks__/UserRepo";
+import { ChangePassword } from "../ChangePassword";
 import { IdentityErrors } from "../errors";
 
 
 describe("Change Password Usecase", () => {
     const findByEmail = FindByEmail.null;
-    const deleteUser = DeleteUser.ok;
 
     it("should return ok result", async () => {
         const usecase = new ChangePassword({
             save: Save.ok,
             findById: FindById.ok,
-            findByEmail,
-            deleteUser
+            findByEmail
         });
 
         const res = await usecase.execute({
@@ -24,6 +22,8 @@ describe("Change Password Usecase", () => {
         });
         expect(res.isLeft()).toBe(false);
         expect(res.isRight()).toBe(true);
+        expect(res.value instanceof Result).toBe(true);
+        expect(res.value.success).toBe(true);
         expect(() => res.value.getValue()).toThrowError("A value was not provided"); 
     })
 
@@ -31,8 +31,7 @@ describe("Change Password Usecase", () => {
         const usecase = new ChangePassword({
             save: Save.ok,
             findById: FindById.ok,
-            findByEmail,
-            deleteUser
+            findByEmail
         });
 
         const res = await usecase.execute({
@@ -44,14 +43,14 @@ describe("Change Password Usecase", () => {
         expect(res.isLeft()).toBe(true);
         expect(res.isRight()).toBe(false);
         expect(res.value instanceof Result).toBe(true); 
+        expect(res.value.success).toBe(false);
     })
 
     it("should return ko result when newPassword and checkPassword do not match", async () => {
         const usecase = new ChangePassword({
             save: Save.ok,
             findById: FindById.ok,
-            findByEmail,
-            deleteUser
+            findByEmail
         });
 
         const res = await usecase.execute({
@@ -69,8 +68,7 @@ describe("Change Password Usecase", () => {
         const usecase = new ChangePassword({
             save: Save.ok,
             findById: FindById.ko,
-            findByEmail,
-            deleteUser
+            findByEmail
         });
 
         const res = await usecase.execute({
@@ -88,8 +86,7 @@ describe("Change Password Usecase", () => {
         const usecase = new ChangePassword({
             save: Save.ok,
             findById: FindById.throw,
-            findByEmail,
-            deleteUser
+            findByEmail
         });
 
         const res = await usecase.execute({
@@ -107,8 +104,7 @@ describe("Change Password Usecase", () => {
         const usecase = new ChangePassword({
             save: Save.ok,
             findById: FindById.ok,
-            findByEmail,
-            deleteUser
+            findByEmail
         });
 
         const res = await usecase.execute({
@@ -126,8 +122,7 @@ describe("Change Password Usecase", () => {
         const usecase = new ChangePassword({
             save: Save.throw,
             findById: FindById.ok,
-            findByEmail,
-            deleteUser
+            findByEmail
         });
 
         const res = await usecase.execute({

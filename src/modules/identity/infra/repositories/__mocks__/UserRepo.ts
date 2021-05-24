@@ -1,5 +1,7 @@
 import { UniqueId } from "../../../../../core/domain";
-import { Role, User, UserEmail, UserName, UserPassword } from "../../../domain";
+import { Role } from "../../../../../shared/domain";
+import { UserEmail, UserName, UserPassword } from "../../../../../shared/domain";
+import { User } from "../../../domain";
 
 const props = {
     firstName: UserName.create("Paolo").getValue(),
@@ -51,16 +53,8 @@ const FindById = {
     }
 }
 
-const DeleteUser = {
-    ok: async function(user: User): Promise<void> {},
-    throw: async function(user: User): Promise<void> {
-        throw new Error("oopsie");
-    }
-}
-
 export {
     Save,
     FindByEmail,
-    FindById,
-    DeleteUser
+    FindById
 }

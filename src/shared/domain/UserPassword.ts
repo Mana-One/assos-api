@@ -1,6 +1,6 @@
-import { Guard, Result } from "../../../core/logic";
+import { Guard, Result } from "../../core/logic";
 import bcrypt from "bcryptjs";
-import { ValueObject } from "../../../core/domain";
+import { ValueObject } from "../../core/domain";
 
 export interface UserPasswordProps {
     isHashed: boolean;

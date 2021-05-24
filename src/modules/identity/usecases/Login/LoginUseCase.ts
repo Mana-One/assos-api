@@ -1,9 +1,10 @@
 import { AppErrors, Either, left, Result, right } from "../../../../core/logic";
 import { UseCase } from "../../../../core/domain";
-import { Authentication } from "../../services";
+import { Authentication } from "../../../../shared/services";
 import { UserRepo } from "../../infra/repositories";
-import { AccessToken, UserEmail, UserPassword } from "../../domain";
+import { UserEmail, UserPassword } from "../../../../shared/domain";
 import { IdentityErrors } from "../errors";
+import { AccessToken } from "../../../../shared/domain";
 
 interface Input {
     email: string,
@@ -37,11 +38,9 @@ export class Login implements UseCase<Input, Promise<Response>> {
                 return left(new IdentityErrors.UserNotFound());
             }
             
-            const associationId = user.getAssociationId();
             const token = await this.authService.createToken({
                 id: user.getId().toString(),
-                role: user.getRole(),
-                associationId: associationId !== null ? associationId.toString() : null
+                role: user.getRole()
             });
             
             return right(Result.ok<AccessToken>(token));
