@@ -14,8 +14,7 @@ const VerifyAndRetrievePayload = {
     ok: async function(token: AccessToken): Promise<TokenPayload> {
         return {
             id: "a valid id in a valid payload",
-            role: Role.DONATOR,
-            associationId: "an assocaition id"
+            role: Role.DONATOR
         };
     },
 

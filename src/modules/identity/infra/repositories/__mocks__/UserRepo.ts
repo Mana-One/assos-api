@@ -52,16 +52,8 @@ const FindById = {
     }
 }
 
-const DeleteUser = {
-    ok: async function(user: User): Promise<void> {},
-    throw: async function(user: User): Promise<void> {
-        throw new Error("oopsie");
-    }
-}
-
 export {
     Save,
     FindByEmail,
-    FindById,
-    DeleteUser
+    FindById
 }

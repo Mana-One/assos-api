@@ -1,18 +1,15 @@
 import { AppErrors, Result } from "../../../../core/logic";
 import { UserName } from "../../domain";
-import { DeleteUser, FindByEmail, FindById, Save } from "../../infra/repositories/__mocks__/UserRepo";
+import { FindByEmail, FindById, Save } from "../../infra/repositories/__mocks__/UserRepo";
 import { EditUser } from "../EditUser/UseCase"; 
 import { IdentityErrors } from "../errors";
 
 describe("Edit User Usecase", () => {
-    const deleteUser = DeleteUser.ok;
-    
     it("should return ok result", async () => {
         const usecase = new EditUser({
             save: Save.ok,
             findByEmail: FindByEmail.null,
-            findById: FindById.ok,
-            deleteUser
+            findById: FindById.ok
         });
 
         const res = await usecase.execute({
@@ -23,14 +20,15 @@ describe("Edit User Usecase", () => {
         });
         expect(res.isLeft()).toBe(false);
         expect(res.isRight()).toBe(true);
+        expect(res.value instanceof Result).toBe(true);
+        expect(res.value.success).toBe(true);
     })
 
     it("should return ok result when no updatabe fields is passed", async () => {
         const usecase = new EditUser({
             save: Save.ok,
             findByEmail: FindByEmail.null,
-            findById: FindById.ok,
-            deleteUser
+            findById: FindById.ok
         });
 
         const res = await usecase.execute({
@@ -38,14 +36,15 @@ describe("Edit User Usecase", () => {
         });
         expect(res.isLeft()).toBe(false);
         expect(res.isRight()).toBe(true);
+        expect(res.value instanceof Result).toBe(true);
+        expect(res.value.success).toBe(true);
     })
 
     it("should return ok result when some updatable fields are passed", async () => {
         const usecase = new EditUser({
             save: Save.ok,
             findByEmail: FindByEmail.null,
-            findById: FindById.ok,
-            deleteUser
+            findById: FindById.ok
         });
 
         const res = await usecase.execute({
@@ -55,14 +54,15 @@ describe("Edit User Usecase", () => {
         });
         expect(res.isLeft()).toBe(false);
         expect(res.isRight()).toBe(true);
+        expect(res.value instanceof Result).toBe(true);
+        expect(res.value.success).toBe(true);
     })
 
     it("should return ko result when passing an invalid id", async () => {
         const usecase = new EditUser({
             save: Save.ok,
             findByEmail: FindByEmail.null,
-            findById: FindById.ko,
-            deleteUser
+            findById: FindById.ko
         });
 
         const res = await usecase.execute({
@@ -80,8 +80,7 @@ describe("Edit User Usecase", () => {
         const usecase = new EditUser({
             save: Save.ok,
             findByEmail: FindByEmail.null,
-            findById: FindById.throw,
-            deleteUser
+            findById: FindById.throw
         });
 
         const res = await usecase.execute({
@@ -99,8 +98,7 @@ describe("Edit User Usecase", () => {
         const usecase = new EditUser({
             save: Save.ok,
             findByEmail: FindByEmail.null,
-            findById: FindById.ok,
-            deleteUser
+            findById: FindById.ok
         });
 
         const res = await usecase.execute({
@@ -112,14 +110,14 @@ describe("Edit User Usecase", () => {
         expect(res.isLeft()).toBe(true);
         expect(res.isRight()).toBe(false);
         expect(res.value instanceof Result).toBe(true);
+        expect(res.value.success).toBe(false);
     })
 
     it("should return ko result when passing an invalid lastName", async () => {
         const usecase = new EditUser({
             save: Save.ok,
             findByEmail: FindByEmail.null,
-            findById: FindById.ok,
-            deleteUser
+            findById: FindById.ok
         });
 
         const res = await usecase.execute({
@@ -131,14 +129,14 @@ describe("Edit User Usecase", () => {
         expect(res.isLeft()).toBe(true);
         expect(res.isRight()).toBe(false);
         expect(res.value instanceof Result).toBe(true);
+        expect(res.value.success).toBe(false);
     })
 
     it("should return ko result when passing an already used email", async () => {
         const usecase = new EditUser({
             save: Save.ok,
             findByEmail: FindByEmail.notNull,
-            findById: FindById.ok,
-            deleteUser
+            findById: FindById.ok
         });
 
         const res = await usecase.execute({
@@ -156,8 +154,7 @@ describe("Edit User Usecase", () => {
         const usecase = new EditUser({
             save: Save.ok,
             findByEmail: FindByEmail.throw,
-            findById: FindById.ok,
-            deleteUser
+            findById: FindById.ok
         });
 
         const res = await usecase.execute({
@@ -175,8 +172,7 @@ describe("Edit User Usecase", () => {
         const usecase = new EditUser({
             save: Save.throw,
             findByEmail: FindByEmail.null,
-            findById: FindById.ok,
-            deleteUser
+            findById: FindById.ok
         });
 
         const res = await usecase.execute({

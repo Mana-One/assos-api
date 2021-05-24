@@ -38,11 +38,9 @@ export class Login implements UseCase<Input, Promise<Response>> {
                 return left(new IdentityErrors.UserNotFound());
             }
             
-            const associationId = user.getAssociationId();
             const token = await this.authService.createToken({
                 id: user.getId().toString(),
-                role: user.getRole(),
-                associationId: associationId !== null ? associationId.toString() : null
+                role: user.getRole()
             });
             
             return right(Result.ok<AccessToken>(token));
