@@ -1,6 +1,6 @@
 import { AppErrors, Result } from "../../../../core/logic";
 import { Save, FindByEmail, FindById } from "../../infra/repositories/__mocks__/UserRepo";
-import { ChangePassword } from "../ChangePassword.ts/UseCase";
+import { ChangePassword } from "../ChangePassword";
 import { IdentityErrors } from "../errors";
 
 

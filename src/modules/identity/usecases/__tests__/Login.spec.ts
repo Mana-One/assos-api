@@ -1,5 +1,5 @@
 import { FindByEmail, FindById } from "../../infra/repositories/__mocks__/UserRepo";
-import { Login } from "../Login/UseCase";
+import { Login } from "../Login";
 import { CreateToken, VerifyAndRetrievePayload } from "../../../../shared/services/__mocks__/Authentication";
 import { IdentityErrors } from "../errors";
 import { AppErrors, Result } from "../../../../core/logic";

@@ -1,7 +1,6 @@
 import { AppErrors, Result } from "../../../../core/logic";
-import { UserName } from "../../domain";
 import { FindByEmail, FindById, Save } from "../../infra/repositories/__mocks__/UserRepo";
-import { EditUser } from "../EditUser/UseCase"; 
+import { EditUser } from "../EditUser"; 
 import { IdentityErrors } from "../errors";
 
 describe("Edit User Usecase", () => {
