@@ -1,8 +1,9 @@
-import { RoleName } from "./Role";
+import { Role } from "./Role";
 
 export interface TokenPayload {
     id: string;
-    role: RoleName
+    role: Role;
+    associationId: string | null;
 }
 
 export type AccessToken = string;

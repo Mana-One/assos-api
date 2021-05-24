@@ -1,5 +1,6 @@
 import { Entity, UniqueId } from "../../../core/domain";
 import { Result } from "../../../core/logic";
+import { AssociationId } from "./AssociationId";
 import { Role } from "./Role";
 import { UserEmail } from "./UserEmail";
 import { UserName } from "./UserName";
@@ -10,7 +11,8 @@ interface UserProps {
     lastName: UserName;
     email: UserEmail;
     password: UserPassword;
-    role: Role
+    role: Role;
+    associationId: AssociationId | null;
 }
 
 export class User extends Entity<UserProps> {
@@ -32,6 +34,10 @@ export class User extends Entity<UserProps> {
 
     getRole(): Role {
         return this.props.role;
+    }
+
+    getAssociationId(): AssociationId | null {
+        return this.props.associationId;
     }
 
     updateFirstName(firstName: UserName): Result<void> {
@@ -59,6 +65,17 @@ export class User extends Entity<UserProps> {
     }
 
     static create(props: UserProps, id?: UniqueId): Result<User> {
+        if(props.associationId === null && 
+            (props.role === Role.VOLUNTEER || props.role === Role.MANAGER)){
+
+            return Result.ko<User>("Volunteers and Managers must be affiliated to an association");
+        }
+
+        if(props.associationId !== null && 
+            (props.role === Role.DONATOR || props.role === Role.ADMIN)){
+            return Result.ko<User>("Donators and Admins cannot be affiliated to an association");
+        }
+
         return Result.ok<User>(new User(props, id));
     }
 }

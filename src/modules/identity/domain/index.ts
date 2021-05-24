@@ -1,3 +1,4 @@
+export * from "./AssociationId";
 export * from "./Role";
 export * from "./Token";
 export * from "./User";

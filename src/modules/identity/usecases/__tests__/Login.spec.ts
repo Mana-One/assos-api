@@ -1,24 +1,21 @@
-import { FindByEmail, FindById } from "../../infra/repositories/__mocks__/UserRepo";
+import { DeleteUser, FindByEmail, FindById } from "../../infra/repositories/__mocks__/UserRepo";
 import { Login } from "../Login/UseCase";
-import { CreateToken } from "../../services/__mocks__/Authentication";
-import { RoleName } from "../../domain";
+import { CreateToken, VerifyAndRetrievePayload } from "../../services/__mocks__/Authentication";
+import { Role } from "../../domain";
 import { IdentityErrors } from "../errors";
 import { AppErrors, Result } from "../../../../core/logic";
 
 describe("Login Usecase", () => {
     const save = async () => {};
-    const verifyAndRetrievePayload = async (str: string) => {
-        return {
-            id: "id",
-            role: RoleName.DONATOR
-        };
-    }
+    const verifyAndRetrievePayload = VerifyAndRetrievePayload.ok
+    const deleteUser = DeleteUser.ok;
 
     it("should return ok result", async () => {
         const usecase = new Login({
             save,
             findByEmail: FindByEmail.notNull,
-            findById: FindById.ok
+            findById: FindById.ok,
+            deleteUser
         }, {
             createToken: CreateToken.ok,
             verifyAndRetrievePayload
@@ -36,7 +33,8 @@ describe("Login Usecase", () => {
         const usecase = new Login({
             save,
             findByEmail: FindByEmail.notNull,
-            findById: FindById.ok
+            findById: FindById.ok,
+            deleteUser
         }, {
             createToken: CreateToken.ok,
             verifyAndRetrievePayload
@@ -55,7 +53,8 @@ describe("Login Usecase", () => {
         const usecase = new Login({
             save,
             findByEmail: FindByEmail.null,
-            findById: FindById.ok
+            findById: FindById.ok,
+            deleteUser
         }, {
             createToken: CreateToken.ok,
             verifyAndRetrievePayload
@@ -74,7 +73,8 @@ describe("Login Usecase", () => {
         const usecase = new Login({
             save,
             findByEmail: FindByEmail.notNull,
-            findById: FindById.ok
+            findById: FindById.ok,
+            deleteUser
         }, {
             createToken: CreateToken.ok,
             verifyAndRetrievePayload
@@ -93,7 +93,8 @@ describe("Login Usecase", () => {
         const usecase = new Login({
             save,
             findByEmail: FindByEmail.notNull,
-            findById: FindById.ok
+            findById: FindById.ok,
+            deleteUser
         }, {
             createToken: CreateToken.throw,
             verifyAndRetrievePayload
