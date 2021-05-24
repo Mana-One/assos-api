@@ -1,5 +1,5 @@
-import { UniqueId } from "../../../../core/domain";
-import { User, UserEmail } from "../../domain";
+import { User } from "../../domain";
+import { UserEmail } from "../../.././../shared/domain";
 
 export interface UserRepo {
     findByEmail(email: UserEmail): Promise<User | null>;
