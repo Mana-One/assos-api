@@ -1,7 +1,8 @@
 import { Entity, UniqueId } from "../../../core/domain";
-import { Result } from "../../../core/logic";
+import { Guard, Result } from "../../../core/logic";
 import { UserEmail, UserName, UserPassword } from "../../../shared/domain";
 import { Card } from "./Card";
+import { StoreReference } from "./StoreReference";
 import { Wallet } from "./Wallet";
 
 interface DonatorProps {
@@ -9,6 +10,7 @@ interface DonatorProps {
     lastName: UserName;
     email: UserEmail;
     password: UserPassword;
+    storeReference: StoreReference;
     wallet: Wallet;
 }
 
@@ -31,11 +33,27 @@ export class Donator extends Entity<DonatorProps> {
         return this.props.email;
     }
 
+    getStoreReference(): StoreReference {
+        return this.props.storeReference;
+    }
+
     getWallet() {
         return this.props.wallet.getItems();
     }
 
     static create(props: DonatorProps, id?: UniqueId): Result<Donator> {
+        const guardResult = Guard.againstNullOrUndefined({
+            key: "storeReference",
+            value: props.storeReference
+        });
+        if(!guardResult.success){
+            return Result.ko<Donator>(guardResult.message);
+        }
+
+        if(props.storeReference.length === 0){
+            return Result.ko<Donator>("Invalid store reference");
+        }
+
         return Result.ok<Donator>(new Donator(props, id));
     }
 }

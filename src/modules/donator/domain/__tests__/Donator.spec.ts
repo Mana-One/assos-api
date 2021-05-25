@@ -23,6 +23,7 @@ describe("Donator entity", () => {
             lastName,
             email,
             password,
+            storeReference: "a valid store reference",
             wallet
         };
 
@@ -32,6 +33,7 @@ describe("Donator entity", () => {
                 lastName,
                 email,
                 password,
+                storeReference: "a valid store reference",
                 wallet
             };
         })
@@ -45,6 +47,7 @@ describe("Donator entity", () => {
             expect(donator.getFirstName().equals(firstName)).toBe(true);
             expect(donator.getLastName().equals(lastName)).toBe(true);
             expect(donator.getEmail().equals(email)).toBe(true);
+            expect(donator.getStoreReference()).toBe(props.storeReference);
             expect(donator.getWallet()).toBe(wallet.getItems());
         })
 
@@ -56,7 +59,8 @@ describe("Donator entity", () => {
             expect(donator.getId().equals(uid)).toBe(true);
             expect(donator.getFirstName().equals(firstName)).toBe(true);
             expect(donator.getLastName().equals(lastName)).toBe(true);
-            expect(donator.getEmail().equals(email)).toBe(true);
+            expect(donator.getEmail().equals(email)).toBe(true);            
+            expect(donator.getStoreReference()).toBe(props.storeReference);
             expect(donator.getWallet()).toBe(wallet.getItems());
         })
 
@@ -73,7 +77,15 @@ describe("Donator entity", () => {
             expect(donator.getFirstName().equals(firstName)).toBe(true);
             expect(donator.getLastName().equals(lastName)).toBe(true);
             expect(donator.getEmail().equals(email)).toBe(true);
+            expect(donator.getStoreReference()).toBe(props.storeReference);
             expect(donator.getWallet()).toBe(wallet2.getItems());
+        })
+
+        it("should fail when passing an empty store reference", () => {
+            props.storeReference = "";
+            const res = Donator.create(props, uid);
+            expect(res.success).toBe(false);
+            expect(res.getValue()).toBe("Invalid store reference")
         })
     })
 })
