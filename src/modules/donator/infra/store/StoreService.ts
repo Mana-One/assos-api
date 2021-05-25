@@ -2,7 +2,7 @@ import { UserName } from "../../../../shared/domain";
 import { Donator, StoreReference } from "../../domain";
 
 export interface RegisterInput {
-    fisrtName: UserName;
+    firstName: UserName;
     lastName: UserName;
 }
 
