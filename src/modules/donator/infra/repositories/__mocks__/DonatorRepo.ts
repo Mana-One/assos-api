@@ -23,6 +23,7 @@ const FindById = {
             lastName: UserName.create("Manaois").getValue(),
             email: UserEmail.create("username@yahoo.com").getValue(),
             password: UserPassword.createHashed("azertyUIOP123$").getValue(),
+            storeReference: "a valid store reference",
             wallet: new Wallet()
         }, donatorId).getValue();
     },
