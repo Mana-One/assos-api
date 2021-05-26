@@ -29,7 +29,7 @@ const FindById = {
     },
 
     null: async function(donatorId: UniqueId){
-        return this.null;
+        return null;
     },
 
     throw: async function(donatorId: UniqueId){

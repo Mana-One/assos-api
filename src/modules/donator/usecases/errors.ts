@@ -8,4 +8,12 @@ export namespace DonatorErrors {
             });
         }
     }
+
+    export class DonatorNotFound extends Result<UseCaseError> {
+        constructor(){
+            super(false, {
+                message: "Not found"
+            });
+        }
+    }
 }
