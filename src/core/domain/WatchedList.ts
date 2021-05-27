@@ -1,5 +1,4 @@
 export abstract class WatchedList<T> {
-
     private currentItems: T[];
     private initial: T[];
     private new: T[];
@@ -32,6 +31,14 @@ export abstract class WatchedList<T> {
 
     public countItems(): number {
         return this.currentItems.length;
+    }
+
+    public countNewItems(): number {
+        return this.new.length;
+    }
+
+    public countRemovedItems(): number {
+        return this.removed.length;
     }
   
     public add(item: T): void {
