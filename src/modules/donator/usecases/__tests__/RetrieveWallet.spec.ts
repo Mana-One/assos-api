@@ -1,16 +1,18 @@
 import { UniqueId } from "../../../../core/domain";
 import { AppErrors, Result } from "../../../../core/logic";
 import { RetrieveWallet } from "../RetrieveWallet";
-import { RetrieveByDonatorId } from "../../infra/repositories/__mocks__/WalletRepo";
+import { FindCardById, RetrieveByDonatorId } from "../../infra/repositories/__mocks__/WalletRepo";
 import { WalletDto } from "../RetrieveWallet/RetrieveWalletResponse";
 
 
 describe("Retrieve Wallet Usecase", () => {
     const donatorId = new UniqueId("a valid id");
+    const findCardById = FindCardById.notNull;
 
     it("should return ok result", async () => {
         const usecase = new RetrieveWallet({
-            retrieveByDonatorId: RetrieveByDonatorId.notEmpty
+            retrieveByDonatorId: RetrieveByDonatorId.notEmpty,
+            findCardById
         });
 
         const res = await usecase.execute({ donatorId });
@@ -29,7 +31,8 @@ describe("Retrieve Wallet Usecase", () => {
 
     it("should return ok result even with empty wallet", async () => {
         const usecase = new RetrieveWallet({
-            retrieveByDonatorId: RetrieveByDonatorId.empty
+            retrieveByDonatorId: RetrieveByDonatorId.empty,
+            findCardById
         });
 
         const res = await usecase.execute({ donatorId });
@@ -43,7 +46,8 @@ describe("Retrieve Wallet Usecase", () => {
 
     it("should return ko result when fetching the wallet fails", async () => {
         const usecase = new RetrieveWallet({
-            retrieveByDonatorId: RetrieveByDonatorId.throw
+            retrieveByDonatorId: RetrieveByDonatorId.throw,
+            findCardById
         });
 
         const res = await usecase.execute({ donatorId });
