@@ -7,7 +7,7 @@ interface CardLast4Props {
 
 export class CardLast4 extends ValueObject<CardLast4Props> {
     // value must be 4 digits exactly
-    private static last4Regex = /^\d{4}$/g;
+    private static last4Regex = /^\d{4}$/;
 
     private constructor(props: CardLast4Props){
         super(props);

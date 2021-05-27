@@ -16,4 +16,12 @@ export namespace DonatorErrors {
             });
         }
     }
+
+    export class WalletIsFull extends Result<UseCaseError> {
+        constructor(){
+            super(false, {
+                message: "Wallet is at max capacity"
+            });
+        }
+    }
 }
