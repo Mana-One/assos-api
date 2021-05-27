@@ -15,7 +15,7 @@ interface DonatorProps {
 }
 
 export class Donator extends Entity<DonatorProps> {
-    private static WALLET_CAPACITY = 5;
+    static readonly WALLET_CAPACITY = 5;
 
     getId(){
         return this._id;
@@ -39,6 +39,16 @@ export class Donator extends Entity<DonatorProps> {
 
     getWallet() {
         return this.props.wallet.getItems();
+    }
+
+    isWalletFull(): boolean {
+        return this.props.wallet.countItems() === Donator.WALLET_CAPACITY;
+    }
+
+    addCard(card: Card): void {
+        if(this.props.wallet.countItems() < Donator.WALLET_CAPACITY){
+            this.props.wallet.add(card);
+        }
     }
 
     static create(props: DonatorProps, id?: UniqueId): Result<Donator> {

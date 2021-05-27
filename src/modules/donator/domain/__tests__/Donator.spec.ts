@@ -6,36 +6,29 @@ import { Donator } from "../Donator";
 import { Wallet } from "../Wallet";
 
 describe("Donator entity", () => {
+    const uid = new UniqueId("a valid id");
+    const firstName = UserName.create("Paolo").getValue();
+    const lastName = UserName.create("Manaois").getValue();
+    const email = UserEmail.create("username@yahoo.com").getValue();
+    const password = UserPassword.createHashed("azertyUIOP123$").getValue();
+
+    const card = Card.create({
+        last4: CardLast4.create("1234").getValue(),
+        storeReference: "a reference"
+    }, new UniqueId("a valid card id")).getValue();
+
+    let props = {
+        firstName,
+        lastName,
+        email,
+        password,
+        storeReference: "a valid store reference",
+        wallet: new Wallet()
+    };
+
     describe("creation", () => {
-        const uid = new UniqueId("a valid id");
-        const firstName = UserName.create("Paolo").getValue();
-        const lastName = UserName.create("Manaois").getValue();
-        const email = UserEmail.create("username@yahoo.com").getValue();
-        const password = UserPassword.createHashed("azertyUIOP123$").getValue();
-        const wallet = new Wallet();
-        const card = Card.create({
-            last4: CardLast4.create("1234").getValue(),
-            storeReference: "a reference"
-        }, new UniqueId("a valid card id")).getValue();
-
-        let props = {
-            firstName,
-            lastName,
-            email,
-            password,
-            storeReference: "a valid store reference",
-            wallet
-        };
-
         afterEach(() => {
-            props = {
-                firstName,
-                lastName,
-                email,
-                password,
-                storeReference: "a valid store reference",
-                wallet
-            };
+            props.storeReference = "a valid store reference"
         })
 
         it("should return a new Donator when passing an undefined id", () => {
@@ -48,7 +41,7 @@ describe("Donator entity", () => {
             expect(donator.getLastName().equals(lastName)).toBe(true);
             expect(donator.getEmail().equals(email)).toBe(true);
             expect(donator.getStoreReference()).toBe(props.storeReference);
-            expect(donator.getWallet()).toBe(wallet.getItems());
+            expect(donator.getWallet()).toBe(props.wallet.getItems());
         })
 
         it("should return a new Donator when passing a valid id", () => {
@@ -61,7 +54,7 @@ describe("Donator entity", () => {
             expect(donator.getLastName().equals(lastName)).toBe(true);
             expect(donator.getEmail().equals(email)).toBe(true);            
             expect(donator.getStoreReference()).toBe(props.storeReference);
-            expect(donator.getWallet()).toBe(wallet.getItems());
+            expect(donator.getWallet()).toBe(props.wallet.getItems());
         })
 
         it("should return a new Donator when passing a non-empty wallet", () => {
@@ -86,6 +79,83 @@ describe("Donator entity", () => {
             const res = Donator.create(props, uid);
             expect(res.success).toBe(false);
             expect(res.getValue()).toBe("Invalid store reference")
+        })
+    })
+
+    describe("add card method", () => {
+        afterEach(() => {
+            props.wallet = new Wallet();
+        })
+
+        it("should succeed when wallet is empty", () => {
+            const donator = Donator.create(props, uid).getValue();
+            donator.addCard(card);
+            expect(donator.getWallet().length).toBe(1);
+        })
+
+        it("should succeed when wallet is not full", () => {
+            const donator = Donator.create(props, uid).getValue();
+            donator.addCard(card);
+
+            const card2 = Card.create({
+                last4: CardLast4.create("1234").getValue(),
+                storeReference: "a reference"
+            }, new UniqueId("a valid id2")).getValue();
+            donator.addCard(card2);
+            expect(donator.getWallet().length).toBe(2);
+        })
+
+        it("should not add when wallet is full", () => {
+            const donator = Donator.create(props, uid).getValue();
+            for(let i = 0; i < Donator.WALLET_CAPACITY; i++){
+                donator.addCard(Card.create({
+                    last4: CardLast4.create("1234").getValue(),
+                    storeReference: "a reference"
+                }, new UniqueId(`a valid id${i}`)).getValue());
+            }
+            expect(donator.getWallet().length).toBe(Donator.WALLET_CAPACITY);
+
+            donator.addCard(Card.create({
+                last4: CardLast4.create("1234").getValue(),
+                storeReference: "a reference"
+            }, new UniqueId(`a valid id${Donator.WALLET_CAPACITY + 1}`)).getValue());
+            expect(donator.getWallet().length).toBe(Donator.WALLET_CAPACITY);
+        })
+
+        it("should not add when card already is in wallet", () => {
+            const donator = Donator.create(props, uid).getValue();
+            donator.addCard(card);
+            expect(donator.getWallet().length).toBe(1);
+            donator.addCard(card)
+            expect(donator.getWallet().length).toBe(1);
+        })
+    })
+
+    describe("is wallet full method", () => {
+        afterEach(() => {
+            props.wallet = new Wallet();
+        })
+
+        it("should return false if not full", () => {
+            const donator = Donator.create(props, uid).getValue();
+            for(let i = 0; i < Donator.WALLET_CAPACITY - 1; i++){
+                donator.addCard(Card.create({
+                    last4: CardLast4.create("1234").getValue(),
+                    storeReference: "a reference"
+                }, new UniqueId(`a valid id${i}`)).getValue());
+            }
+            expect(donator.isWalletFull()).toBe(false);
+        })
+
+        it("should return true when full", () => {
+            const donator = Donator.create(props, uid).getValue();
+            for(let i = 0; i < Donator.WALLET_CAPACITY; i++){
+                donator.addCard(Card.create({
+                    last4: CardLast4.create("1234").getValue(),
+                    storeReference: "a reference"
+                }, new UniqueId(`a valid id${i}`)).getValue());
+            }
+            expect(donator.isWalletFull()).toBe(true);
         })
     })
 })
