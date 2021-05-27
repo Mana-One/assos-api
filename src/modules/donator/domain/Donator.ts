@@ -71,6 +71,10 @@ export class Donator extends Entity<DonatorProps> {
         }
     }
 
+    hasCard(card: Card): boolean {
+        return this.props.wallet.exists(card);
+    }
+
     removeCard(card: Card): void {
         this.props.wallet.remove(card);
     }

@@ -166,4 +166,24 @@ describe("Donator entity", () => {
             expect(donator.countRemovedCards()).toBe(1);
         })
     })
+
+    describe("has card method", () => {
+        it("should return true when passing a card owned by the donator", () => {
+            props.wallet = new Wallet([card]);
+            const donator = Donator.create(props, uid).getValue();
+            const res = donator.hasCard(card);
+            expect(res).toBe(true);
+        })
+
+        it("should return true when passing a card owned by the donator", () => {
+            props.wallet = new Wallet([card]);
+            const donator = Donator.create(props, uid).getValue();
+            const card2 = Card.create({
+                last4: CardLast4.create("1234").getValue(),
+                storeReference: "a reference"
+            }, new UniqueId("a valid id2")).getValue();
+            const res = donator.hasCard(card2);
+            expect(res).toBe(false);
+        })
+    })
 })
