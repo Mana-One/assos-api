@@ -152,4 +152,18 @@ describe("Donator entity", () => {
             expect(donator.isWalletFull()).toBe(true);
         })
     })
+
+    describe("remove exisiting card method", () => {
+        afterEach(() => {
+            props.wallet = new Wallet();
+        })
+
+        it("should remove card", () => {
+            props.wallet = new Wallet([card]);
+            const donator = Donator.create(props, uid).getValue();
+            donator.removeCard(card);
+            expect(donator.countCards()).toBe(0);
+            expect(donator.countRemovedCards()).toBe(1);
+        })
+    })
 })

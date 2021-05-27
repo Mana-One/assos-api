@@ -71,6 +71,10 @@ export class Donator extends Entity<DonatorProps> {
         }
     }
 
+    removeCard(card: Card): void {
+        this.props.wallet.remove(card);
+    }
+
     static create(props: DonatorProps, id?: UniqueId): Result<Donator> {
         const guardResult = Guard.againstNullOrUndefined({
             key: "storeReference",

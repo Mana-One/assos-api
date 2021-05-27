@@ -61,7 +61,7 @@ describe("WatchedList data structure", () => {
             expect(nList.countRemovedItems()).toBe(1);
         })
 
-        it("should not remove non-existent item", () => {
+        it("should not remove non-existent item from current list", () => {
             const arr = [0.256, 35, 32.6];
             const nList = new NumberList(arr);
             nList.remove(70);
