@@ -41,6 +41,26 @@ export class Donator extends Entity<DonatorProps> {
         return this.props.wallet.getItems();
     }
 
+    getNewlyAddedCards() {
+        return this.props.wallet.getNewItems();
+    }
+
+    getRemovedCards() {
+        return this.props.wallet.getRemovedItems();
+    }
+
+    countCards() {
+        return this.props.wallet.countItems();
+    }
+
+    countNewlyAddedCards() {
+        return this.props.wallet.countNewItems();
+    }
+
+    countRemovedCards() {
+        return this.props.wallet.countRemovedItems();
+    }
+
     isWalletFull(): boolean {
         return this.props.wallet.countItems() === Donator.WALLET_CAPACITY;
     }
@@ -49,6 +69,14 @@ export class Donator extends Entity<DonatorProps> {
         if(this.props.wallet.countItems() < Donator.WALLET_CAPACITY){
             this.props.wallet.add(card);
         }
+    }
+
+    hasCard(card: Card): boolean {
+        return this.props.wallet.exists(card);
+    }
+
+    removeCard(card: Card): void {
+        this.props.wallet.remove(card);
     }
 
     static create(props: DonatorProps, id?: UniqueId): Result<Donator> {

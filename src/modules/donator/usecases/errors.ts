@@ -24,4 +24,12 @@ export namespace DonatorErrors {
             });
         }
     }
+
+    export class CardNotFound extends Result<UseCaseError> {
+        constructor(){
+            super(false, {
+                message: "Card not found"
+            });
+        }
+    }
 }
