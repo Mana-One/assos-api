@@ -86,13 +86,7 @@ describe("Donator entity", () => {
         afterEach(() => {
             props.wallet = new Wallet();
         })
-
-        it("should succeed when wallet is empty", () => {
-            const donator = Donator.create(props, uid).getValue();
-            donator.addCard(card);
-            expect(donator.getWallet().length).toBe(1);
-        })
-
+        
         it("should succeed when wallet is not full", () => {
             const donator = Donator.create(props, uid).getValue();
             donator.addCard(card);
