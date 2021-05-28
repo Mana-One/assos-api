@@ -12,8 +12,8 @@ export class ChangePasswordController extends ExpressController {
 
     async executeImpl(req: Request, res: Response){
         const { newPassword, checkPassword, oldPassword } = req.body;
-        if(newPassword === undefined && 
-            checkPassword === undefined && 
+        if(newPassword === undefined ||
+            checkPassword === undefined ||
             oldPassword === undefined){
             return this.clientError(res);
         }

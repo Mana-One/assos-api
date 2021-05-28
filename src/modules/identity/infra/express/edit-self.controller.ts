@@ -3,24 +3,18 @@ import { ExpressController } from "../../../../core/infra";
 import { AppErrors } from "../../../../core/logic";
 import { IdentityErrors } from "../../usecases/errors";
 import { EditUser } from "../../usecases/EditUser";
-import { Role } from "../../../../shared/domain";
 
 
-export class EditUserController extends ExpressController {
+export class EditSelfController extends ExpressController {
     constructor(private usecase: EditUser){
         super();
     }
 
     async executeImpl(req: Request, res: Response){
         const { firstName, lastName, email } = req.body;
-        const userId = req.params.userId;
+        const userId = req.body.account.id;
         if(userId === undefined){
-            return this.clientError(res);
-        }
-
-        if(req.body.account.role !== Role.ADMIN ||
-            req.body.account.id !== userId){
-            return this.forbidden(res);
+            return this.unauthorized(res);
         }
 
         if(firstName === undefined &&
