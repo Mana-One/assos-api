@@ -26,7 +26,7 @@ export class JWTAuthentication implements Authentication {
         });
     }
 
-    verifyAndRetrievePayload(token: AccessToken): Promise<TokenPayload> {
+    async verifyAndRetrievePayload(token: AccessToken): Promise<TokenPayload> {
         return new Promise<TokenPayload>((resolve, reject) => {
             verify(token, AppConfig.SECRET_KEY, {}, (err, result) => {
                 if(err){
