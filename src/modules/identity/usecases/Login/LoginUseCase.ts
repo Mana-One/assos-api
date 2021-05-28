@@ -46,7 +46,6 @@ export class Login implements UseCase<Input, Promise<Response>> {
             return right(Result.ok<AccessToken>(token));
 
         } catch(err) {
-            console.error(err)
             return left(new AppErrors.UnexpectedError(err));
         }
     }

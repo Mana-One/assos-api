@@ -16,7 +16,7 @@ type Response = Either<
     AppErrors.UnexpectedError |
     IdentityErrors.NewAndCheckPasswordNotMatching |
     IdentityErrors.UserNotFound |
-    Result<UserPassword>,
+    Result<any>,
 
     Result<void>
 >;

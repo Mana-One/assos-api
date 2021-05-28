@@ -8,5 +8,5 @@ export interface Authentication {
 export function isTokenPayload(obj: any): obj is TokenPayload {
     return !!obj === true &&
         "id" in obj && typeof obj["id"] === "string" &&
-        "role" in obj && obj["role"] === "string";
+        "role" in obj && typeof obj["role"] === "string";
 }
