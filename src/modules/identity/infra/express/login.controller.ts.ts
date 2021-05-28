@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { ExpressController } from "../../../../core/infra";
-import { AppErrors, Result } from "../../../../core/logic";
-import { AccessToken } from "../../../../shared/domain";
+import { AppErrors } from "../../../../core/logic";
 import { IdentityErrors } from "../../usecases/errors";
 import { Login } from "../../usecases/Login";
 
@@ -16,9 +15,15 @@ export class LoginController extends ExpressController {
             return this.clientError(res);
         }
 
-        const result = await this.usecase.execute({
+        let result = await this.usecase.execute({
             email, password
         });
+
+        if(result.isRight()){
+            const token = result.value.getValue();
+            return this.createdWithPayload(res, { token });
+        }
+
         if(result.isLeft()){
             const error = result.value;
             switch(error.constructor){
@@ -30,8 +35,5 @@ export class LoginController extends ExpressController {
                     return this.clientError(res, error.getValue());
             }
         }
-
-        const token = (<Result<AccessToken>>result).getValue();
-        return this.createdWithPayload(res, { token });
     }
 }

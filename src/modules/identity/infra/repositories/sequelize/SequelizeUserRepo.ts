@@ -8,7 +8,7 @@ import { UserMap } from "../../../mappers";
 export class SequelizeUserRepo implements UserRepo {
     async findByEmail(email: UserEmail): Promise<User | null> {
         const instance = await models.User.findOne({
-            attributes: ["id", "firstName", "lastName", "email", "passord", "role"],
+            attributes: ["id", "firstName", "lastName", "email", "password", "role"],
             where: { email: email.getValue() }
         });
         if(instance === null){
@@ -20,7 +20,7 @@ export class SequelizeUserRepo implements UserRepo {
 
     async findById(userId: string): Promise<User | null> {
         const instance = await models.User.findByPk(userId, {
-            attributes: ["id", "firstName", "lastName", "email", "passord", "role"]
+            attributes: ["id", "firstName", "lastName", "email", "password", "role"]
         });
         if(instance === null){
             return null;
