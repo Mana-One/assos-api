@@ -28,6 +28,10 @@ export class User extends Entity<UserProps> {
         return this.props.email;
     }
 
+    async getHashedPassword() {
+        return this.props.password.hashPassword();
+    }
+
     getRole(): Role {
         return this.props.role;
     }
