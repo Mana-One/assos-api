@@ -30,8 +30,7 @@ export function makeAddCardUseCase(props: Props): UseCase<Input, Promise<Respons
 
     return async function(request: Input): Promise<Response> {
         try {
-            const donatorId = new UniqueId(request.donatorId);
-            const donator = await findById(donatorId);
+            const donator = await findById(request.donatorId);
 
             if(donator === null){
                 return left(new DonatorErrors.DonatorNotFound());

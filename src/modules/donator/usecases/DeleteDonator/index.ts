@@ -24,7 +24,7 @@ export function makeDeleteDonatorUseCase(props: Props): UseCase<Input, Promise<R
     
     return async function(request: Input): Promise<Response> {
         try {
-            const donator = await findById(new UniqueId(request.donatorId));
+            const donator = await findById(request.donatorId);
             if(donator === null){
                 return left(new DonatorErrors.DonatorNotFound());
             }

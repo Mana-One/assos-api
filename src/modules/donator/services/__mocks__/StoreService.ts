@@ -1,12 +1,12 @@
 import { Donator } from "../../domain";
-import { RegisterInput } from "../index";
+import { StoreService } from "../index";
 
 const Register = {
-    ok: async function(input: RegisterInput){
+    ok: async function(input: StoreService.RegisterInput){
         return "a valid store reference";
     },
     
-    throw: async function(input: RegisterInput){
+    throw: async function(input: StoreService.RegisterInput){
         throw new Error("oopsie");
     }
 };

@@ -34,7 +34,7 @@ export function makeRemoveCardUseCase(props: Props): UseCase<Input, Promise<Resp
                 return left(new DonatorErrors.CardNotFound());
             }
 
-            const donator = await findById(new UniqueId(request.donatorId));
+            const donator = await findById(request.donatorId);
             if(donator === null){
                 return left(new DonatorErrors.DonatorNotFound());
             }
