@@ -2,7 +2,7 @@ import { LoginController, ChangePasswordController, EditUserController, EditSelf
 import { Express, Request, Response, Router } from "express";
 import { Login } from "../usecases/Login";
 import { SequelizeUserRepo } from "./repositories/sequelize";
-import { JWTAuthentication } from "../../../shared/services/JWT";
+import { JWTAuthentication } from "../../../shared/infra/JWT";
 import { makeIsAuth } from "../../../shared/infra/express";
 import { ChangePassword } from "../usecases/ChangePassword";
 import { EditUser } from "../usecases/EditUser";
