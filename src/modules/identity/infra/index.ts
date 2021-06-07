@@ -1,53 +1,68 @@
-import { LoginController, ChangePasswordController, EditUserController, EditSelfController } from "./express";
+import { makeLoginController, makeChangePasswordController, makeEditUserController, makeEditSelfController } from "./express";
 import { Express, Request, Response, Router } from "express";
-import { Login } from "../usecases/Login";
-import { SequelizeUserRepo } from "./repositories/sequelize";
+import { SequelizeUserRepo } from "./repositories";
 import { JWTAuthentication } from "../../../shared/infra/JWT";
 import { makeIsAuth } from "../../../shared/infra/express";
-import { ChangePassword } from "../usecases/ChangePassword";
-import { EditUser } from "../usecases/EditUser";
+import { makeEditUserUseCase } from "../usecases/EditUser";
+import { makeChangePasswordUseCase } from "../usecases/ChangePassword";
+import { makeLoginUseCase } from "../usecases/Login";
 
 const router = Router();
-const userRepo = new SequelizeUserRepo();
-const authService = new JWTAuthentication();
 
-const isAuth = makeIsAuth(authService);
+const isAuth = makeIsAuth({
+    verifyAndRetrievePayload: JWTAuthentication.verifyAndRetrievePayload
+});
 
-const editUserUsecase = new EditUser(userRepo);
-const changePasswordController = new ChangePasswordController(
-    new ChangePassword(userRepo)
+const changePasswordUsecase = makeChangePasswordUseCase({
+    findById: SequelizeUserRepo.findById,
+    save: SequelizeUserRepo.save
+});
+
+const editUserUsecase = makeEditUserUseCase({
+    findByEmail: SequelizeUserRepo.findByEmail,
+    findById: SequelizeUserRepo.findById,
+    save: SequelizeUserRepo.save
+});
+
+const loginUsecase = makeLoginUseCase({
+    findByEmail: SequelizeUserRepo.findByEmail,
+    createToken: JWTAuthentication.createToken
+})
+
+const changePasswordController = makeChangePasswordController(
+    changePasswordUsecase
 );
-const editSelfController = new EditSelfController(
+const editSelfController = makeEditSelfController(
     editUserUsecase
 );
-const editUserController = new EditUserController(
+const editUserController = makeEditUserController(
     editUserUsecase
 );
-const loginController = new LoginController(
-    new Login(userRepo, authService)
+const loginController = makeLoginController(
+    loginUsecase
 );
 
 router.post(
     "/login", 
-    async (req: Request, res: Response) => loginController.execute(req, res)
+    async (req: Request, res: Response) => loginController(req, res)
 );
 
 router.put(
     "/password",
     isAuth,
-    async(req:Request, res: Response) => changePasswordController.execute(req, res)
+    async(req:Request, res: Response) => changePasswordController(req, res)
 );
 
 router.put(
     "/self", 
     isAuth,
-    async (req: Request, res: Response) => editSelfController.execute(req, res)
+    async (req: Request, res: Response) => editSelfController(req, res)
 );
 
 router.put(
     "/:userId", 
     isAuth,
-    async (req: Request, res: Response) => editUserController.execute(req, res)
+    async (req: Request, res: Response) => editUserController(req, res)
 );
 
 export function addIdentityRouter(app: Express): void {

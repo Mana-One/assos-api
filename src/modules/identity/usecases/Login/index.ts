@@ -7,12 +7,12 @@ import { IdentityErrors } from "../errors";
 import { AccessToken } from "../../../../shared/domain";
 
 
-interface Input {
+export interface Input {
     email: string,
     password: string
 }
 
-type Response = Either<
+export type Response = Either<
     AppErrors.UnexpectedError |
     IdentityErrors.UserNotFound |
     Result<any>,

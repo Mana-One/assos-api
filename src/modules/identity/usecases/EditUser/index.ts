@@ -6,14 +6,14 @@ import { UserRepo } from "../../repositories";
 import { IdentityErrors } from "../errors";
 
 
-interface Input {
+export interface Input {
     userId: string;
     firstName?: string;
     lastName?: string;
     email?: string;
 }
 
-type Response = Either<
+export type Response = Either<
     AppErrors.UnexpectedError |
     IdentityErrors.UserNotFound |
     Result<any>,

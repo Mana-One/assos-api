@@ -5,14 +5,14 @@ import { UserRepo } from "../../repositories";
 import { IdentityErrors } from "../errors";
 
 
-interface Input {
+export interface Input {
     userId: string;
     newPassword: string;
     checkPassword: string;
     oldPassword: string;
 }
 
-type Response = Either<
+export type Response = Either<
     AppErrors.UnexpectedError |
     IdentityErrors.NewAndCheckPasswordNotMatching |
     IdentityErrors.UserNotFound |
