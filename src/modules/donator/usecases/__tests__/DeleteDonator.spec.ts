@@ -1,14 +1,12 @@
-import { DeleteDonator } from "../DeleteDonator";
-import { FindById, IsEmailUsed, RemoveOrSave } from "../../infra/repositories/__mocks__/DonatorRepo";
+import { makeDeleteDonatorUseCase } from "../DeleteDonator";
+import { FindById, RemoveOrSave } from "../../repositories/__mocks__/DonatorRepo";
 import { DonatorErrors } from "../errors";
 import { AppErrors } from "../../../../core/logic";
 
 
 describe("Delete Donator Usecase", () => {
     const props = {
-        isEmailUsed: IsEmailUsed.no,
         findById: FindById.notNull,
-        save: RemoveOrSave.ok,
         remove: RemoveOrSave.ok
     }
 
@@ -18,8 +16,8 @@ describe("Delete Donator Usecase", () => {
     })
 
     it("should return ok result", async () => {
-        const usecase = new DeleteDonator(props);
-        const res = await usecase.execute({ donatorId: "a valid id" });
+        const usecase = makeDeleteDonatorUseCase(props);
+        const res = await usecase({ donatorId: "a valid id" });
         if(res.isRight()){
             expect(res.value.success).toBe(true);
         } else {
@@ -29,8 +27,8 @@ describe("Delete Donator Usecase", () => {
 
     it("should return ko result when donator is not found", async () => {
         props.findById = FindById.null;
-        const usecase = new DeleteDonator(props);
-        const res = await usecase.execute({ donatorId: "a valid id" });
+        const usecase = makeDeleteDonatorUseCase(props);
+        const res = await usecase({ donatorId: "a valid id" });
         if(res.isLeft()){
             expect(res.value instanceof DonatorErrors.DonatorNotFound).toBe(true);
         } else {
@@ -40,8 +38,8 @@ describe("Delete Donator Usecase", () => {
 
     it("should return ko result when donator search fails", async () => {
         props.findById = FindById.throw;
-        const usecase = new DeleteDonator(props);
-        const res = await usecase.execute({ donatorId: "a valid id" });
+        const usecase = makeDeleteDonatorUseCase(props);
+        const res = await usecase({ donatorId: "a valid id" });
         if(res.isLeft()){
             expect(res.value instanceof AppErrors.UnexpectedError).toBe(true);
         } else {
@@ -50,9 +48,9 @@ describe("Delete Donator Usecase", () => {
     })
 
     it("should return ko result when donator removal fails", async () => {
-        props.remove =RemoveOrSave.throw;
-        const usecase = new DeleteDonator(props);
-        const res = await usecase.execute({ donatorId: "a valid id" });
+        props.remove = RemoveOrSave.throw;
+        const usecase = makeDeleteDonatorUseCase(props);
+        const res = await usecase({ donatorId: "a valid id" });
         if(res.isLeft()){
             expect(res.value instanceof AppErrors.UnexpectedError).toBe(true);
         } else {

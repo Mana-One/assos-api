@@ -1,14 +1,12 @@
 import { AppErrors, Result } from "../../../../core/logic";
-import { AddCard } from "../AddCard";
-import { FindById, IsEmailUsed, RemoveOrSave } from "../../infra/repositories/__mocks__/DonatorRepo";
+import { makeAddCardUseCase } from "../AddCard";
+import { FindById, RemoveOrSave } from "../../repositories/__mocks__/DonatorRepo";
 import { DonatorErrors } from "../errors";
 
 describe("Add Card Usecase", () => {
     const donatorId = "a valid id";
     const findById = FindById.notNull;
-    const isEmailUsed = IsEmailUsed.no;
     const save = RemoveOrSave.ok;
-    const remove = RemoveOrSave.ok;
 
     const props = {
         donatorId,
@@ -22,93 +20,79 @@ describe("Add Card Usecase", () => {
     })
 
     it("should return ok result", async () => {
-        const usecase = new AddCard({
+        const usecase = makeAddCardUseCase({
             findById,
-            isEmailUsed,
-            save,
-            remove
+            save
         });
-        const res = await usecase.execute(props);
+        const res = await usecase(props);
         expect(res.isLeft()).toBe(false);
         expect(res.isRight()).toBe(true);
         expect(res.value instanceof Result).toBe(true);
     })
 
     it("should return ko result when donator not found", async () => {
-        const usecase = new AddCard({
+        const usecase = makeAddCardUseCase({
             findById: FindById.null,
-            isEmailUsed,
-            save,
-            remove
+            save
         });
-        const res = await usecase.execute(props);
+        const res = await usecase(props);
         expect(res.isLeft()).toBe(true);
         expect(res.isRight()).toBe(false);
         expect(res.value instanceof DonatorErrors.DonatorNotFound).toBe(true);
     })
 
     it("should return ko result when finding donator fails", async () => {
-        const usecase = new AddCard({
+        const usecase = makeAddCardUseCase({
             findById: FindById.throw,
-            isEmailUsed,
-            save,
-            remove
+            save
         });
-        const res = await usecase.execute(props);
+        const res = await usecase(props);
         expect(res.isLeft()).toBe(true);
         expect(res.isRight()).toBe(false);
         expect(res.value instanceof AppErrors.UnexpectedError).toBe(true);
     })
 
     it("should return ko result when wallet is full", async () => {
-        const usecase = new AddCard({
+        const usecase = makeAddCardUseCase({
             findById: FindById.fullWallet,
-            isEmailUsed,
-            save,
-            remove
+            save
         });
-        const res = await usecase.execute(props);
+        const res = await usecase(props);
         expect(res.isLeft()).toBe(true);
         expect(res.isRight()).toBe(false);
         expect(res.value instanceof DonatorErrors.WalletIsFull).toBe(true);
     })
 
     it("should return ko result when last4 is invalid", async () => {
-        const usecase = new AddCard({
+        const usecase = makeAddCardUseCase({
             findById,
-            isEmailUsed,
-            save,
-            remove
+            save
         });
         props.last4 = "zaer";
-        const res = await usecase.execute(props);
+        const res = await usecase(props);
         expect(res.isLeft()).toBe(true);
         expect(res.isRight()).toBe(false);
         expect(res.value instanceof Result).toBe(true);
     })
 
     it("should return ko result when storeReference is invalid", async () => {
-        const usecase = new AddCard({
+        const usecase = makeAddCardUseCase({
             findById,
-            isEmailUsed,
-            save,
-            remove
+            save
         });
         props.storeReference = "";
-        const res = await usecase.execute(props);
+        const res = await usecase(props);
         expect(res.isLeft()).toBe(true);
         expect(res.isRight()).toBe(false);
         expect(res.value instanceof Result).toBe(true);
     })
 
     it("should return ko result when saving donator fails", async () => {
-        const usecase = new AddCard({
+        const usecase = makeAddCardUseCase({
             findById,
-            isEmailUsed,
-            save: RemoveOrSave.throw,
-            remove
+            save: RemoveOrSave.throw
         });
-        const res = await usecase.execute(props);
+        const res = await usecase(props);
         expect(res.isLeft()).toBe(true);
         expect(res.isRight()).toBe(false);
         expect(res.value instanceof AppErrors.UnexpectedError).toBe(true);
