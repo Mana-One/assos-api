@@ -1,5 +1,5 @@
-import { UniqueId } from "../../../../../core/domain";
-import { Card, CardLast4 } from "../../../domain";
+import { UniqueId } from "../../../../core/domain";
+import { Card, CardLast4 } from "../../domain";
 
 
 const uid = new UniqueId("a valid id");
@@ -9,15 +9,15 @@ const props = {
 }
 
 export const RetrieveByDonatorId = {
-    empty: async function(donatorId: UniqueId): Promise<Card[]> {
+    empty: async function(donatorId: string): Promise<Card[]> {
         return [];
     },
 
-    notEmpty: async function(donatorId: UniqueId): Promise<Card[]> {        
+    notEmpty: async function(donatorId: string): Promise<Card[]> {        
         return [Card.create(props, uid).getValue()];
     },
 
-    throw: async function(donatorId: UniqueId): Promise<Card[]> {
+    throw: async function(donatorId: string): Promise<Card[]> {
         throw new Error("oopsie");
     }
 }

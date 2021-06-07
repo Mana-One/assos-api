@@ -1,15 +1,14 @@
-import { UniqueId } from "../../../../../core/domain";
-import { Role } from "../../../../../shared/domain";
-import { UserEmail, UserName, UserPassword } from "../../../../../shared/domain";
-import { User } from "../../../domain";
+import { UniqueId } from "../../../../core/domain";
+import { Role } from "../../../../shared/domain";
+import { UserEmail, UserName, UserPassword } from "../../../../shared/domain";
+import { User } from "../../domain";
 
 const props = {
-    firstName: UserName.create("Paolo").getValue(),
-    lastName: UserName.create("Manaois").getValue(),
+    firstName: UserName.create("FirstName").getValue(),
+    lastName: UserName.create("LastName").getValue(),
     email: UserEmail.create("test@test.test").getValue(),
     password: UserPassword.createNotHashed("azertyUIOP123$").getValue(),
-    role: Role.DONATOR,
-    associationId: null
+    role: Role.DONATOR
 }
 
 const Save = {

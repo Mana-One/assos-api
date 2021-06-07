@@ -1,6 +1,6 @@
-import { UniqueId } from "../../../../../core/domain";
-import { UserEmail, UserName, UserPassword } from "../../../../../shared/domain";
-import { Card, CardLast4, Donator, Wallet } from "../../../domain";
+import { UniqueId } from "../../../../core/domain";
+import { UserEmail, UserName, UserPassword } from "../../../../shared/domain";
+import { Card, CardLast4, Donator, Wallet } from "../../domain";
 
 const IsEmailUsed = {
     yes: async function(email: UserEmail){
@@ -17,7 +17,7 @@ const IsEmailUsed = {
 };
 
 const FindById = {
-    notNull: async function(donatorId: UniqueId) {
+    notNull: async function(donatorId: string) {
         return Donator.create({
             firstName: UserName.create("Paolo").getValue(),
             lastName: UserName.create("Manaois").getValue(),
@@ -25,10 +25,10 @@ const FindById = {
             password: UserPassword.createHashed("azertyUIOP123$").getValue(),
             storeReference: "a valid store reference",
             wallet: new Wallet()
-        }, donatorId).getValue();
+        }, new UniqueId(donatorId)).getValue();
     },
 
-    fullWallet: async function(donatorId: UniqueId) {
+    fullWallet: async function(donatorId: string) {
         const cards: Card[] = [];
         for(let i = 0; i < Donator.WALLET_CAPACITY; i++){
             cards.push(Card.create({
@@ -44,14 +44,14 @@ const FindById = {
             password: UserPassword.createHashed("azertyUIOP123$").getValue(),
             storeReference: "a valid store reference",
             wallet: new Wallet(cards)
-        }, donatorId).getValue();
+        }, new UniqueId(donatorId)).getValue();
     },
 
-    null: async function(donatorId: UniqueId){
+    null: async function(donatorId: string){
         return null;
     },
 
-    throw: async function(donatorId: UniqueId){
+    throw: async function(donatorId: string){
         throw new Error("oopsie");
     }
 };

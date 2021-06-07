@@ -1,5 +1,5 @@
-import { FindByEmail, FindById } from "../../infra/repositories/__mocks__/UserRepo";
-import { Login } from "../Login";
+import { FindByEmail, FindById } from "../../repositories/__mocks__/UserRepo";
+import { makeLoginUseCase } from "../Login";
 import { CreateToken, VerifyAndRetrievePayload } from "../../../../shared/services/__mocks__/Authentication";
 import { IdentityErrors } from "../errors";
 import { AppErrors, Result } from "../../../../core/logic";
@@ -9,16 +9,12 @@ describe("Login Usecase", () => {
     const verifyAndRetrievePayload = VerifyAndRetrievePayload.ok;
 
     it("should return ok result", async () => {
-        const usecase = new Login({
-            save,
+        const usecase = makeLoginUseCase({
             findByEmail: FindByEmail.notNull,
-            findById: FindById.ok
-        }, {
-            createToken: CreateToken.ok,
-            verifyAndRetrievePayload
+            createToken: CreateToken.ok
         });
 
-        const res = await usecase.execute({
+        const res = await usecase({
             email: "test@test.test",
             password: "azertyUIOP123$"
         });
@@ -29,16 +25,12 @@ describe("Login Usecase", () => {
     })
 
     it("should return ko result when passing invalid values", async () => {
-        const usecase = new Login({
-            save,
+        const usecase = makeLoginUseCase({
             findByEmail: FindByEmail.notNull,
-            findById: FindById.ok
-        }, {
-            createToken: CreateToken.ok,
-            verifyAndRetrievePayload
+            createToken: CreateToken.ok
         });
 
-        const res = await usecase.execute({
+        const res = await usecase({
             email: "test@test",
             password: "azertyUIOP123$"
         });
@@ -49,16 +41,12 @@ describe("Login Usecase", () => {
     })
 
     it("should return ko result when email not found", async () => {
-        const usecase = new Login({
-            save,
+        const usecase = makeLoginUseCase({
             findByEmail: FindByEmail.null,
-            findById: FindById.ok
-        }, {
-            createToken: CreateToken.ok,
-            verifyAndRetrievePayload
+            createToken: CreateToken.ok
         });
 
-        const res = await usecase.execute({
+        const res = await usecase({
             email: "test@test.test",
             password: "azertyUIOP123$"
         });
@@ -68,16 +56,12 @@ describe("Login Usecase", () => {
     })
 
     it("should return ko result when password does not match", async () => {
-        const usecase = new Login({
-            save,
+        const usecase = makeLoginUseCase({
             findByEmail: FindByEmail.notNull,
-            findById: FindById.ok
-        }, {
-            createToken: CreateToken.ok,
-            verifyAndRetrievePayload
+            createToken: CreateToken.ok
         });
 
-        const res = await usecase.execute({
+        const res = await usecase({
             email: "test@test.test",
             password: "azertyUIOP000$"
         });
@@ -87,16 +71,12 @@ describe("Login Usecase", () => {
     })
 
     it("should return ko result when token creation fails", async () => {
-        const usecase = new Login({
-            save,
+        const usecase = makeLoginUseCase({
             findByEmail: FindByEmail.notNull,
-            findById: FindById.ok
-        }, {
-            createToken: CreateToken.throw,
-            verifyAndRetrievePayload
+            createToken: CreateToken.throw
         });
 
-        const res = await usecase.execute({
+        const res = await usecase({
             email: "test@test.test",
             password: "azertyUIOP123$"
         });

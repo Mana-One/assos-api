@@ -1,38 +1,40 @@
 import { Request, Response } from "express";
+import { UseCase } from "../../../../core/domain";
 import { ExpressController } from "../../../../core/infra";
 import { AppErrors } from "../../../../core/logic";
+import { AccessToken } from "../../../../shared/domain";
 import { IdentityErrors } from "../../usecases/errors";
-import { Login } from "../../usecases/Login";
+import * as Login from "../../usecases/Login";
 
-export class LoginController extends ExpressController {
-    constructor(private usecase: Login){
-        super();
-    }
 
-    protected async executeImpl(req: Request, res: Response){
+export function makeLoginController(
+    loginUsecase: UseCase<Login.Input, Promise<Login.Response>>
+){
+
+    return async function(req: Request, res: Response){
         const { email, password } = req.body;
         if(email === undefined || password === undefined){
-            return this.clientError(res);
+            return ExpressController.clientError(res);
         }
 
-        let result = await this.usecase.execute({
+        let result = await loginUsecase({
             email, password
         });
 
         if(result.isRight()){
             const token = result.value.getValue();
-            return this.createdWithPayload(res, { token });
+            return ExpressController.created<{token: AccessToken}>(res, { token });
         }
 
         if(result.isLeft()){
             const error = result.value;
             switch(error.constructor){
                 case AppErrors.UnexpectedError:
-                    return this.fail(res, error.getValue().message);
+                    return ExpressController.fail(res, error.getValue().message);
                 case IdentityErrors.UserNotFound:
-                    return this.notFound(res, error.getValue().message);
+                    return ExpressController.notFound(res, error.getValue().message);
                 default:
-                    return this.clientError(res, error.getValue());
+                    return ExpressController.clientError(res, error.getValue());
             }
         }
     }

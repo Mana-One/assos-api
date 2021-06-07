@@ -1,11 +1,11 @@
 import { sign, verify } from "jsonwebtoken";
 import { AppConfig } from "../../../config";
 import { AccessToken, TokenPayload } from "../../domain";
-import { Authentication, isTokenPayload } from "../Authentication";
+import { Authentication } from "../../services";
 
 
-export class JWTAuthentication implements Authentication {
-    async createToken(payload: TokenPayload): Promise<AccessToken> {
+export namespace JWTAuthentication  {
+    export const createToken: Authentication.CreateToken = async (payload: TokenPayload): Promise<AccessToken> => {
         return new Promise<AccessToken>((resolve, reject) => {
             return sign(
                 payload, 
@@ -26,14 +26,14 @@ export class JWTAuthentication implements Authentication {
         });
     }
 
-    async verifyAndRetrievePayload(token: AccessToken): Promise<TokenPayload> {
+    export const verifyAndRetrievePayload: Authentication.VerifyAndRetrievePayload = async (token: AccessToken): Promise<TokenPayload> => {
         return new Promise<TokenPayload>((resolve, reject) => {
             verify(token, AppConfig.SECRET_KEY, {}, (err, result) => {
                 if(err){
                     return reject(err);
                 }
 
-                if(isTokenPayload(result)){                    
+                if(Authentication.isTokenPayload(result)){                    
                     return resolve(result)
                 }
                 return reject(new Error("Invalid payload"));
