@@ -1,3 +1,3 @@
 export interface UseCase<IRequest, IResponse> {
-    execute (request?: IRequest) : IResponse;
+    (request: IRequest): IResponse;
 }

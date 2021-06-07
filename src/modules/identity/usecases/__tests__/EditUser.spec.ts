@@ -1,17 +1,17 @@
 import { AppErrors, Result } from "../../../../core/logic";
-import { FindByEmail, FindById, Save } from "../../infra/repositories/__mocks__/UserRepo";
-import { EditUser } from "../EditUser"; 
+import { FindByEmail, FindById, Save } from "../../repositories/__mocks__/UserRepo";
+import { makeEditUserUseCase } from "../EditUser"; 
 import { IdentityErrors } from "../errors";
 
 describe("Edit User Usecase", () => {
     it("should return ok result", async () => {
-        const usecase = new EditUser({
+        const usecase = makeEditUserUseCase({
             save: Save.ok,
             findByEmail: FindByEmail.null,
             findById: FindById.ok
         });
 
-        const res = await usecase.execute({
+        const res = await usecase({
             userId: "an id",
             firstName: "firstname",
             lastName: "lastname",
@@ -24,13 +24,13 @@ describe("Edit User Usecase", () => {
     })
 
     it("should return ok result when no updatabe fields is passed", async () => {
-        const usecase = new EditUser({
+        const usecase = makeEditUserUseCase({
             save: Save.ok,
             findByEmail: FindByEmail.null,
             findById: FindById.ok
         });
 
-        const res = await usecase.execute({
+        const res = await usecase({
             userId: "an id"
         });
         expect(res.isLeft()).toBe(false);
@@ -40,13 +40,13 @@ describe("Edit User Usecase", () => {
     })
 
     it("should return ok result when some updatable fields are passed", async () => {
-        const usecase = new EditUser({
+        const usecase = makeEditUserUseCase({
             save: Save.ok,
             findByEmail: FindByEmail.null,
             findById: FindById.ok
         });
 
-        const res = await usecase.execute({
+        const res = await usecase({
             userId: "an id",
             firstName: "firstname",
             email: "test@test.test"
@@ -58,13 +58,13 @@ describe("Edit User Usecase", () => {
     })
 
     it("should return ko result when passing an invalid id", async () => {
-        const usecase = new EditUser({
+        const usecase = makeEditUserUseCase({
             save: Save.ok,
             findByEmail: FindByEmail.null,
             findById: FindById.ko
         });
 
-        const res = await usecase.execute({
+        const res = await usecase({
             userId: "an id",
             firstName: "firstname",
             lastName: "lastname",
@@ -76,13 +76,13 @@ describe("Edit User Usecase", () => {
     })
 
     it("should return ko result when fetching by id fails", async () => {
-        const usecase = new EditUser({
+        const usecase = makeEditUserUseCase({
             save: Save.ok,
             findByEmail: FindByEmail.null,
             findById: FindById.throw
         });
 
-        const res = await usecase.execute({
+        const res = await usecase({
             userId: "an id",
             firstName: "firstname",
             lastName: "lastname",
@@ -94,13 +94,13 @@ describe("Edit User Usecase", () => {
     })
 
     it("should return ko result when passing an invalid firstName", async () => {
-        const usecase = new EditUser({
+        const usecase = makeEditUserUseCase({
             save: Save.ok,
             findByEmail: FindByEmail.null,
             findById: FindById.ok
         });
 
-        const res = await usecase.execute({
+        const res = await usecase({
             userId: "an id",
             firstName: "azertyuiopqsdfghjklmwxcvbn".repeat(4),
             lastName: "lastname",
@@ -113,13 +113,13 @@ describe("Edit User Usecase", () => {
     })
 
     it("should return ko result when passing an invalid lastName", async () => {
-        const usecase = new EditUser({
+        const usecase = makeEditUserUseCase({
             save: Save.ok,
             findByEmail: FindByEmail.null,
             findById: FindById.ok
         });
 
-        const res = await usecase.execute({
+        const res = await usecase({
             userId: "an id",
             firstName: "firstname",
             lastName: "",
@@ -132,13 +132,13 @@ describe("Edit User Usecase", () => {
     })
 
     it("should return ko result when passing an already used email", async () => {
-        const usecase = new EditUser({
+        const usecase = makeEditUserUseCase({
             save: Save.ok,
             findByEmail: FindByEmail.notNull,
             findById: FindById.ok
         });
 
-        const res = await usecase.execute({
+        const res = await usecase({
             userId: "an id",
             firstName: "firstname",
             lastName: "lastname",
@@ -150,13 +150,13 @@ describe("Edit User Usecase", () => {
     })
 
     it("should return ko result when fetching by email fails", async () => {
-        const usecase = new EditUser({
+        const usecase = makeEditUserUseCase({
             save: Save.ok,
             findByEmail: FindByEmail.throw,
             findById: FindById.ok
         });
 
-        const res = await usecase.execute({
+        const res = await usecase({
             userId: "an id",
             firstName: "firstname",
             lastName: "lastname",
@@ -168,13 +168,13 @@ describe("Edit User Usecase", () => {
     })
 
     it("should return ko result when saving fails", async () => {
-        const usecase = new EditUser({
+        const usecase = makeEditUserUseCase({
             save: Save.throw,
             findByEmail: FindByEmail.null,
             findById: FindById.ok
         });
 
-        const res = await usecase.execute({
+        const res = await usecase({
             userId: "an id",
             firstName: "firstname",
             lastName: "lastname",
