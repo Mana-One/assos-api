@@ -1,4 +1,5 @@
-import { Card } from "../domain";
+import { UniqueId } from "../../../core/domain";
+import { Card, CardLast4 } from "../domain";
 
 export interface CardDto {
     readonly id: string;
@@ -13,5 +14,16 @@ export namespace CardMap {
             last4: card.getLast4().getValue(),
             storeReference: card.getStoreReference()
         });
+    }
+
+    export function toDomain(raw: any){
+        const uid = new UniqueId(raw.id);
+        const last4 = CardLast4.create(raw.last4).getValue();
+        const storeReference = raw.storeReference;
+
+        return Card.create({ 
+            last4, 
+            storeReference }, 
+        uid).getValue();
     }
 }
