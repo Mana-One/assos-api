@@ -1,4 +1,4 @@
-import { Model, Optional, Sequelize, DataTypes } from "sequelize";
+import { Model, Optional, Sequelize, DataTypes, ModelCtor } from "sequelize";
 
 
 interface UserProps {
@@ -25,4 +25,16 @@ export function makeUser(sequelize: Sequelize){
         role: { type: DataTypes.STRING(100), allowNull: false },
         associationId: { type: DataTypes.UUID, defaultValue: null },
     }, { timestamps: false });
+}
+
+export function associateUser(models: {[key: string]: ModelCtor<any>}){
+    const { User, Card } = models;
+    User.hasMany(Card, {
+        onDelete: "CASCADE",
+        //hooks: true,
+        foreignKey: {
+            name: "donatorId",
+            allowNull: false
+        }
+    });
 }
