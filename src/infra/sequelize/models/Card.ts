@@ -21,8 +21,8 @@ export function makeCard(sequelize: Sequelize, removeCard: StoreService.RemoveCa
         donatorId: { type: DataTypes.UUID, allowNull: false },
     }, { timestamps: false });
 
-    Card.afterDestroy("store-clean-up", async (instance: CardInstance) => {
-        await removeCard(instance.storeReference);
+    Card.afterDestroy(async card => {
+        await removeCard(card.storeReference);
     })
 
     return Card;

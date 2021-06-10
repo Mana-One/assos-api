@@ -56,18 +56,18 @@ const retrieveDonatorController = makeRetrieveDonatorController(retrieveDonatorU
 const retrieveWalletController = makeRetrieveWalletController(retrieveWalletUsecase);
 
 router.route("/")
-    .post(async (req: Request, res: Response) => createDonatorController)
-    .get(isAuth, async (req: Request, res: Response) => retrieveDonatorController)
-.delete(isAuth, async (req: Request, res: Response) => deleteDonatorController);
+    .post(async (req: Request, res: Response) => createDonatorController(req, res))
+    .get(isAuth, async (req: Request, res: Response) => retrieveDonatorController(req, res))
+    .delete(isAuth, async (req: Request, res: Response) => deleteDonatorController(req, res));
 
 router.route("/wallet")
-    .post(isAuth, async (req: Request, res: Response) => addCardController)
-    .get(isAuth, async (req: Request, res: Response) => retrieveWalletController);
+    .post(isAuth, async (req: Request, res: Response) => addCardController(req, res))
+    .get(isAuth, async (req: Request, res: Response) => retrieveWalletController(req, res));
 
 router.delete(
     "/wallet/:cardId",
     isAuth,
-    async (req: Request, res: Response) => removeCardController
+    async (req: Request, res: Response) => removeCardController(req, res)
 );
 
 export function addDonatorRouter(app: Express){

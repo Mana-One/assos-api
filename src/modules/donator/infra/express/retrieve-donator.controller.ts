@@ -11,7 +11,7 @@ export function makeRetrieveDonatorController(
     retrieveDonatorUsecase: UseCase<RetrieveDonator.Input, Promise<RetrieveDonator.Response>>
 ){
     return async function(req: Request, res: Response){
-        const donatorId = req.body.account?.donatorId;
+        const donatorId = req.body.account?.id;
         const authGuard = Guard.againstNullOrUndefined({
             key: "donatorId", value: donatorId
         });

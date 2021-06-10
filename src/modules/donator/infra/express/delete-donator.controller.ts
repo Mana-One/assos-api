@@ -10,7 +10,7 @@ export function makeDeleteDonatorController(
     deletedonatorUsecase: UseCase<DeleteDonator.Input, Promise<DeleteDonator.Response>>
 ){
     return async function(req: Request, res: Response){
-        const { donatorId } = req.body;
+        const donatorId = req.body.account?.id;
         const guard = Guard.againstNullOrUndefined({ 
             key: "donatorId", value: donatorId
         });

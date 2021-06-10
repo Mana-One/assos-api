@@ -40,17 +40,16 @@ export function makeCreateDonatorUseCase(props: Props): UseCase<Input, Promise<R
             return left(res);
         }
 
-        let storeReference: StoreReference;
         try {
             if(await isEmailUsed(email.getValue())){
                 return left(new DonatorErrors.AccountAlreadyExists());
             }
 
-            storeReference = await register({
+            const storeReference = await register({
                 firstName: firstName.getValue(),
                 lastName: lastName.getValue(),
                 email: email.getValue()
-            })
+            });
 
             const donator = Donator.create({
                 firstName: firstName.getValue(), 

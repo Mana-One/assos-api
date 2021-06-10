@@ -35,9 +35,10 @@ export namespace SequelizeDonatorRepo {
     export const remove: DonatorRepo.Remove = async (donator: Donator): Promise<void> => {
         await models.User.destroy({
             where: {
-                id: donator.getId().value,
+                id: donator.getId().toString(),
                 role: Role.DONATOR
-            }
+            },
+            individualHooks: true
         });
     }
 

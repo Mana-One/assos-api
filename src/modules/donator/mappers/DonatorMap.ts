@@ -46,7 +46,8 @@ export namespace DonatorMap {
             lastName: donator.getLastName().getValue(),
             email: donator.getEmail().getValue(),
             password: await donator.getHashedPassword(),
-            role: Role.DONATOR
+            role: Role.DONATOR,
+            storeReference: donator.getStoreReference()
         });
     }
 }

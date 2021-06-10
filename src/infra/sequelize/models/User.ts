@@ -30,11 +30,11 @@ export function makeUser(sequelize: Sequelize, removeDonator: StoreService.Remov
         associationId: { type: DataTypes.UUID, defaultValue: null },
     }, { timestamps: false });
 
-    User.afterDestroy("store-clean-up", async (instance: UserInstance) => {
-        if(instance.role === Role.DONATOR){
-            await removeDonator(instance.storeReference);
+    User.afterDestroy(async user => {
+        if(user.role === Role.DONATOR){
+            await removeDonator(user.storeReference);
         }
-    })
+    });
 
     return User;
 }
