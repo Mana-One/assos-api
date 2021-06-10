@@ -22,6 +22,10 @@ export namespace ExpressController {
         }
         return res.sendStatus(201);
     }
+
+    export function noContent(res: Response){
+        return res.sendStatus(204);
+    }
   
     export function clientError(res: Response, message?: string){
         return jsonResponse(res, 400, message ? message : "Bad request");
