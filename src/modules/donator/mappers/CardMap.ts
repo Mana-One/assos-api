@@ -26,4 +26,13 @@ export namespace CardMap {
             storeReference }, 
         uid).getValue();
     }
+
+    export function toPersistence(card: Card, donatorId: string){
+        return Object.freeze({
+            id: card.getId().toString(),
+            last4: card.getLast4().getValue(),
+            storeReference: card.getStoreReference(),
+            donatorId
+        });
+    }
 }

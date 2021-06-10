@@ -1,5 +1,5 @@
 import { UniqueId } from "../../../core/domain";
-import { UserEmail, UserName, UserPassword } from "../../../shared/domain";
+import { Role, UserEmail, UserName, UserPassword } from "../../../shared/domain";
 import { Donator } from "../domain";
 import { WalletMap } from "./WalletMap";
 
@@ -37,5 +37,16 @@ export namespace DonatorMap {
             storeReference,
             wallet
         }, uid).getValue();
+    }
+
+    export async function toPersistence(donator: Donator){
+        return Object.freeze({
+            id: donator.getId().toString(),
+            firstName: donator.getFirstName().getValue(),
+            lastName: donator.getLastName().getValue(),
+            email: donator.getEmail().getValue(),
+            password: await donator.getHashedPassword(),
+            role: Role.DONATOR
+        });
     }
 }

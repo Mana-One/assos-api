@@ -1,7 +1,7 @@
 import { Dialect, Sequelize } from "sequelize";
 import { DatabaseConfig } from "../../../config";
-import { makeCard } from "./Card";
-import { makeUser } from "./User";
+import { associateCard, makeCard } from "./Card";
+import { associateUser, makeUser } from "./User";
 
 
 const sequelize = new Sequelize({            
@@ -21,6 +21,9 @@ const models = {
     Card: makeCard(sequelize),
     User: makeUser(sequelize)
 };
+
+associateCard(models);
+associateUser(models);
 
 export {
     sequelize,

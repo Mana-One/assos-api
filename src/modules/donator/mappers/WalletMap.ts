@@ -16,4 +16,8 @@ export namespace WalletMap {
         const initialCards = raws.map(raw => CardMap.toDomain(raw));
         return new Wallet(initialCards);
     }
+
+    export function toPersistence(cards: Card[], donatorId: string){
+        return cards.map(card => CardMap.toPersistence(card, donatorId));
+    }
 }

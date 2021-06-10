@@ -33,6 +33,10 @@ export class Donator extends Entity<DonatorProps> {
         return this.props.email;
     }
 
+    async getHashedPassword(): Promise<string> {
+        return this.props.password.hashPassword();
+    }
+
     getStoreReference(): StoreReference {
         return this.props.storeReference;
     }
