@@ -18,7 +18,7 @@ export function makeRemoveCardController(
             return ExpressController.forbidden(res, authGuard.message);
         }
 
-        const { cardId } = req.body;
+        const { cardId } = req.params;
         const guard = Guard.againstNullOrUndefined(
             { key: "cardId", value: cardId }
         );
