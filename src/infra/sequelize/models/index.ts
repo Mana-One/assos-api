@@ -2,6 +2,7 @@ import { Dialect, Sequelize } from "sequelize";
 import { DatabaseConfig } from "../../../config";
 import { associateCard, makeCard } from "./Card";
 import { associateUser, makeUser } from "./User";
+import { StripeStoreService } from "../../../modules/donator/infra/stripe";
 
 
 const sequelize = new Sequelize({            
@@ -18,8 +19,8 @@ const sequelize = new Sequelize({
 });
 
 const models = {
-    Card: makeCard(sequelize),
-    User: makeUser(sequelize)
+    Card: makeCard(sequelize, StripeStoreService.removeCard),
+    User: makeUser(sequelize, StripeStoreService.removeDonator)
 };
 
 associateCard(models);
