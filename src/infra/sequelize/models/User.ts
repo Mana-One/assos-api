@@ -1,6 +1,4 @@
 import { Model, Optional, Sequelize, DataTypes, ModelCtor } from "sequelize";
-import { StoreService } from "../../../modules/donator/services";
-import { Role } from "../../../shared/domain";
 
 
 interface UserProps {
@@ -18,8 +16,8 @@ interface UserCreationProps extends Optional<UserProps, "id" | "storeReference" 
 
 export interface UserInstance extends Model<UserProps, UserCreationProps>, UserProps {}
 
-export function makeUser(sequelize: Sequelize, removeDonator: StoreService.RemoveDonator){
-    const User = sequelize.define<UserInstance>("User", {
+export function makeUser(sequelize: Sequelize){
+    return sequelize.define<UserInstance>("User", {
         id: { type: DataTypes.UUID, primaryKey: true },
         firstName: { type: DataTypes.STRING(100), allowNull: false },
         lastName: { type: DataTypes.STRING(100), allowNull: false },
@@ -29,21 +27,13 @@ export function makeUser(sequelize: Sequelize, removeDonator: StoreService.Remov
         role: { type: DataTypes.STRING(100), allowNull: false },
         associationId: { type: DataTypes.UUID, defaultValue: null },
     }, { timestamps: false });
-
-    User.afterDestroy(async user => {
-        if(user.role === Role.DONATOR){
-            await removeDonator(user.storeReference);
-        }
-    });
-
-    return User;
 }
 
 export function associateUser(models: {[key: string]: ModelCtor<any>}){
     const { User, Card } = models;
     User.hasMany(Card, {
-        onDelete: "CASCADE",
-        //hooks: true,
+        onDelete: 'CASCADE',
+        hooks: true,
         foreignKey: {
             name: "donatorId",
             allowNull: false

@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import { models, sequelize } from "../../../../infra/sequelize";
 import { Role, UserEmail } from "../../../../shared/domain";
 import { Donator } from "../../domain";
@@ -53,16 +54,21 @@ export namespace SequelizeDonatorRepo {
                 instance.id
             );
 
-            await models.Card.bulkCreate(newCards);
+            await models.Card.bulkCreate(newCards, {
+                individualHooks: true,
+                transaction
+            });
         }
 
         if(donator.countRemovedCards() > 0){
-            const deletedCards = WalletMap.toPersistence(
-                donator.getRemovedCards(), 
-                instance.id
-            );
+            const deletedCardIds = donator.getRemovedCards()
+                .map(card => card.getId().toString());
 
-            await models.Card.bulkCreate(deletedCards);
+            await models.Card.destroy({
+                where: { id: { [Op.in]: deletedCardIds }},
+                individualHooks: true,
+                transaction
+            });
         }
 
         await transaction.commit();
