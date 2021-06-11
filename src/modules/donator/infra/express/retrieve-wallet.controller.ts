@@ -3,7 +3,6 @@ import { UseCase } from "../../../../core/domain";
 import { ExpressController } from "../../../../core/infra";
 import { AppErrors, Guard } from "../../../../core/logic";
 import * as RetrieveWallet from "../../usecases/RetrieveWallet";
-import { DonatorErrors } from "../../usecases/errors";
 import { WalletDto } from "../../mappers";
 
 

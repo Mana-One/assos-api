@@ -19,7 +19,7 @@ const sequelize = new Sequelize({
 });
 
 const models = {
-    Card: makeCard(sequelize, StripeStoreService.removeCard),
+    Card: makeCard(sequelize, StripeStoreService.attachCard, StripeStoreService.removeCard),
     User: makeUser(sequelize, StripeStoreService.removeDonator)
 };
 

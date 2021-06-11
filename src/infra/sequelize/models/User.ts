@@ -16,7 +16,7 @@ interface UserProps {
 
 interface UserCreationProps extends Optional<UserProps, "id" | "storeReference" | "associationId"> {}
 
-interface UserInstance extends Model<UserProps, UserCreationProps>, UserProps {}
+export interface UserInstance extends Model<UserProps, UserCreationProps>, UserProps {}
 
 export function makeUser(sequelize: Sequelize, removeDonator: StoreService.RemoveDonator){
     const User = sequelize.define<UserInstance>("User", {
