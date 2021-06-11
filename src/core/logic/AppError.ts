@@ -8,6 +8,7 @@ export namespace AppErrors {
                 message: "An unexpected error occurred"
             });
             //logging to implement
+            //console.error(err);
         }
     }
 }

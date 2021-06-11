@@ -11,11 +11,6 @@ export namespace UserMap {
         const password = UserPassword.createHashed(raw.password).getValue();
         const uid = new UniqueId(raw.id);
     
-        if(!isRole(raw.role)){
-            console.error("Invalid role from persistence");
-            return null;
-        }
-    
         return User.create({
             firstName,
             lastName,

@@ -44,7 +44,7 @@ export function makeAddCardUseCase(props: Props): UseCase<Input, Promise<Respons
             if(!last4Res.success){
                 return left(last4Res);
             }
-
+            
             const last4 = last4Res.getValue();
             const cardRes = Card.create({ 
                 last4, 

@@ -3,6 +3,7 @@ import { AppConfig } from "../config";
 import { addIdentityRouter } from "../modules/identity/infra";
 import { sequelize } from "./sequelize";
 import cors from "cors";
+import { addDonatorRouter } from "../modules/donator/infra";
 
 
 async function run(){
@@ -11,6 +12,7 @@ async function run(){
     app.use(cors({ origin: true }));
 
     addIdentityRouter(app);
+    addDonatorRouter(app);
     app.use("/", (req: Request, res: Response) => {
         return res.sendStatus(400);
     });

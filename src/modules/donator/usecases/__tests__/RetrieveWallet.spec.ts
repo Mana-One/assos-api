@@ -22,7 +22,7 @@ describe("Retrieve Wallet Usecase", () => {
     
             const cardDto = wallet.cards[0];
             expect(cardDto.id).toBe("a valid id");
-            expect(cardDto.last4).toBe("************1234");
+            expect(cardDto.last4).toBe("1234");
             expect(cardDto.storeReference).toBe("a store reference");
 
         } else {

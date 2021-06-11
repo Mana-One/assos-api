@@ -1,4 +1,4 @@
-import { Model, Optional, Sequelize, DataTypes } from "sequelize";
+import { Model, Optional, Sequelize, DataTypes, ModelCtor } from "sequelize";
 
 
 interface UserProps {
@@ -7,13 +7,14 @@ interface UserProps {
     lastName: string;
     email: string;
     password: string;
+    storeReference: string;
     role: string;
     associationId: string;
 }
 
-interface UserCreationProps extends Optional<UserProps, "id" | "associationId"> {}
+interface UserCreationProps extends Optional<UserProps, "id" | "storeReference" | "associationId"> {}
 
-interface UserInstance extends Model<UserProps, UserCreationProps>, UserProps {}
+export interface UserInstance extends Model<UserProps, UserCreationProps>, UserProps {}
 
 export function makeUser(sequelize: Sequelize){
     return sequelize.define<UserInstance>("User", {
@@ -22,7 +23,20 @@ export function makeUser(sequelize: Sequelize){
         lastName: { type: DataTypes.STRING(100), allowNull: false },
         email: { type: DataTypes.STRING, allowNull: false, unique: true },
         password: { type: DataTypes.STRING, allowNull: false },
+        storeReference: { type: DataTypes.STRING, defaultValue: null },
         role: { type: DataTypes.STRING(100), allowNull: false },
         associationId: { type: DataTypes.UUID, defaultValue: null },
     }, { timestamps: false });
+}
+
+export function associateUser(models: {[key: string]: ModelCtor<any>}){
+    const { User, Card } = models;
+    User.hasMany(Card, {
+        onDelete: 'CASCADE',
+        hooks: true,
+        foreignKey: {
+            name: "donatorId",
+            allowNull: false
+        }
+    });
 }

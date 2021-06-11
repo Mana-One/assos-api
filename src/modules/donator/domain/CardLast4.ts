@@ -31,7 +31,7 @@ export class CardLast4 extends ValueObject<CardLast4Props> {
         }
 
         return Result.ok<CardLast4>(new CardLast4({
-            value: last4.padStart(16, "*")
+            value: last4
         }));
     }
 }

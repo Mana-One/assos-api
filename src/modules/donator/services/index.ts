@@ -14,6 +14,14 @@ export namespace StoreService {
     }
     
     export interface RemoveDonator {
-        (donator: Donator): Promise<void>;
+        (donatorStorereference: StoreReference): Promise<void>;
+    }
+
+    export interface AttachCard {
+        (donatorStoreReference: StoreReference, cardStoreReference: StoreReference): Promise<void>;
+    }
+
+    export interface RemoveCard {
+        (cardStorereference: StoreReference): Promise<void>;
     }
 }

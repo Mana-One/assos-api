@@ -9,7 +9,7 @@ describe("CardLast4 value object", () => {
 
             const last4 = res.getValue();
             expect(last4 instanceof CardLast4).toBe(true);
-            expect(last4.getValue()).toBe(value.padStart(16, "*"));
+            expect(last4.getValue()).toBe(value);
         })
 
         it("should fail when passing an empty string", () => {

@@ -1,4 +1,4 @@
-import { Card } from "../domain";
+import { Card, Wallet } from "../domain";
 import { CardDto, CardMap } from "./CardMap";
 
 
@@ -7,8 +7,17 @@ export interface WalletDto {
 }
 
 export namespace WalletMap {
-    export function toDto(wallet: Card[]) {
+    export function toDto(wallet: Card[]){
         const cards = wallet.map(card => CardMap.toDto(card));
         return Object.freeze({ cards });
+    }
+
+    export function toDomain(raws: any[]): Wallet {
+        const initialCards = raws.map(raw => CardMap.toDomain(raw));
+        return new Wallet(initialCards);
+    }
+
+    export function toPersistence(cards: Card[], donatorId: string){
+        return cards.map(card => CardMap.toPersistence(card, donatorId));
     }
 }
