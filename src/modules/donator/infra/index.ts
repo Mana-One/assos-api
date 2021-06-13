@@ -2,8 +2,7 @@ import { makeAddCardController,
     makeCreateDonatorController, 
     makeDeleteDonatorController, 
     makeRemoveCardController, 
-    makeRetrieveWalletController, 
-    makeRetrieveDonatorController 
+    makeRetrieveWalletController
 } from "./express";
 import { SequelizeDonatorRepo, SequelizeWalletRepo } from "./repositories";
 import { Express, Request, Response, Router } from "express";
@@ -13,7 +12,6 @@ import { makeAddCardUseCase } from "../usecases/AddCard";
 import { makeCreateDonatorUseCase } from "../usecases/CreateDonator";
 import { makeDeleteDonatorUseCase } from "../usecases/DeleteDonator";
 import { makeRemoveCardUseCase } from "../usecases/RemoveCard";
-import { makeRetrieveDonatorUseCase } from "../usecases/RetrieveDonator";
 import { makeRetrieveWalletUseCase } from "../usecases/RetrieveWallet";
 import { StripeStoreService } from "./stripe";
 
@@ -41,9 +39,6 @@ const removeCardUsecase = makeRemoveCardUseCase({
     findCardById: SequelizeWalletRepo.findCardById,
     save: SequelizeDonatorRepo.save
 });
-const retrieveDonatorUsecase = makeRetrieveDonatorUseCase({
-    findById: SequelizeDonatorRepo.findById
-});
 const retrieveWalletUsecase = makeRetrieveWalletUseCase({
     retrieveByDonatorId: SequelizeWalletRepo.retrieveByDonatorId
 });
@@ -52,12 +47,10 @@ const addCardController = makeAddCardController(addCardUsecase);
 const createDonatorController = makeCreateDonatorController(createDonatorUsecase);
 const deleteDonatorController = makeDeleteDonatorController(deleteDonatorUseCase);
 const removeCardController = makeRemoveCardController(removeCardUsecase);
-const retrieveDonatorController = makeRetrieveDonatorController(retrieveDonatorUsecase);
 const retrieveWalletController = makeRetrieveWalletController(retrieveWalletUsecase);
 
 router.route("/")
     .post(async (req: Request, res: Response) => createDonatorController(req, res))
-    .get(isAuth, async (req: Request, res: Response) => retrieveDonatorController(req, res))
     .delete(isAuth, async (req: Request, res: Response) => deleteDonatorController(req, res));
 
 router.route("/wallet")

@@ -1,4 +1,4 @@
-import { makeLoginController, makeChangePasswordController, makeEditUserController, makeEditSelfController, makeGetSelfController } from "./express";
+import { makeLoginController, makeChangePasswordController, makeEditUserController, makeEditSelfController, makeGetSelfController, makeGetUserController } from "./express";
 import { Express, Request, Response, Router } from "express";
 import { SequelizeUserRepo } from "./repositories";
 import { JWTAuthentication } from "../../../shared/infra/JWT";
@@ -40,7 +40,7 @@ const changePasswordController = makeChangePasswordController(changePasswordUsec
 const editSelfController = makeEditSelfController(editUserUsecase);
 const editUserController = makeEditUserController(editUserUsecase);
 const getSelfController = makeGetSelfController(getUserUsecase);
-const getUserController = makeGetSelfController(getUserUsecase);
+const getUserController = makeGetUserController(getUserUsecase);
 const loginController = makeLoginController(loginUsecase);
 
 router.post(
