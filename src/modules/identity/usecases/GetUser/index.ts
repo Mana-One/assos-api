@@ -1,7 +1,5 @@
 import { UseCase } from "../../../../core/domain";
-import { AppErrors, Changes, Either, left, Result, right } from "../../../../core/logic";
-import { User } from "../../domain";
-import { UserEmail, UserName } from "../../../../shared/domain";
+import { AppErrors, Either, left, Result, right } from "../../../../core/logic";
 import { UserRepo } from "../../repositories";
 import { IdentityErrors } from "../errors";
 import { UserDto, UserMap } from "../../mappers";

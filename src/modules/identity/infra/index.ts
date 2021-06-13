@@ -1,4 +1,4 @@
-import { makeLoginController, makeChangePasswordController, makeEditUserController, makeEditSelfController } from "./express";
+import { makeLoginController, makeChangePasswordController, makeEditUserController, makeEditSelfController, makeGetSelfController } from "./express";
 import { Express, Request, Response, Router } from "express";
 import { SequelizeUserRepo } from "./repositories";
 import { JWTAuthentication } from "../../../shared/infra/JWT";
@@ -6,6 +6,8 @@ import { makeIsAuth } from "../../../shared/infra/express";
 import { makeEditUserUseCase } from "../usecases/EditUser";
 import { makeChangePasswordUseCase } from "../usecases/ChangePassword";
 import { makeLoginUseCase } from "../usecases/Login";
+import { makeGetUserUseCase } from "../usecases/GetUser";
+
 
 const router = Router();
 
@@ -24,23 +26,22 @@ const editUserUsecase = makeEditUserUseCase({
     save: SequelizeUserRepo.save
 });
 
+const getUserUsecase = makeGetUserUseCase({
+    findById: SequelizeUserRepo.findById
+});
+
 const loginUsecase = makeLoginUseCase({
     findByEmail: SequelizeUserRepo.findByEmail,
     createToken: JWTAuthentication.createToken
 })
 
-const changePasswordController = makeChangePasswordController(
-    changePasswordUsecase
-);
-const editSelfController = makeEditSelfController(
-    editUserUsecase
-);
-const editUserController = makeEditUserController(
-    editUserUsecase
-);
-const loginController = makeLoginController(
-    loginUsecase
-);
+
+const changePasswordController = makeChangePasswordController(changePasswordUsecase);
+const editSelfController = makeEditSelfController(editUserUsecase);
+const editUserController = makeEditUserController(editUserUsecase);
+const getSelfController = makeGetSelfController(getUserUsecase);
+const getUserController = makeGetSelfController(getUserUsecase);
+const loginController = makeLoginController(loginUsecase);
 
 router.post(
     "/login", 
@@ -53,14 +54,22 @@ router.put(
     async(req:Request, res: Response) => changePasswordController(req, res)
 );
 
-router.put(
-    "/self", 
+router.route("/self")
+.get(
+    isAuth,
+    async (req: Request, res: Response) => getSelfController(req, res)
+)
+.put(
     isAuth,
     async (req: Request, res: Response) => editSelfController(req, res)
 );
 
-router.put(
-    "/:userId", 
+router.route("/:userId")
+.get(
+    isAuth,
+    async (req: Request, res: Response) => getUserController(req, res)
+)
+.put( 
     isAuth,
     async (req: Request, res: Response) => editUserController(req, res)
 );

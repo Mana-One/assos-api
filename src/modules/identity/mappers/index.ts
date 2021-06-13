@@ -1,5 +1,5 @@
 import { UniqueId } from "../../../core/domain";
-import { isRole, UserEmail, UserName, UserPassword } from "../../../shared/domain";
+import { UserEmail, UserName, UserPassword } from "../../../shared/domain";
 import { User } from "../domain";
 
 
