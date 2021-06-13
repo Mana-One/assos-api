@@ -1,7 +1,15 @@
 import { UniqueId } from "../../../core/domain";
-import { isRole, UserEmail, UserName, UserPassword } from "../../../shared/domain";
+import { UserEmail, UserName, UserPassword } from "../../../shared/domain";
 import { User } from "../domain";
 
+
+export interface UserDto {
+    readonly id: string;
+    readonly firstName: string;
+    readonly lastName: string;
+    readonly email: string;
+    readonly role: string;
+}
 
 export namespace UserMap {
     export function toDomain(raw: any): User | null {
@@ -28,4 +36,14 @@ export namespace UserMap {
             password: await user.getHashedPassword()
         }
     }
+
+    export function toDto(user: User): UserDto {
+        return {
+            id: user.getId().toString(),
+            firstName: user.getFirstName().getValue(),
+            lastName: user.getLastName().getValue(),
+            email: user.getEmail().getValue(),
+            role: user.getRole()
+        }
+    } 
 }
