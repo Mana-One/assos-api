@@ -3,6 +3,7 @@ import { FindByEmail, FindById, Save } from "../../repositories/__mocks__/UserRe
 import { makeEditUserUseCase } from "../EditUser"; 
 import { IdentityErrors } from "../errors";
 
+
 describe("Edit User Usecase", () => {
     it("should return ok result", async () => {
         const usecase = makeEditUserUseCase({
