@@ -7,6 +7,10 @@ interface ListRecipientsResponse {
 }
 
 export namespace RecipientRepo {
+    export interface Exists {
+        (recipientId: string): Promise<boolean>;
+    }
+
     export interface FindById {
         (recipientId: string): Promise<Recipient | null>;
     }

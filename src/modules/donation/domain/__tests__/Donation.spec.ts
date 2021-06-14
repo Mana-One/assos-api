@@ -7,17 +7,13 @@ import { Donation } from "../Donation";
 describe("Donation Entity", () => {
     const uid = new UniqueId("a valid id");
     const amount = Amount.create(500.50, "eur").getValue();
-    const recipient = Recipient.create({ 
-        name: "a recipient",
-        storeReference: "a valid store reference" 
-    }, new UniqueId("a recipient id")).getValue();
 
     const props = {
         amount,
         date: new Date(),
         type: DonationType.SINGLE,
         donatorId: new UniqueId("a donator id"),
-        recipient
+        recipientId: new UniqueId("a recipient id")
     }
 
     describe("creation", () => {
@@ -32,7 +28,7 @@ describe("Donation Entity", () => {
             expect(donation.getDate()).toBe(props.date);
             expect(donation.getType()).toBe(props.type);
             expect(donation.getDonatorId().equals(props.donatorId)).toBe(true);
-            expect(donation.getRecipient().equals(props.recipient)).toBe(true);
+            expect(donation.getRecipientId().equals(props.recipientId)).toBe(true);
         })
 
         it("should return a donation instance when not passing an id", () => {
@@ -46,7 +42,7 @@ describe("Donation Entity", () => {
             expect(donation.getDate()).toBe(props.date);
             expect(donation.getType()).toBe(props.type);
             expect(donation.getDonatorId().equals(props.donatorId)).toBe(true);
-            expect(donation.getRecipient().equals(props.recipient)).toBe(true);
+            expect(donation.getRecipientId().equals(props.recipientId)).toBe(true);
         })
     })
 })
