@@ -5,7 +5,10 @@ import { Recipient } from "../Recipient";
 describe("Recipient Entity", () => {
     describe("creation", () => {
         const uid = new UniqueId("a valid id");
-        const props = { storeReference: "a valid store reference" };
+        const props = { 
+            name: "a recipient",
+            storeReference: "a valid store reference" 
+        };
         
         afterEach(() => {
             props.storeReference = "a valid store reference";
@@ -16,6 +19,7 @@ describe("Recipient Entity", () => {
             expect(recipientRes.success).toBe(true);
             const recipient = recipientRes.getValue();
             expect(recipient.getId().toString()).toBe(uid.toString());
+            expect(recipient.getName()).toBe(props.name);
             expect(recipient.getStoreReference()).toBe(props.storeReference);
         })
 

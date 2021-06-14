@@ -3,12 +3,17 @@ import { Guard, Result } from "../../../core/logic";
 import { StoreReference } from "../../donator/domain";
 
 interface RecipientProps {
+    name: string;
     storeReference: StoreReference;
 }
 
 export class Recipient extends Entity<RecipientProps>{
     getId(): UniqueId {
         return this._id;
+    }
+
+    getName(): string {
+        return this.props.name;
     }
 
     getStoreReference(): StoreReference {
