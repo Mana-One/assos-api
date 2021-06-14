@@ -11,7 +11,7 @@ describe("Register Donation Usecase", () => {
         amount: 50.00,
         currency: "eur",
         type: DonationType.SINGLE,
-        donatorId: "a donator Id",
+        payerId: "a donator Id",
         recipientId: "a recipient id"
     };
 

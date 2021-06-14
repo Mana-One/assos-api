@@ -8,7 +8,7 @@ export interface Input {
     amount: number;
     currency: string;
     type: DonationType;
-    donatorId: string;
+    payerId: string;
     recipientId: string;
 }
 
@@ -39,14 +39,14 @@ export function makeRegisterDonationUsecase(props: Props): UseCase<Input, Promis
                 return left(new DonationErrors.RecipientNotFound());
             }
     
-            const donatorId = new UniqueId(request.donatorId);
+            const payerId = new UniqueId(request.payerId);
             const recipientId = new UniqueId(request.recipientId);
     
             const donation = Donation.create({
                 amount: amountRes.getValue(),
                 date: new Date(),
                 type: request.type,
-                donatorId,
+                payerId,
                 recipientId
             }).getValue();
     

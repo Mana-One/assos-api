@@ -1,7 +1,6 @@
 import { UniqueId } from "../../../../core/domain"
 import { Amount } from "../Amount";
 import { DonationType } from "../DonationType";
-import { Recipient } from "../Recipient";
 import { Donation } from "../Donation";
 
 describe("Donation Entity", () => {
@@ -12,7 +11,7 @@ describe("Donation Entity", () => {
         amount,
         date: new Date(),
         type: DonationType.SINGLE,
-        donatorId: new UniqueId("a donator id"),
+        payerId: new UniqueId("a donator id"),
         recipientId: new UniqueId("a recipient id")
     }
 
@@ -27,7 +26,7 @@ describe("Donation Entity", () => {
             expect(donation.getAmount().equals(props.amount)).toBe(true);
             expect(donation.getDate()).toBe(props.date);
             expect(donation.getType()).toBe(props.type);
-            expect(donation.getDonatorId().equals(props.donatorId)).toBe(true);
+            expect(donation.getPayerId().equals(props.payerId)).toBe(true);
             expect(donation.getRecipientId().equals(props.recipientId)).toBe(true);
         })
 
@@ -41,7 +40,7 @@ describe("Donation Entity", () => {
             expect(donation.getAmount().equals(props.amount)).toBe(true);
             expect(donation.getDate()).toBe(props.date);
             expect(donation.getType()).toBe(props.type);
-            expect(donation.getDonatorId().equals(props.donatorId)).toBe(true);
+            expect(donation.getPayerId().equals(props.payerId)).toBe(true);
             expect(donation.getRecipientId().equals(props.recipientId)).toBe(true);
         })
     })
