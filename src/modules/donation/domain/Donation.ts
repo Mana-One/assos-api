@@ -10,7 +10,7 @@ interface DonationProps {
     date: Date;
     type: DonationType;
     donatorId: UniqueId;
-    recipient: Recipient;
+    recipientId: UniqueId;
 }
 
 export class Donation extends Entity<DonationProps> {
@@ -34,8 +34,8 @@ export class Donation extends Entity<DonationProps> {
         return this.props.donatorId;
     }
 
-    getRecipient(): Recipient {
-        return this.props.recipient;
+    getRecipientId(): UniqueId {
+        return this.props.recipientId;
     }
 
     static create(props: DonationProps, id?: UniqueId): Result<Donation> {
