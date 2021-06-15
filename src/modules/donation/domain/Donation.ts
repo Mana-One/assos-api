@@ -9,7 +9,7 @@ interface DonationProps {
     amount: Amount;
     date: Date;
     type: DonationType;
-    donatorId: UniqueId;
+    payerId: UniqueId;
     recipientId: UniqueId;
 }
 
@@ -30,8 +30,8 @@ export class Donation extends Entity<DonationProps> {
         return this.props.type;
     }
 
-    getDonatorId(): UniqueId {
-        return this.props.donatorId;
+    getPayerId(): UniqueId {
+        return this.props.payerId;
     }
 
     getRecipientId(): UniqueId {

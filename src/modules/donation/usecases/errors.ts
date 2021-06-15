@@ -9,4 +9,12 @@ export namespace DonationErrors {
             });
         }
     }
+
+    export class PayerNotFound extends Result<UseCaseError> {
+        constructor(){
+            super(false, {
+                message: "Payer for donation not found"
+            });
+        }
+    }
 }
