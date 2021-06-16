@@ -17,4 +17,12 @@ export namespace DonationErrors {
             });
         }
     }
+
+    export class RecurringDonationNotFound extends Result<UseCaseError> {
+        constructor(){
+            super(false, {
+                message: "Recurring donation not found"
+            });
+        }
+    }
 }
