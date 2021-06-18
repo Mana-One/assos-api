@@ -1,5 +1,5 @@
 import { UniqueId } from "../../../../core/domain";
-import { Amount, Donation } from "../../domain";
+import { Amount, Donation, DonationType, Recipient } from "../../domain";
 import { RecurringDonation } from "../../domain/RecurringDonation";
 
 
@@ -7,11 +7,37 @@ export const FindRecurring = {
     null: async (pi: string, ri: string) => null,
     notNull: async (pi: string, ri: string) => RecurringDonation.create(
         new UniqueId(pi),
-        new UniqueId(ri),
+        Recipient.create({ 
+            name: "a recipient",
+            storeReference: "a valid store reference" 
+        }, new UniqueId()).getValue(),
         Amount.create(50.50, "eur").getValue(),
         "a valid store reference"
     ).getValue(),
     throw: async (pi: string, ri: string) => { throw new Error("oopsie"); }
+}
+
+export const ListByPayerId = {
+    ok: async (pi: string, limit: number, offset: number) => {
+        const uid = new UniqueId("a donation id");
+        const amount = Amount.create(500.50, "eur").getValue();
+        const props = {
+            amount,
+            date: new Date(),
+            type: DonationType.SINGLE,
+            payerId: new UniqueId("a donator id"),
+            recipient: Recipient.create({ 
+                name: "a recipient",
+                storeReference: "a store reference" 
+            }, new UniqueId("a recipient id")).getValue()
+        }
+        
+        return {
+            total: 1,
+            donations: [Donation.create(props, uid).getValue()]
+        };
+    },
+    throw: async (pi: string) => { throw new Error("oopsie"); }
 }
 
 export const RemoveRecurring = {
