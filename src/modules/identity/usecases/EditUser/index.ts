@@ -71,7 +71,7 @@ function applyNameChanges(user: User, request: Input, changes: Changes): void {
         const lastNameOrError = UserName.create(request.lastName);
         if(lastNameOrError.success){
             changes.addChange(
-                user.updateFirstName(lastNameOrError.getValue())
+                user.updateLastName(lastNameOrError.getValue())
             );
         } else {
             changes.addChange(lastNameOrError);
