@@ -8,8 +8,8 @@ interface ListDonationsResponse {
 }
 
 export namespace DonationRepo {
-    export interface ListByDonatorId {
-        (payerId: string): Promise<ListDonationsResponse>;
+    export interface ListByPayerId {
+        (payerId: string, limit: number, offset: number): Promise<ListDonationsResponse>;
     }
 
     export interface FindRecurring {

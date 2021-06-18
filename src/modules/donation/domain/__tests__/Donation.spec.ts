@@ -2,6 +2,7 @@ import { UniqueId } from "../../../../core/domain"
 import { Amount } from "../Amount";
 import { DonationType } from "../DonationType";
 import { Donation } from "../Donation";
+import { Recipient } from "../Recipient";
 
 describe("Donation Entity", () => {
     const uid = new UniqueId("a valid id");
@@ -12,7 +13,10 @@ describe("Donation Entity", () => {
         date: new Date(),
         type: DonationType.SINGLE,
         payerId: new UniqueId("a donator id"),
-        recipientId: new UniqueId("a recipient id")
+        recipient: Recipient.create({ 
+            name: "a recipient",
+            storeReference: "a valid store reference" 
+        }, new UniqueId("a recipient id")).getValue()
     }
 
     describe("creation", () => {
@@ -27,7 +31,7 @@ describe("Donation Entity", () => {
             expect(donation.getDate()).toBe(props.date);
             expect(donation.getType()).toBe(props.type);
             expect(donation.getPayerId().equals(props.payerId)).toBe(true);
-            expect(donation.getRecipientId().equals(props.recipientId)).toBe(true);
+            expect(donation.getRecipient().equals(props.recipient)).toBe(true);
         })
 
         it("should return a donation instance when not passing an id", () => {
@@ -41,7 +45,7 @@ describe("Donation Entity", () => {
             expect(donation.getDate()).toBe(props.date);
             expect(donation.getType()).toBe(props.type);
             expect(donation.getPayerId().equals(props.payerId)).toBe(true);
-            expect(donation.getRecipientId().equals(props.recipientId)).toBe(true);
+            expect(donation.getRecipient().equals(props.recipient)).toBe(true);
         })
     })
 })
