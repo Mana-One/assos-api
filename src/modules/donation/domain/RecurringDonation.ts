@@ -2,11 +2,12 @@ import { UniqueId, ValueObject } from "../../../core/domain";
 import { Guard, Result } from "../../../core/logic";
 import { StoreReference } from "./StoreReference";
 import { Amount } from "./Amount";
+import { Recipient } from "./Recipient";
 
 
 interface RecurringDonationProps {
     payerId: UniqueId;
-    recipientId: UniqueId;
+    recipient: Recipient;
     amount: Amount;
     storeReference: StoreReference,
     createdAt: Date;
@@ -21,8 +22,8 @@ export class RecurringDonation extends ValueObject<RecurringDonationProps> {
         return this.props.payerId;
     }
 
-    getRecipientId(): UniqueId {
-        return this.props.recipientId;
+    getRecipient(): Recipient {
+        return this.props.recipient;
     }
 
     getAmount(): Amount {
@@ -39,7 +40,7 @@ export class RecurringDonation extends ValueObject<RecurringDonationProps> {
 
     static create(
         payerId: UniqueId,
-        recipientId: UniqueId,
+        recipient: Recipient,
         amount: Amount,
         storeReference: StoreReference,
         createdAt?: Date
@@ -61,7 +62,7 @@ export class RecurringDonation extends ValueObject<RecurringDonationProps> {
         }
         return Result.ok<RecurringDonation>(new RecurringDonation({
             payerId,
-            recipientId,
+            recipient,
             amount,
             storeReference,
             createdAt
