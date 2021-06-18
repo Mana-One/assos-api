@@ -21,12 +21,12 @@ export type Response = Either<
 >;
 
 interface Props {
-    recipientExists: RecipientRepo.Exists;
+    findRecipient: RecipientRepo.FindById;
     save: DonationRepo.Save;
 }
 
 export function makeRegisterDonationUsecase(props: Props): UseCase<Input, Promise<Response>>{
-    const { recipientExists, save } = props;
+    const { findRecipient, save } = props;
 
     return async function(request: Input): Promise<Response> {
         const amountRes = Amount.create(request.amount, request.currency);
@@ -35,19 +35,19 @@ export function makeRegisterDonationUsecase(props: Props): UseCase<Input, Promis
         }
 
         try {
-            if(!await recipientExists(request.recipientId)){
+            const recipient = await findRecipient(request.recipientId)
+            if(recipient === null){
                 return left(new DonationErrors.RecipientNotFound());
             }
     
             const payerId = new UniqueId(request.payerId);
-            const recipientId = new UniqueId(request.recipientId);
     
             const donation = Donation.create({
                 amount: amountRes.getValue(),
                 date: new Date(),
                 type: request.type,
                 payerId,
-                recipientId
+                recipient
             }).getValue();
     
             await save(donation);
