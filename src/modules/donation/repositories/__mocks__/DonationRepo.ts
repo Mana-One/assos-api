@@ -40,6 +40,28 @@ export const ListByPayerId = {
     throw: async (pi: string) => { throw new Error("oopsie"); }
 }
 
+export const ListRecurringByPayerId = {
+    ok: async (pi: string, limit: number, offset: number) => {
+        const amount = Amount.create(500.50, "eur").getValue();
+        const recipient =Recipient.create({ 
+            name: "a recipient",
+            storeReference: "a store reference" 
+        }, new UniqueId("a recipient id")).getValue();
+
+        return {
+            total: 1,
+            recurringDonations: [RecurringDonation.create(
+                new UniqueId("a payer id"),
+                recipient,
+                amount,
+                "a recurring donation store reference",
+                new Date("2020-5-3")
+            ).getValue()]
+        };
+    },
+    throw: async (pi: string, limit: number, offset: number) => { throw new Error("oopsie"); }
+}
+
 export const RemoveRecurring = {
     ok: async (rd: RecurringDonation) => {},
     throw: async (rd: RecurringDonation) => { throw new Error(); }
