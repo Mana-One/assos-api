@@ -7,9 +7,18 @@ interface ListDonationsResponse {
     donations: Donation[]
 }
 
+interface ListRecurringResponse {
+    total: number;
+    recurringDonations: RecurringDonation[];
+}
+
 export namespace DonationRepo {
     export interface ListByPayerId {
         (payerId: string, limit: number, offset: number): Promise<ListDonationsResponse>;
+    }
+
+    export interface ListRecuringByPayerId {
+        (payerId: string, limit: number, offset: number): Promise<ListRecurringResponse>;
     }
 
     export interface FindRecurring {
