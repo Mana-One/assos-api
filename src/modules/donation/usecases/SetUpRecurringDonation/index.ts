@@ -2,7 +2,6 @@ import { UseCase } from "../../../../core/domain";
 import { AppErrors, Either, left, Result, right } from "../../../../core/logic";
 import { Amount } from "../../domain";
 import { DonationRepo, PayerRepo, RecipientRepo } from "../../repositories";
-import { PaymentService } from "../../services";
 import { DonationErrors } from "../errors";
 
 export interface Input {

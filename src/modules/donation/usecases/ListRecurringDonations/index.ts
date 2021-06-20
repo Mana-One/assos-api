@@ -15,7 +15,7 @@ export type Response = Either<
 >;
 
 interface Props {
-    listRecurring: DonationRepo.ListRecuringByPayerId;
+    listRecurring: DonationRepo.ListRecurringByPayerId;
 }
 
 export function makeListRecurringDonationsUsecase(props: Props): UseCase<Input, Promise<Response>> {

@@ -1,3 +1,5 @@
+import { UniqueId } from "../../../core/domain";
+import { Amount, Donation, Recipient } from "../domain";
 import { RecurringDonation } from "../domain/RecurringDonation";
 import { RecipientDto, RecipientMap } from "./RecipientMap";
 
@@ -16,5 +18,17 @@ export namespace RecurringDonationMap {
             createAt: recurring.getCreatedAt(),
             recipient: RecipientMap.toDto(recurring.getRecipient())
         })
+    }
+
+    export function toDomain(raw: any){
+        const recipient = RecipientMap.toDomain(raw.Recipient);
+
+        return RecurringDonation.create(
+            new UniqueId(raw.payerId),
+            recipient,
+            Amount.create(raw.amount, raw.currency).getValue(),
+            String(raw.storeReference),
+            new Date(raw.createdAt)
+        ).getValue();
     }
 }

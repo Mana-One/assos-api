@@ -2,12 +2,12 @@ import { Amount, Donation } from "../domain";
 import { RecurringDonation } from "../domain/RecurringDonation";
 
 
-interface ListDonationsResponse {
+export interface ListDonationsResponse {
     total: number;
     donations: Donation[]
 }
 
-interface ListRecurringResponse {
+export interface ListRecurringResponse {
     total: number;
     recurringDonations: RecurringDonation[];
 }
@@ -17,7 +17,7 @@ export namespace DonationRepo {
         (payerId: string, limit: number, offset: number): Promise<ListDonationsResponse>;
     }
 
-    export interface ListRecuringByPayerId {
+    export interface ListRecurringByPayerId {
         (payerId: string, limit: number, offset: number): Promise<ListRecurringResponse>;
     }
 
