@@ -5,7 +5,7 @@ import { makeAddCardController,
     makeRetrieveWalletController
 } from "./express";
 import { SequelizeDonatorRepo, SequelizeWalletRepo } from "./repositories";
-import { Express, Request, Response, Router } from "express";
+import express, { Express, Request, Response, Router } from "express";
 import { JWTAuthentication } from "../../../shared/infra/JWT";
 import { makeIsAuth } from "../../../shared/infra/express";
 import { makeAddCardUseCase } from "../usecases/AddCard";
@@ -64,5 +64,5 @@ router.delete(
 );
 
 export function addDonatorRouter(app: Express){
-    app.use("/donator", router);
+    app.use("/donator", express.json(), router);
 }

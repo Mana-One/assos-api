@@ -15,7 +15,7 @@ export function makeAssociation(sequelize: Sequelize){
     return sequelize.define<AssociationInstance>("Association", {
         id: { type: DataTypes.UUID, primaryKey: true },
         name: { type: DataTypes.STRING(100), allowNull: false },
-        storeReference: { type: DataTypes.STRING, defaultValue: null }
+        storeReference: { type: DataTypes.STRING, allowNull: false }
     }, { timestamps: false });
 }
 

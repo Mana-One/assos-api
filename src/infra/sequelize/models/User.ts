@@ -48,7 +48,6 @@ export function associateUser(models: {[key: string]: ModelCtor<any>}){
     });
 
     User.belongsToMany(Association, {
-        onDelete: "SET NULL",
         foreignKey: "payerId",
         otherKey: "recipientId",
         through: RecurringDonation
