@@ -21,6 +21,10 @@ export namespace DonationRepo {
         (payerId: string, limit: number, offset: number): Promise<ListRecurringResponse>;
     }
 
+    export interface ListByRecipientId {
+        (recipientId: string, limit: number, offset: number): Promise<ListDonationsResponse>;
+    }
+
     export interface FindRecurring {
         (payerId: string, recipientId: string): Promise<RecurringDonation | null>;
     }
@@ -34,6 +38,6 @@ export namespace DonationRepo {
     }
 
     export interface SetUpRecurring {
-        (payerId: string, recipientId: string, amount: Amount): Promise<void>;
+        (payerId: string, recipientId: string, amount: Amount, storeReference: string): Promise<void>;
     }
 }

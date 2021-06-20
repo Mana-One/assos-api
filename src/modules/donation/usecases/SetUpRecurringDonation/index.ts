@@ -10,6 +10,7 @@ export interface Input {
     currency: string;
     payerId: string;
     recipientId: string;
+    donationStoreReference: string;
 }
 
 export type Response = Either<
@@ -22,7 +23,6 @@ export type Response = Either<
 >;
 
 interface Props {
-    createRecurringDonation: PaymentService.CreateRecurringPayment,
     findPayerById: PayerRepo.FindById,
     findRecipientById: RecipientRepo.FindById,
     setUpRecurringDonation: DonationRepo.SetUpRecurring
@@ -30,7 +30,6 @@ interface Props {
 
 export function makeSetUpRecurringDonationUsecase(props: Props): UseCase<Input, Promise<Response>> {
     const { 
-        createRecurringDonation, 
         findPayerById, 
         findRecipientById, 
         setUpRecurringDonation
@@ -54,11 +53,11 @@ export function makeSetUpRecurringDonationUsecase(props: Props): UseCase<Input, 
                 return left(new DonationErrors.RecipientNotFound());
             }
     
-            await createRecurringDonation(payer, recipient, amount);
             await setUpRecurringDonation(
                 payer.getId().toString(), 
                 recipient.getId().toString(),
-                amount
+                amount,
+                request.donationStoreReference
             );
             
             return right(Result.ok());
