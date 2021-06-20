@@ -20,11 +20,17 @@ export function makeAssociation(sequelize: Sequelize){
 }
 
 export function associateAssociation(models: {[key: string]: ModelCtor<any>}){
-    const { Association, User, Donation } = models;
+    const { Association, User, Donation, RecurringDonation } = models;
     Association.hasMany(Donation, {
         foreignKey: {
             name: "recipientId",
             allowNull: false
         }
+    });
+
+    Association.belongsToMany(User, {
+        foreignKey: "recipientId",
+        otherKey: "payerId",
+        through: RecurringDonation
     });
 }
