@@ -5,6 +5,7 @@ import { associateUser, makeUser } from "./User";
 import { addCardHooks, addUserHooks } from "../hooks";
 import { StripeStoreService } from "../../../modules/donator/infra/stripe";
 import { makeAssociation } from "./Association";
+import { associateDonation, makeDonation } from "./Donation";
 
 
 const sequelize = new Sequelize({            
@@ -23,10 +24,13 @@ const sequelize = new Sequelize({
 const models = {
     Association: makeAssociation(sequelize),
     Card: makeCard(sequelize),
+    Donation: makeDonation(sequelize),
     User: makeUser(sequelize)
 };
 
+associateDonation(models);
 associateCard(models);
+associateDonation(models);
 associateUser(models);
 
 addCardHooks(models.Card, models.User, StripeStoreService.attachCard, StripeStoreService.removeCard);

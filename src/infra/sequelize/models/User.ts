@@ -30,12 +30,19 @@ export function makeUser(sequelize: Sequelize){
 }
 
 export function associateUser(models: {[key: string]: ModelCtor<any>}){
-    const { User, Card } = models;
+    const { User, Card, Association, Donation } = models;
     User.hasMany(Card, {
         onDelete: 'CASCADE',
         hooks: true,
         foreignKey: {
             name: "donatorId",
+            allowNull: false
+        }
+    });
+
+    User.hasMany(Donation, {
+        foreignKey: {
+            name: "payerId",
             allowNull: false
         }
     });

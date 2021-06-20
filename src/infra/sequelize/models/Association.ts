@@ -19,14 +19,12 @@ export function makeAssociation(sequelize: Sequelize){
     }, { timestamps: false });
 }
 
-/*export function associateAssociation(models: {[key: string]: ModelCtor<any>}){
-    const { Association, Card } = models;
-    Association.hasMany(Card, {
-        onDelete: 'CASCADE',
-        hooks: true,
+export function associateAssociation(models: {[key: string]: ModelCtor<any>}){
+    const { Association, User, Donation } = models;
+    Association.hasMany(Donation, {
         foreignKey: {
-            name: "donatorId",
+            name: "recipientId",
             allowNull: false
         }
     });
-}*/
+}
