@@ -78,6 +78,6 @@ export const Save = {
 }
 
 export const SetUpRecurring = {
-    ok: async (payerId: string, recipientId: string, amount: Amount) => {},
-    throw: async (payerId: string, recipientId: string, amount: Amount) => { throw new Error("oopsie"); }
+    ok: async (payerId: string, recipientId: string, amount: Amount, sr: string) => {},
+    throw: async (payerId: string, recipientId: string, amount: Amount, sr: string) => { throw new Error("oopsie"); }
 }

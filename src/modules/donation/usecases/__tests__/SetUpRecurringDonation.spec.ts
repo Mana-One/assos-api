@@ -1,6 +1,5 @@
 import { AppErrors, Result } from "../../../../core/logic";
 import { makeSetUpRecurringDonationUsecase } from "../SetUpRecurringDonation";
-import { CreateRecurringPayment } from "../../services/__mocks__/PaymentService";
 import { FindById as FindPayerById } from "../../repositories/__mocks__/PayerRepo";
 import { FindById as FindRecipientById } from "../../repositories/__mocks__/RecipientRepo";
 import { SetUpRecurring } from "../../repositories/__mocks__/DonationRepo";
@@ -9,15 +8,15 @@ import { DonationErrors } from "../errors";
 
 describe("Set Up Recurring Donation Usecase", () => {
     const request = {
-        amount: 50.50,
+        amount: 500.50,
         currency: "eur",
         payerId: "a payer id",
-        recipientId: "a recipient id"
+        recipientId: "a recipient id",
+        donationStoreReference: "a donation store reference"
     };
 
     it("should return ok result", async () => {
         const usecase = makeSetUpRecurringDonationUsecase({
-            createRecurringDonation: CreateRecurringPayment.ok,
             findPayerById: FindPayerById.notNull,
             findRecipientById: FindRecipientById.notNull,
             setUpRecurringDonation: SetUpRecurring.ok
@@ -34,7 +33,6 @@ describe("Set Up Recurring Donation Usecase", () => {
 
     it("should return ko result when passing an invalid amount", async () => {
         const usecase = makeSetUpRecurringDonationUsecase({
-            createRecurringDonation: CreateRecurringPayment.ok,
             findPayerById: FindPayerById.notNull,
             findRecipientById: FindRecipientById.notNull,
             setUpRecurringDonation: SetUpRecurring.ok
@@ -52,7 +50,6 @@ describe("Set Up Recurring Donation Usecase", () => {
 
     it("should return PayerNotFound if payer does not exist", async () => {
         const usecase = makeSetUpRecurringDonationUsecase({
-            createRecurringDonation: CreateRecurringPayment.ok,
             findPayerById: FindPayerById.null,
             findRecipientById: FindRecipientById.notNull,
             setUpRecurringDonation: SetUpRecurring.ok
@@ -69,7 +66,6 @@ describe("Set Up Recurring Donation Usecase", () => {
 
     it("should return UnexpectedError if payer retrieval fails", async () => {
         const usecase = makeSetUpRecurringDonationUsecase({
-            createRecurringDonation: CreateRecurringPayment.ok,
             findPayerById: FindPayerById.throw,
             findRecipientById: FindRecipientById.notNull,
             setUpRecurringDonation: SetUpRecurring.ok
@@ -86,7 +82,6 @@ describe("Set Up Recurring Donation Usecase", () => {
 
     it("should return RecipîentNotFound if recipient does not exist", async () => {
         const usecase = makeSetUpRecurringDonationUsecase({
-            createRecurringDonation: CreateRecurringPayment.ok,
             findPayerById: FindPayerById.notNull,
             findRecipientById: FindRecipientById.null,
             setUpRecurringDonation: SetUpRecurring.ok
@@ -103,7 +98,6 @@ describe("Set Up Recurring Donation Usecase", () => {
 
     it("should return UnexpectedError if recipient retrieval fails", async () => {
         const usecase = makeSetUpRecurringDonationUsecase({
-            createRecurringDonation: CreateRecurringPayment.ok,
             findPayerById: FindPayerById.notNull,
             findRecipientById: FindRecipientById.throw,
             setUpRecurringDonation: SetUpRecurring.ok
@@ -118,26 +112,8 @@ describe("Set Up Recurring Donation Usecase", () => {
         }
     })
 
-    it("should return UnexpectedError if donation creation fails", async () => {
-        const usecase = makeSetUpRecurringDonationUsecase({
-            createRecurringDonation: CreateRecurringPayment.throw,
-            findPayerById: FindPayerById.notNull,
-            findRecipientById: FindRecipientById.notNull,
-            setUpRecurringDonation: SetUpRecurring.ok
-        });
-
-        const result = await usecase(request);
-        if(result.isLeft()){
-            expect(result.value instanceof AppErrors.UnexpectedError).toBe(true);
-            expect(result.value.success).toBe(false);
-        } else {
-            fail("Result should be 'left'");
-        }
-    })
-
     it("should return UnexpectedError if donation set up fails", async () => {
         const usecase = makeSetUpRecurringDonationUsecase({
-            createRecurringDonation: CreateRecurringPayment.ok,
             findPayerById: FindPayerById.notNull,
             findRecipientById: FindRecipientById.notNull,
             setUpRecurringDonation: SetUpRecurring.throw

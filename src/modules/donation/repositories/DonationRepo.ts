@@ -38,6 +38,6 @@ export namespace DonationRepo {
     }
 
     export interface SetUpRecurring {
-        (payerId: string, recipientId: string, amount: Amount): Promise<void>;
+        (payerId: string, recipientId: string, amount: Amount, storeReference: string): Promise<void>;
     }
 }
