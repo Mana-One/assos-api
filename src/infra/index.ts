@@ -15,7 +15,7 @@ async function run(){
     addDonatorRouter(app);
     addDonationRouter(app);
     app.use("/", (req: Request, res: Response) => {
-        return res.sendStatus(400);
+        return res.status(404).send("No endpoint");
     });
 
     await sequelize.sync();
