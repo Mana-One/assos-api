@@ -3,6 +3,7 @@ import { makeIsAuth } from "../../../shared/infra/express";
 import { JWTAuthentication } from "../../../shared/infra/JWT";
 import { makeCancelRecurringDonationUsecase } from "../usecases/CancelRecurringDonation";
 import { makeCancelRecurringDonationController, paymentHooksController } from "./express";
+import { checkoutSessionController } from "./express/checkoutSessionController";
 import { SequelizeDonationRepo, SequelizeRecipientRepo } from "./sequelize";
 import { SequelizePayerRepo } from "./sequelize/SequelizePayerRepo";
 import { StripePaymentService } from "./stripe";
@@ -29,6 +30,13 @@ router.post(
     "/hooks", 
     express.raw({ type: "application/json" }),
     async (req: Request, res: Response) => paymentHooksController(req, res) 
+);
+
+router.post(
+    "/checkout",
+    express.json(),
+    isAuth,
+    async (req: Request, res: Response) => checkoutSessionController(req, res)
 );
 
 router.delete(
