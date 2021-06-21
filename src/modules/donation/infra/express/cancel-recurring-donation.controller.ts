@@ -3,6 +3,7 @@ import { UseCase } from "../../../../core/domain";
 import { ExpressController } from "../../../../core/infra";
 import { AppErrors, Guard } from "../../../../core/logic";
 import * as CancelRecurringDonation from "../../usecases/CancelRecurringDonation";
+import { DonationErrors } from "../../usecases/errors";
 
 
 export function makeCancelRecurringDonationController(
@@ -26,10 +27,13 @@ export function makeCancelRecurringDonationController(
 
         const error = result.value;
         switch(error.constructor){
+            case DonationErrors.RecurringDonationNotFound:
+            case DonationErrors.PayerNotFound:
+            case DonationErrors.RecipientNotFound:
+                return ExpressController.notFound(res, error.getValue().message);
+
             case AppErrors.UnexpectedError:
-                return ExpressController.fail(res, error.getValue());
-            default:
-                return ExpressController.clientError(res, error.getValue());
+                return ExpressController.fail(res, error.getValue().message);
         }
     }
 }
