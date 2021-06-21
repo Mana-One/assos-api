@@ -33,7 +33,7 @@ export async function checkoutSessionController(req: Request, res: Response){
         }, res);
     }
 
-    const recurring = SequelizeDonationRepo.findRecurring(payerId, recipientId);
+    const recurring = await SequelizeDonationRepo.findRecurring(payerId, recipientId);
     if(recurring !== null){
         return ExpressController.conflict(res, "Existing recurring donation for this recipient");
     }

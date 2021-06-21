@@ -67,6 +67,7 @@ export namespace SequelizeDonationRepo {
     }
 
     export const removeRecurring: DonationRepo.RemoveRecurring = async (recurringDonation: RecurringDonation): Promise<void> => {
+        console.log(JSON.stringify(recurringDonation))
         await models.RecurringDonation.destroy({
             where: {
                 payerId: recurringDonation.getPayerId().toString(),
