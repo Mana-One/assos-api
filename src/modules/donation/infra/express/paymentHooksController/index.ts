@@ -19,6 +19,9 @@ export async function paymentHooksController(req: Request, res: Response){
             case "checkout.session.completed":
                 const session = <Stripe.Checkout.Session>event.data.object;
                 return await handleCheckoutSession(session, res);
+            case "invoice.paid":
+                const invoice = <Stripe.Invoice>event.data.object; 
+                return await handleInvoicePaid(invoice, res);
             default:
                 return ExpressController.forbidden(res, "Unhandled event");
         }
@@ -59,4 +62,18 @@ async function handleCheckoutSession(
         default:
             return ExpressController.forbidden(res);
     }
+}
+
+async function handleInvoicePaid(
+    invoice: Stripe.Invoice,
+    res: Response
+){
+    const data = invoice.lines.data[0];
+    return await registerDonationController({
+        amount: Number.parseInt(String(data.amount)) / 100,
+            currency: String(data.currency),
+            type: DonationType.RECURRING,
+            payerId: data.metadata.payerId,
+            recipientId: data.metadata.recipientId
+    }, res);
 }

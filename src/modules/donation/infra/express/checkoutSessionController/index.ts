@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { ExpressController } from "../../../../../core/infra";
 import { Amount } from "../../../domain";
-import { SequelizeRecipientRepo } from "../../sequelize";
+import { SequelizeDonationRepo, SequelizeRecipientRepo } from "../../sequelize";
 import { SequelizePayerRepo } from "../../sequelize/SequelizePayerRepo";
 import { createPaymentSessionController } from "./create-payment-session.controller";
 import { createRecurringSessionController } from "./create-recurring-session.controller";
@@ -32,6 +32,11 @@ export async function checkoutSessionController(req: Request, res: Response){
             payer,
             recipient
         }, res);
+    }
+
+    const recurring = SequelizeDonationRepo.findRecurring(payerId, recipientId);
+    if(recurring !== null){
+        return ExpressController.conflict(res, "Existing recurring donation for this recipient");
     }
 
     return await createRecurringSessionController({
