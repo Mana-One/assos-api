@@ -21,7 +21,7 @@ export namespace RecurringDonationMap {
     }
 
     export function toDomain(raw: any){
-        const recipient = RecipientMap.toDomain(raw.Recipient);
+        const recipient = RecipientMap.toDomain(raw.Association);
 
         return RecurringDonation.create(
             new UniqueId(raw.payerId),

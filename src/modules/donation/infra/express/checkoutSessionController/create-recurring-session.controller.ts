@@ -3,6 +3,7 @@ import { StripeStore } from "../../../../../infra/stripe";
 import { ExpressController } from "../../../../../core/infra";
 import { Amount, Payer, Recipient } from "../../../domain";
 
+
 interface Payload {
     recipient: Recipient;
     payer: Payer;

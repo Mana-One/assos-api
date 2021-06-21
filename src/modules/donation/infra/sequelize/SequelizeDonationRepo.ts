@@ -9,7 +9,7 @@ export namespace SequelizeDonationRepo {
     export const listByPayerId: DonationRepo.ListByPayerId = async (payerId: string, limit: number, offset: number): Promise<ListDonationsResponse> => {
         const { count: total, rows: donations } = await models.Donation.findAndCountAll({
             where: { payerId },
-            include: [{ model: models.Association,  as: "Recipient" }],
+            include: [{ model: models.Association }],
             limit,
             offset,
             order: [["id", "DESC"]]
@@ -24,7 +24,7 @@ export namespace SequelizeDonationRepo {
     export const listRecurringByPayerId: DonationRepo.ListRecurringByPayerId = async (payerId: string, limit: number, offset: number): Promise<ListRecurringResponse> => {
         const { count: total, rows } = await models.RecurringDonation.findAndCountAll({
             where: { payerId },
-            include: [{ model: models.Association,  as: "Recipient" }],
+            include: [{ model: models.Association }],
             limit,
             offset,
             order: [["id", "DESC"]]
@@ -39,7 +39,7 @@ export namespace SequelizeDonationRepo {
     export const listByRecipientId: DonationRepo.ListByRecipientId = async (recipientId: string, limit: number, offset: number): Promise<ListDonationsResponse> => {
         const { count: total, rows: donations } = await models.Donation.findAndCountAll({
             where: { recipientId },
-            include: [{ model: models.Association,  as: "Recipient" }],
+            include: [{ model: models.Association }],
             limit,
             offset,
             order: [["id", "DESC"]]
@@ -57,7 +57,7 @@ export namespace SequelizeDonationRepo {
                 payerId,
                 recipientId
             },
-            include: [{ model: models.Association, as: "Recipient" }]
+            include: [{ model: models.Association }]
         });
         if(instance === null){
             return null;

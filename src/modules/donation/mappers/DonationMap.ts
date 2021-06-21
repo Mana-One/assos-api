@@ -34,7 +34,7 @@ export namespace DonationMap {
     }
 
     export function toDomain(raw: any){
-        const recipient = RecipientMap.toDomain(raw.Recipient);
+        const recipient = RecipientMap.toDomain(raw.Association);
 
         return Donation.create({
             amount: Amount.create(raw.amount, raw.currency).getValue(),

@@ -1,7 +1,6 @@
 import { makeRegisterDonationUsecase } from "../../../usecases/RegisterDonation";
 import { makeSetUpRecurringDonationUsecase } from "../../../usecases/SetUpRecurringDonation";
-import { SequelizeRecipientRepo, SequelizeDonationRepo } from "../../sequelize";
-import { SequelizePayerRepo } from "../../sequelize/SequelizePayerRepo";
+import { SequelizeRecipientRepo, SequelizeDonationRepo, SequelizePayerRepo } from "../../sequelize";
 import { makeRegisterDonationController } from "./register-donation.controller";
 import { makeSetUpRecurringDonationController } from "./set-up-recurring-donation.controller";
 

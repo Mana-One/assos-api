@@ -2,10 +2,10 @@ import express, { Router, Request, Response, Express } from "express";
 import { makeIsAuth } from "../../../shared/infra/express";
 import { JWTAuthentication } from "../../../shared/infra/JWT";
 import { makeCancelRecurringDonationUsecase } from "../usecases/CancelRecurringDonation";
-import { makeCancelRecurringDonationController, paymentHooksController } from "./express";
+import { makeListDonationsUsecase } from "../usecases/ListDonations";
+import { makeCancelRecurringDonationController, makeListDonationsController, paymentHooksController } from "./express";
 import { checkoutSessionController } from "./express/checkoutSessionController";
-import { SequelizeDonationRepo, SequelizeRecipientRepo } from "./sequelize";
-import { SequelizePayerRepo } from "./sequelize/SequelizePayerRepo";
+import { SequelizeDonationRepo, SequelizeRecipientRepo, SequelizePayerRepo } from "./sequelize";
 import { StripePaymentService } from "./stripe";
 
 
@@ -21,9 +21,22 @@ const cancelRecurringDonationUsecase = makeCancelRecurringDonationUsecase({
     findRecurringDonation: SequelizeDonationRepo.findRecurring,
     removeRecurringDonation: SequelizeDonationRepo.removeRecurring
 });
+const listDonationsUsecase = makeListDonationsUsecase({
+    listDonations: SequelizeDonationRepo.listByPayerId
+});
 
 const cancelRecurringDonationController = makeCancelRecurringDonationController(
     cancelRecurringDonationUsecase
+);
+const listDonationsController = makeListDonationsController(
+    listDonationsUsecase
+);
+
+router.get(
+    "/", 
+    express.json(), 
+    isAuth,
+    async (req: Request, res: Response) => listDonationsController(req, res)
 );
 
 router.post(

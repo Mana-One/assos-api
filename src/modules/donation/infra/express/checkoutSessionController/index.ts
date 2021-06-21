@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 import { ExpressController } from "../../../../../core/infra";
 import { Amount } from "../../../domain";
-import { SequelizeDonationRepo, SequelizeRecipientRepo } from "../../sequelize";
-import { SequelizePayerRepo } from "../../sequelize/SequelizePayerRepo";
+import { SequelizeDonationRepo, SequelizeRecipientRepo, SequelizePayerRepo } from "../../sequelize";
 import { createPaymentSessionController } from "./create-payment-session.controller";
 import { createRecurringSessionController } from "./create-recurring-session.controller";
 
