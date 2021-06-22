@@ -28,6 +28,12 @@ export function associateAssociation(models: {[key: string]: ModelCtor<any>}){
         }
     });
 
+    Association.hasMany(User, {
+        foreignKey: {
+            name: "assocationId"
+        }
+    });
+
     Association.belongsToMany(User, {
         foreignKey: "recipientId",
         otherKey: "payerId",

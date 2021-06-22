@@ -6,7 +6,7 @@ import { checkoutSessionController } from "./express/checkoutSessionController";
 import { 
     listDonationsController, 
     listRecurringDonationsController, 
-    cancelRecurringDonationController 
+    cancelRecurringDonationController, listReceivedDonationsController 
 } from "./controllers";
 
 
@@ -34,6 +34,13 @@ router.post(
     isAuth,
     async (req: Request, res: Response) => checkoutSessionController(req, res)
 );
+
+router.get(
+    "/received",
+    express.json(),
+    isAuth,
+    async (req: Request, res: Response) => listReceivedDonationsController(req, res)
+)
 
 router.route("/recurring")
 .all(express.json())

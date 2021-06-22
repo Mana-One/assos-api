@@ -1,5 +1,6 @@
 import { makeCancelRecurringDonationUsecase } from "../usecases/CancelRecurringDonation";
 import { makeListDonationsUsecase } from "../usecases/ListDonations";
+import { makeListReceivedDonationsUsecase } from "../usecases/ListReceivedDonations";
 import { makeListRecurringDonationsUsecase } from "../usecases/ListRecurringDonations";
 import { SequelizePayerRepo, SequelizeRecipientRepo, SequelizeDonationRepo } from "./sequelize";
 import { StripePaymentService } from "./stripe";
@@ -15,6 +16,10 @@ export const cancelRecurringDonationUsecase = makeCancelRecurringDonationUsecase
 
 export const listDonationsUsecase = makeListDonationsUsecase({
     listDonations: SequelizeDonationRepo.listByPayerId
+});
+
+export const listReceivedDonationsUsecase = makeListReceivedDonationsUsecase({
+    listDonations: SequelizeDonationRepo.listByRecipientId
 });
 
 export const listRecurringDonationsUseCase = makeListRecurringDonationsUsecase({
