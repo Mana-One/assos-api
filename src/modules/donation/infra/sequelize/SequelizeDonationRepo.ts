@@ -26,8 +26,7 @@ export namespace SequelizeDonationRepo {
             where: { payerId },
             include: [{ model: models.Association }],
             limit,
-            offset,
-            order: [["id", "DESC"]]
+            offset
         });
 
         return {
