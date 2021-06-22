@@ -30,7 +30,7 @@ export function makeUser(sequelize: Sequelize){
 }
 
 export function associateUser(models: {[key: string]: ModelCtor<any>}){
-    const { User, Card } = models;
+    const { User, Card, Association, Donation, RecurringDonation } = models;
     User.hasMany(Card, {
         onDelete: 'CASCADE',
         hooks: true,
@@ -39,4 +39,23 @@ export function associateUser(models: {[key: string]: ModelCtor<any>}){
             allowNull: false
         }
     });
+
+    User.hasMany(Donation, {
+        foreignKey: {
+            name: "payerId",
+            allowNull: false
+        }
+    });
+
+    User.belongsTo(Association, {
+        foreignKey: {
+            name: "assocationId"
+        }
+    });
+
+    User.belongsToMany(Association, {
+        foreignKey: "payerId",
+        otherKey: "recipientId",
+        through: RecurringDonation
+    })
 }

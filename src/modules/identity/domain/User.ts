@@ -9,6 +9,7 @@ interface UserProps {
     email: UserEmail;
     password: UserPassword;
     role: Role;
+    associationId: UniqueId | null;
 }
 
 export class User extends Entity<UserProps> {
@@ -34,6 +35,10 @@ export class User extends Entity<UserProps> {
 
     getRole(): Role {
         return this.props.role;
+    }
+
+    getAssociationId(): UniqueId | null {
+        return this.props.associationId;
     }
 
     updateFirstName(firstName: UserName): Result<void> {

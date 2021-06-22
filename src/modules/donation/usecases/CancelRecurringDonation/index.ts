@@ -11,7 +11,10 @@ export interface Input {
 
 export type Response = Either<
     AppErrors.UnexpectedError |
-    Result<any>,
+    DonationErrors.PayerNotFound |
+    DonationErrors.RecipientNotFound |
+    DonationErrors.RecipientNotFound,
+    
     Result<void>
 >;
 

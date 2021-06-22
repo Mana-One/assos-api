@@ -1,5 +1,5 @@
 import { makeLoginController, makeChangePasswordController, makeEditUserController, makeEditSelfController, makeGetSelfController, makeGetUserController } from "./express";
-import { Express, Request, Response, Router } from "express";
+import express, { Express, Request, Response, Router } from "express";
 import { SequelizeUserRepo } from "./repositories";
 import { JWTAuthentication } from "../../../shared/infra/JWT";
 import { makeIsAuth } from "../../../shared/infra/express";
@@ -75,5 +75,5 @@ router.route("/:userId")
 );
 
 export function addIdentityRouter(app: Express): void {
-    app.use("/identity", router);
+    app.use("/identity", express.json(), router);
 }

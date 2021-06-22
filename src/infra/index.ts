@@ -4,17 +4,18 @@ import { addIdentityRouter } from "../modules/identity/infra";
 import { sequelize } from "./sequelize";
 import cors from "cors";
 import { addDonatorRouter } from "../modules/donator/infra";
+import { addDonationRouter } from "../modules/donation/infra";
 
 
 async function run(){
     const app = express();
-    app.use(express.json());
     app.use(cors({ origin: true }));
 
     addIdentityRouter(app);
     addDonatorRouter(app);
+    addDonationRouter(app);
     app.use("/", (req: Request, res: Response) => {
-        return res.sendStatus(400);
+        return res.status(404).send("No endpoint");
     });
 
     await sequelize.sync();

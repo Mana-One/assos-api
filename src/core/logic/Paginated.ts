@@ -22,3 +22,19 @@ export function getPaginated<T>(total: number, data: T[], limit: number, offset:
 
     return Object.freeze({ total, previousOffset, nextOffset: offset + limit, data });
 }
+
+export function getOffset(offsetValue?: string): number {
+    const offset = Number.parseInt(offsetValue as string);
+    if(isNaN(offset) || offset < 0){
+        return 0;
+    }
+    return offset;
+}
+
+export function getLimit(defaultValue: number, limitValue?: string): number {
+    const limit = Number.parseInt(limitValue as string);
+    if(isNaN(limit) || limit <= 0){
+        return defaultValue;
+    }
+    return limit;
+}

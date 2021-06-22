@@ -24,7 +24,8 @@ export namespace UserMap {
             lastName,
             email,
             password,
-            role: raw.role
+            role: raw.role,
+            associationId: raw.associationId === null ? null : new UniqueId(raw.associationId)
         }, uid).getValue();
     }
 

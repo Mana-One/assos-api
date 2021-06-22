@@ -23,7 +23,8 @@ describe("User entity", () => {
             lastName: lastName.getValue(),
             email: email.getValue(),
             password: password.getValue(),
-            role: Role.VOLUNTEER
+            role: Role.VOLUNTEER,
+            associationId: null
         }
     })
 
