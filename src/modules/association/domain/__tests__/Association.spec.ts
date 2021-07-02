@@ -1,10 +1,12 @@
 import { UniqueId } from "../../../../core/domain";
+import { UserEmail } from "../../../../shared/domain";
 import { Association } from "../Association";
 
 describe("Association entity", () => {
     describe("creation", () => {
         const props = {
             name: "associaiton name",
+            email: UserEmail.create("assos@yahoo.com").getValue(),
             bannerUrl: "a banner url",
             presentation: "a presentation",
             storeReference: "a store reference"
