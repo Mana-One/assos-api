@@ -1,7 +1,7 @@
 import { UseCase } from "../../../../core/domain";
 import { AppErrors, Either, left, Result, right } from "../../../../core/logic";
 import { Role, UserEmail, UserName, UserPassword } from "../../../../shared/domain";
-import { Association, Member } from "../../domain";
+import { Association, AssociationStatus, Member } from "../../domain";
 import { AssociationRepo } from "../../repositories";
 import { Merchantservice } from "../../services";
 import { AssociationErrors } from "../errors";
@@ -57,13 +57,14 @@ export function makeCreateAssociationUsecase(props: Props): UseCase<Input, Promi
             if(await isEmailUsed(managerEmailRes.getValue())){
                 return left(new AssociationErrors.AccountAlreadyExists());
             } 
-            
+
             const storeReference = await registerMerchant(request.name, request.email);
             const associationRes = Association.create({
                 name: request.name,
                 email: assoEmailRes.getValue(),
                 bannerUrl: request.bannerUrl,
                 presentation: request.presentation,
+                status: AssociationStatus.CREATED,
                 storeReference
             });
             if(!associationRes.success){
