@@ -1,15 +1,27 @@
-import express, { Request, Response } from "express";
-import { AppConfig } from "../config";
-import { addIdentityRouter } from "../modules/identity/infra";
-import { sequelize } from "./sequelize";
+import express, {Request, Response} from "express";
+import {AppConfig} from "../config";
+import {addIdentityRouter} from "../modules/identity/infra";
+import {sequelize} from "./sequelize";
 import cors from "cors";
-import { addDonatorRouter } from "../modules/donator/infra";
-import { addDonationRouter } from "../modules/donation/infra";
+import {addDonatorRouter} from "../modules/donator/infra";
+import {addDonationRouter} from "../modules/donation/infra";
+import * as http from "http";
+import {Server} from "socket.io";
 
 
-async function run(){
+async function run() {
     const app = express();
-    app.use(cors({ origin: true }));
+    const server = http.createServer(app);
+    const io = new Server(server, {
+        cors: {origin: true}
+    });
+    app.use(cors({origin: true}));
+
+    io.on('connection', (socket) => {
+        socket.on('message', (message) => {
+            io.emit('message', message);
+        });
+    });
 
     addIdentityRouter(app);
     addDonatorRouter(app);
@@ -20,7 +32,7 @@ async function run(){
 
     await sequelize.sync();
     const port = AppConfig.PORT;
-    app.listen(port, () => {
+    server.listen(port, () => {
         console.log(`Listening on ${port}`);
     });
 }
