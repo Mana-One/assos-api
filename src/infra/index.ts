@@ -7,6 +7,7 @@ import {addDonatorRouter} from "../modules/donator/infra";
 import {addDonationRouter} from "../modules/donation/infra";
 import * as http from "http";
 import {Server} from "socket.io";
+import {handleEvents} from "./socket";
 
 
 async function run() {
@@ -16,12 +17,7 @@ async function run() {
         cors: {origin: true}
     });
     app.use(cors({origin: true}));
-
-    io.on('connection', (socket) => {
-        socket.on('message', (message) => {
-            io.emit('message', message);
-        });
-    });
+    handleEvents(io);
 
     addIdentityRouter(app);
     addDonatorRouter(app);
