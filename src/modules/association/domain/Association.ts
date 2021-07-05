@@ -1,12 +1,16 @@
 import { Entity, UniqueId } from "../../../core/domain";
 import { Result } from "../../../core/logic";
+import { UserEmail } from "../../../shared/domain";
+import { AssociationStatus } from "./AssociationStatus";
 import { StoreReference } from "./StoreReference";
 
 
 interface AssociationProps {
     name: string;
+    email: UserEmail;
     bannerUrl: string;
     presentation: string;
+    status: AssociationStatus;
     storeReference: StoreReference;
 }
 
@@ -19,12 +23,20 @@ export class Association extends Entity<AssociationProps> {
         return this.props.name;
     }
 
+    getEmail(): UserEmail {
+        return this.props.email;
+    }
+
     getBannerUrl(): string {
         return this.props.bannerUrl;
     }
 
     getPresentation(): string {
         return this.props.presentation;
+    }
+
+    getStatus(): AssociationStatus {
+        return this.props.status;
     }
 
     getStoreReference(): StoreReference {

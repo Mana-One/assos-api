@@ -1,12 +1,16 @@
 import { UniqueId } from "../../../../core/domain";
+import { UserEmail } from "../../../../shared/domain";
 import { Association } from "../Association";
+import { AssociationStatus } from "../AssociationStatus";
 
 describe("Association entity", () => {
     describe("creation", () => {
         const props = {
             name: "associaiton name",
+            email: UserEmail.create("assos@yahoo.com").getValue(),
             bannerUrl: "a banner url",
             presentation: "a presentation",
+            status: AssociationStatus.CREATED,
             storeReference: "a store reference"
         };
         const uid = new UniqueId("an association id");

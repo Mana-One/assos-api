@@ -2,6 +2,7 @@ import { Response } from "express";
 import { StripeStore } from "../../../../../infra/stripe";
 import { ExpressController } from "../../../../../core/infra";
 import { Amount, Payer, Recipient } from "../../../domain";
+import { StoreConfig } from "../../../../../config";
 
 interface Payload {
     recipient: Recipient;
@@ -17,8 +18,8 @@ export async function createPaymentSessionController(payload: Payload, res: Resp
 
     try {
         const session = await StripeStore.checkout.sessions.create({
-            success_url: "https://example.com/success",
-            cancel_url: "https://example.com/fail",
+            success_url: StoreConfig.DONATION_SUCCESS_URL,
+            cancel_url: StoreConfig.DONATION_FAIL_URL,
             customer: payload.payer.getStoreReference(),
             payment_method_types: ["card"],
             mode: "payment",
