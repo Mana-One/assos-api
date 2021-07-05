@@ -9,4 +9,12 @@ export namespace AssociationErrors {
             });
         }
     }
+
+    export class AssociationNotFound extends Result<UseCaseError> {
+        constructor(){
+            super(false, {
+                message: "Association not found"
+            });
+        }
+    }
 }
