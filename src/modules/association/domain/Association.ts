@@ -43,6 +43,15 @@ export class Association extends Entity<AssociationProps> {
         return this.props.storeReference;
     }
 
+    editPresentation(presentation: string): Result<void> {
+        if(presentation.length === 0){
+            return Result.ko("Invalid presentation");
+        }
+
+        this.props.presentation = presentation;
+        return Result.ok();
+    }
+
     static create(props: AssociationProps, id?: UniqueId): Result<Association> {
         if(props.name.length === 0){
             return Result.ko<Association>("Invalid name");
