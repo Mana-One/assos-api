@@ -14,6 +14,12 @@ interface AssociationProps {
     storeReference: StoreReference;
 }
 
+export interface EditAssociationInfoProps {
+    name?: string;
+    email?: UserEmail;
+    bannerUrl?: string;
+}
+
 export class Association extends Entity<AssociationProps> {
     getId(): UniqueId {
         return this._id;
@@ -49,6 +55,28 @@ export class Association extends Entity<AssociationProps> {
         }
 
         this.props.presentation = presentation;
+        return Result.ok();
+    }
+
+    editInfo(props: EditAssociationInfoProps): Result<void> {
+        if(props.name !== undefined){
+            if(props.name.length === 0){
+                return Result.ko<void>('Invalid name');
+            }
+            this.props.name = props.name;
+        }
+
+        if(props.email !== undefined){
+            this.props.email = props.email;
+        }
+
+        if(props.bannerUrl !== undefined){
+            if(props.bannerUrl.length === 0){
+                return Result.ko<void>('Invalid bannerUrl');
+            }
+            this.props.bannerUrl = props.bannerUrl;
+        }
+
         return Result.ok();
     }
 
