@@ -33,7 +33,7 @@ export const IsEmailUsed = {
     throw: async (email: UserEmail) => { throw new Error("oopsie"); }
 }
 
-export const Save = {
+export const RemoveOrSave = {
     ok: async (a: Association) => {},
     throw: async (a: Association) => { throw new Error('oopsie'); }
 }

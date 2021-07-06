@@ -15,6 +15,10 @@ export namespace AssociationRepo {
         (email: UserEmail): Promise<boolean>;
     }
 
+    export interface Remove {
+        (association: Association): Promise<void>;
+    }
+
     export interface Save {
         (assocaition: Association): Promise<void>;
     }

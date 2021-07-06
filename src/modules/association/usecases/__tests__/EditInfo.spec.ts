@@ -1,5 +1,5 @@
 import { makeEditInfoUsecase } from '../EditInfo';
-import { FindById, Save } from '../../repositories/__mocks__/AssociationRepo';
+import { FindById, RemoveOrSave } from '../../repositories/__mocks__/AssociationRepo';
 import { AssociationErrors } from '../errors';
 import { AppErrors, Result } from '../../../../core/logic';
 
@@ -14,7 +14,7 @@ describe('Edit Presentation Usecase', () => {
 
     const deps = {
         findAssociation: FindById.notNull,
-        save: Save.ok
+        save: RemoveOrSave.ok
     };
 
     it('should return ok result', async () => {
@@ -97,7 +97,7 @@ describe('Edit Presentation Usecase', () => {
     it('should return UnexpectedError when saving fails', async () => {
         const usecase = makeEditInfoUsecase({ 
             ...deps,
-            save: Save.throw
+            save: RemoveOrSave.throw
         });
         const result = await usecase(props);
         if(result.isLeft()){
