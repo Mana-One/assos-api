@@ -14,4 +14,8 @@ export namespace AssociationRepo {
     export interface IsMemberEmailUsed {
         (email: UserEmail): Promise<boolean>;
     }
+
+    export interface Save {
+        (assocaition: Association): Promise<void>;
+    }
 }

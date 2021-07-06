@@ -32,3 +32,8 @@ export const IsEmailUsed = {
     no: async (email: UserEmail) => false,
     throw: async (email: UserEmail) => { throw new Error("oopsie"); }
 }
+
+export const Save = {
+    ok: async (a: Association) => {},
+    throw: async (a: Association) => { throw new Error('oopsie'); }
+}
