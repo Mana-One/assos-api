@@ -31,6 +31,30 @@ export const FindMember = {
     throw: async (mId: string, aId:string) => { throw new Error("oopsie"); }
 }
 
+export const ListMembersByAssociation = {
+    empty: async (aId: string, limit: number, offset: number, role?: string) => {
+        return {
+            total: 0,
+            members: []
+        };
+    },
+    notEmpty: async (aId: string, limit: number, offset: number, role?: string) => {
+        const member = Member.create(
+            {
+                ...props,
+                associationId: new UniqueId(aId) 
+            }, 
+            new UniqueId('a member id')
+        ).getValue();
+
+        return {
+            total: 1,
+            members: [member]
+        };
+    },
+    throw: async (aId: string, limit: number, offset: number, role?: string) => { throw new Error('oopsie'); }
+}
+
 export const RemoveOrSave = {
     ok: async (m: Member) => {},
     throw: async (m: Member) => { throw new Error("oopsie"); }
