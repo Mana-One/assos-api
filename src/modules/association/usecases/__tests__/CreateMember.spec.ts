@@ -1,6 +1,6 @@
 import { makeCreateMemberUsecase } from "../CreateMember";
 import { FindById, IsEmailUsed } from "../../repositories/__mocks__/AssociationRepo";
-import { Save } from "../../repositories/__mocks__/MemberRepo";
+import { RemoveOrSave } from "../../repositories/__mocks__/MemberRepo";
 import { AssociationErrors } from "../errors";
 import { AppErrors, Result } from "../../../../core/logic";
 
@@ -18,7 +18,7 @@ describe("Create Member Usecase", () => {
     const deps = {
         findAssociationById:FindById.notNull,
         isEmailUsed: IsEmailUsed.no,
-        save: Save.ok
+        save: RemoveOrSave.ok
     }
 
     it("should return ok result", async () => {
@@ -109,7 +109,7 @@ describe("Create Member Usecase", () => {
     it("should return UnexpectedError when saving member fails", async () => {
         const usecase = makeCreateMemberUsecase({
             ...deps,
-            save: Save.throw
+            save: RemoveOrSave.throw
         });
         const result = await usecase(props);
         if(result.isLeft()){

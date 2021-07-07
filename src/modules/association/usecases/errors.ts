@@ -17,4 +17,20 @@ export namespace AssociationErrors {
             });
         }
     }
+
+    export class MemberNotFound extends Result<UseCaseError> {
+        constructor(){
+            super(false, {
+                message: "Member not found"
+            });
+        }
+    }
+
+    export class NeedAtLeastOneManager extends Result<UseCaseError> {
+        constructor(){
+            super(false, {
+                message: 'At least one manager must be present in an association'
+            });
+        }
+    }
 }
