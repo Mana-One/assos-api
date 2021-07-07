@@ -11,3 +11,7 @@ export function isRole(value: any): value is Role {
         value === Role.VOLUNTEER ||
         value === Role.ADMIN;
 }
+
+export function isMemberRole(value: any): value is Role.MANAGER | Role.VOLUNTEER {
+    return value === Role.MANAGER || value === Role.VOLUNTEER;
+}
