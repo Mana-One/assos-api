@@ -1,4 +1,5 @@
-import { Model, Optional, Sequelize, DataTypes, ModelCtor } from "sequelize";
+import { Model, Optional, Sequelize, DataTypes, ModelCtor, Association } from "sequelize";
+import { AssociationStatus } from "../../../modules/association/domain";
 
 
 interface AssociationProps {
@@ -6,6 +7,7 @@ interface AssociationProps {
     name: string;
     email: string;
     bannerUrl: string;
+    status: AssociationStatus;
     presentation: string;
     storeReference: string;
 }
@@ -20,6 +22,7 @@ export function makeAssociation(sequelize: Sequelize){
         name: { type: DataTypes.STRING(100), allowNull: false },
         email: { type: DataTypes.STRING, allowNull: false },
         bannerUrl: { type: DataTypes.STRING, allowNull: false },
+        status: { type: DataTypes.STRING(50), allowNull: false },
         presentation: { type: DataTypes.TEXT, allowNull: false  },
         storeReference: { type: DataTypes.STRING, allowNull: false }
     }, { timestamps: false });

@@ -11,7 +11,6 @@ export interface Input {
     email: string;
     bannerUrl: string;
     presentation: string;
-    storeReference: string;
     manager: {
         firstName: string;
         lastName: string;
