@@ -3,12 +3,12 @@ import { UseCase } from "../../../../core/domain";
 import { ExpressController } from "../../../../core/infra";
 import { AppErrors, Guard } from "../../../../core/logic";
 import { Role } from "../../../../shared/domain";
-import * as EditInfo from "../../usecases/EditInfo";
+import * as EditPresentation from "../../usecases/EditPresentation";
 import { AssociationErrors } from "../../usecases/errors";
 
 
-export function makeEditInfoController(
-    usecase: UseCase<EditInfo.Input, Promise<EditInfo.Response>>
+export function makeEditPresentationController(
+    usecase: UseCase<EditPresentation.Input, Promise<EditPresentation.Response>>
 ){
     return async function(req: Request, res: Response){
         if(req.body.account?.role !== Role.MANAGER && 
@@ -16,10 +16,12 @@ export function makeEditInfoController(
             return ExpressController.forbidden(res);
         }
 
-        const { associationId } = req.params;
-        const guard = Guard.againstNullOrUndefined({
-            key: 'associationId', value: associationId
-        });
+        const associationId = req.params.associationId;
+        const { presentation } = req.body;
+        const guard = Guard.bulkAgainstNullOrUndefined([
+            { key: 'associationId', value: associationId },
+            { key: 'presentation', value: presentation }
+        ]);
         if(!guard.success){
             return ExpressController.clientError(res, guard.message);
         }
@@ -29,14 +31,7 @@ export function makeEditInfoController(
             return ExpressController.forbidden(res);
         }
 
-        const { name, email, bannerUrl } = req.body;
-        if(name === undefined && 
-            email === undefined && 
-            bannerUrl === undefined){
-            return ExpressController.clientError(res);
-        }
-
-        const result = await usecase({ associationId, name, email, bannerUrl });
+        const result = await usecase({ associationId, presentation });
         if(result.isRight()){
             return ExpressController.ok(res);
         }
@@ -48,7 +43,7 @@ export function makeEditInfoController(
             case AppErrors.UnexpectedError:
                 return ExpressController.fail(res, error.getValue().message);
             default:
-                return ExpressController.clientError(error.getValue());
+                return ExpressController.clientError(res, error.getValue());
         }
     }
 }
