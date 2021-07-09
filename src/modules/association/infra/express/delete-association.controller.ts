@@ -11,7 +11,8 @@ export function makeDeleteAssociationController(
     usecase: UseCase<DeleteAssociation.Input, Promise<DeleteAssociation.Response>>
 ){
     return async function(req: Request, res: Response){
-        if(req.body.account?.role !== Role.MANAGER && req.body.account?.role !== Role.ADMIN){
+        if(req.body.account?.role !== Role.MANAGER && 
+            req.body.account?.role !== Role.ADMIN){
             return ExpressController.forbidden(res);
         }
 
