@@ -5,3 +5,4 @@ export * from './delete-member.controller';
 export * from './edit-info.controller';
 export * from './edit-presentation.controller';
 export * from './get-association.controller';
+export * from './list-members.controller';

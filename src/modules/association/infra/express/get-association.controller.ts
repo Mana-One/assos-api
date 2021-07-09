@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { UseCase } from "../../../../core/domain";
 import { ExpressController } from "../../../../core/infra";
 import { AppErrors, Guard } from "../../../../core/logic";
-import { Role } from "../../../../shared/domain";
 import * as GetAssociation from "../../usecases/GetAssociation";
 import { AssociationErrors } from "../../usecases/errors";
 import { AssociationDto } from "../../mappers";
