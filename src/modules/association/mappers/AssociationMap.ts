@@ -7,6 +7,7 @@ export interface AssociationDto {
     readonly id: string;
     readonly name: string;
     readonly email: string;
+    readonly status: string;
     readonly bannerUrl: string;
     readonly presentation: string;
 }
@@ -17,6 +18,7 @@ export namespace AssociationMap {
             id: association.getId().toString(),
             name: association.getName(),
             email: association.getEmail().getValue(),
+            status: association.getStatus(), 
             bannerUrl: association.getBannerUrl(),
             presentation: association.getPresentation()
         });
