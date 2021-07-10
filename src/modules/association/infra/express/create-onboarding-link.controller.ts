@@ -37,5 +37,5 @@ export async function createOnboardingLinkController(req: Request, res: Response
         return_url: 'https://example.com',
         type: 'account_onboarding'
     });
-    return link.url
+    return ExpressController.created(res, { url: link.url});
 }

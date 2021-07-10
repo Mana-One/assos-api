@@ -7,7 +7,7 @@ import * as CreateMember from "../../usecases/CreateMember";
 import { AssociationErrors } from "../../usecases/errors";
 
 
-export function makeMemberController(
+export function makeCreateMemberController(
     usecase: UseCase<CreateMember.Input, Promise<CreateMember.Response>>
 ){
     return async function(req: Request, res: Response){

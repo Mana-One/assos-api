@@ -5,6 +5,7 @@ import { sequelize } from "./sequelize";
 import cors from "cors";
 import { addDonatorRouter } from "../modules/donator/infra";
 import { addDonationRouter } from "../modules/donation/infra";
+import { addAssociationRouter } from "../modules/association/infra";
 
 
 async function run(){
@@ -14,6 +15,8 @@ async function run(){
     addIdentityRouter(app);
     addDonatorRouter(app);
     addDonationRouter(app);
+    addAssociationRouter(app);
+    
     app.use("/", (req: Request, res: Response) => {
         return res.status(404).send("No endpoint");
     });
