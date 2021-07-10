@@ -1,3 +1,4 @@
+export * from './association-hook.controller';
 export * from './create-association.controller';
 export * from './create-member.controller';
 export * from './create-onboarding-link.controller';
