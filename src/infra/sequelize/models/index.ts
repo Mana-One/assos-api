@@ -2,7 +2,7 @@ import { Dialect, Sequelize } from "sequelize";
 import { DatabaseConfig } from "../../../config";
 import { associateCard, makeCard } from "./Card";
 import { associateUser, makeUser } from "./User";
-import { addCardHooks, addUserHooks } from "../hooks";
+import { addAssociationHooks, addCardHooks, addUserHooks } from "../hooks";
 import { StripeStoreService } from "../../../modules/donator/infra/stripe";
 import { makeAssociation } from "./Association";
 import { associateDonation, makeDonation } from "./Donation";
@@ -36,6 +36,7 @@ associateDonation(models);
 associateRecurringDonation(models);
 associateUser(models);
 
+addAssociationHooks(models.Association);
 addCardHooks(models.Card, models.User, StripeStoreService.attachCard, StripeStoreService.removeCard);
 addUserHooks(models.User, StripeStoreService.removeDonator);
 

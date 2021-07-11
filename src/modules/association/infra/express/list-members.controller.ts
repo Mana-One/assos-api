@@ -33,7 +33,9 @@ export function makeListMembersController(
 
         const limit = getLimit(20, String(req.query.limit));
         const offset = getOffset(String(req.query.offset));
-        const role = String(req.query.role);
+        const role = req.query.role === undefined ? 
+            undefined : 
+            String(req.query.role);
 
         const result = await usecase({ associationId, role, limit, offset });
         if(result.isRight()){

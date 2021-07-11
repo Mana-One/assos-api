@@ -30,7 +30,7 @@ export namespace SequelizeAssociationRepo {
         const check = await models.User.findOne({
             where: { email: email.getValue() }
         });
-        return check === null;
+        return check !== null;
     }
 
     export const remove: AssociationRepo.Remove = async (association: Association): Promise<void> => {

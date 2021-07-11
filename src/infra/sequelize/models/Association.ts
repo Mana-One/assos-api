@@ -38,6 +38,7 @@ export function associateAssociation(models: {[key: string]: ModelCtor<any>}){
     });
 
     Association.hasMany(User, {
+        onDelete: "CASCADE",
         foreignKey: {
             name: "assocationId"
         }
