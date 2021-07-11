@@ -11,7 +11,6 @@ describe("Create Association Usecase", () => {
         email: "assos@yahoo.com",
         bannerUrl: "a banner url",
         presentation: "a presentation",
-        storeReference: "a store reference",
         manager: {
             firstName: "Paolo",
             lastName: "Manaois",

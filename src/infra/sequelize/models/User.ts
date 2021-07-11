@@ -57,5 +57,12 @@ export function associateUser(models: {[key: string]: ModelCtor<any>}){
         foreignKey: "payerId",
         otherKey: "recipientId",
         through: RecurringDonation
-    })
+    });
+
+    User.belongsTo(Association, {
+        as: 'Member',
+        foreignKey: {
+            name: 'associationId'
+        }
+    });
 }
