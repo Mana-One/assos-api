@@ -9,6 +9,7 @@ import {
     editInfoController, 
     editPresentationController, 
     getAssociationController, 
+    getOwnAssociationController, 
     listMembersController
 } from './controllers';
 import { associationHooksController } from './express/association-hook.controller';
@@ -32,6 +33,13 @@ router.post(
     express.raw({ type: "application/json" }),
     associationHooksController
 )
+
+router.get(
+    '/affiliated',
+    express.json(),
+    isAuth,
+    getOwnAssociationController
+);
 
 router.delete(
     '/:associationId/members/:memberId', 

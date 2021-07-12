@@ -16,6 +16,7 @@ import {
     makeEditInfoController,
     makeEditPresentationController,
     makeGetAssociationController,
+    makeGetOwnAssociationController,
     makeListMembersController
 } from './express';
 
@@ -33,5 +34,7 @@ export const editInfoController = makeEditInfoController(editInfoUsecase);
 export const editPresentationController = makeEditPresentationController(editPresentationUsecase);
 
 export const getAssociationController = makeGetAssociationController(getAssociationUsecase);
+
+export const getOwnAssociationController = makeGetOwnAssociationController(getAssociationUsecase);
 
 export const listMembersController = makeListMembersController(listMembersUsecase);

@@ -8,15 +8,15 @@ import { AssociationDto } from "../../mappers";
 import { Role } from "../../../../shared/domain";
 
 
-export function makeGetAssociationController(
+export function makeGetOwnAssociationController(
     usecase: UseCase<GetAssociation.Input, Promise<GetAssociation.Response>>
 ){
     return async function(req: Request, res: Response){
-        if(req.body.account?.role !== Role.ADMIN){
+        if(req.body.account?.role !== Role.MANAGER){
             return ExpressController.forbidden(res);
         }
 
-        const associationId = req.params.associationId;
+        const associationId = req.body.account?.associationId;
         const guard = Guard.againstNullOrUndefined({
             key: 'associationId', value: associationId
         });

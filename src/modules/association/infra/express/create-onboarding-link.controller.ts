@@ -8,8 +8,7 @@ import { SequelizeAssociationRepo } from "../repositories";
 
 
 export async function createOnboardingLinkController(req: Request, res: Response){
-    if(req.body.account?.role !== Role.MANAGER && 
-        req.body.account?.role !== Role.ADMIN){
+    if(req.body.account?.role !== Role.MANAGER){
         return ExpressController.forbidden(res);
     }
 
@@ -21,8 +20,7 @@ export async function createOnboardingLinkController(req: Request, res: Response
         return ExpressController.clientError(res, guard.message);
     }
 
-    if(req.body.account?.role === Role.MANAGER && 
-        req.body.account?.associationId !== associationId){
+    if(req.body.account?.associationId !== associationId){
         return ExpressController.forbidden(res);
     }
 
