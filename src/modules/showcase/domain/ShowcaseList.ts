@@ -6,6 +6,8 @@ export interface ShowcaseListItemProps {
     name: string;
 }
 
+export type ShowcaseListItemDto = Readonly<ShowcaseListItemProps>;
+
 export interface  ShowcaseListDto {
     readonly total: number;
     readonly showcases: Array<Readonly<ShowcaseListItemProps>>;
