@@ -5,12 +5,17 @@ import { AppErrors, Guard } from "../../../../core/logic";
 import * as GetAssociation from "../../usecases/GetAssociation";
 import { AssociationErrors } from "../../usecases/errors";
 import { AssociationDto } from "../../mappers";
+import { Role } from "../../../../shared/domain";
 
 
 export function makeGetAssociationController(
     usecase: UseCase<GetAssociation.Input, Promise<GetAssociation.Response>>
 ){
     return async function(req: Request, res: Response){
+        if(req.body.account?.role !== Role.ADMIN){
+            return ExpressController.forbidden(res);
+        }
+
         const associationId = req.params.associationId;
         const guard = Guard.againstNullOrUndefined({
             key: 'associationId', value: associationId
