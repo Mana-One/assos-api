@@ -1,4 +1,4 @@
-import express, { Router, Request, Response, Express } from "express";
+import express, { Router, Express } from "express";
 import { makeIsAuth } from "../../../shared/infra/express";
 import { JWTAuthentication } from "../../../shared/infra/JWT";
 import { 
