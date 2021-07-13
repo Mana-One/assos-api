@@ -6,6 +6,7 @@ import cors from "cors";
 import { addDonatorRouter } from "../modules/donator/infra";
 import { addDonationRouter } from "../modules/donation/infra";
 import { addAssociationRouter } from "../modules/association/infra";
+import { addShowcaseRouter } from "../modules/showcase/infra/express";
 
 
 async function run(){
@@ -16,6 +17,7 @@ async function run(){
     addDonatorRouter(app);
     addDonationRouter(app);
     addAssociationRouter(app);
+    addShowcaseRouter(app);
     
     app.use("/", (req: Request, res: Response) => {
         return res.status(404).send("No endpoint");

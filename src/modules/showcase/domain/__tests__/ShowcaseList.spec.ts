@@ -8,7 +8,7 @@ describe('Showcase List DTO', () => {
         };
         const props = [elm0];
 
-        const result = ShowcaseList.create(props);
+        const result = ShowcaseList.create(props, 1);
         expect(result.success).toBe(true);
 
         const list = result.getValue();

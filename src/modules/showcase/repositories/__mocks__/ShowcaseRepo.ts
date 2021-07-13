@@ -17,13 +17,13 @@ export const FindById = {
 
 export const Search = {
     empty: async (input: string, limit: number, offset: number) => {
-        return ShowcaseList.create([]).getValue();
+        return ShowcaseList.create([], 0).getValue();
     },
     notEmpty: async (input: string, limit: number, offset: number) => {
         return ShowcaseList.create([{
             id: 'a showcase id',
             name: 'a showcase name'
-        }]).getValue();
+        }], 1).getValue();
     },
     throw: async (input: string, limit: number, offset: number) => { throw new Error('oopsie'); }
 }
