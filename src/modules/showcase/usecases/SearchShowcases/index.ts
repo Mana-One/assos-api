@@ -25,7 +25,7 @@ export function makeSearchShowcasesUsecase(props: Props): UseCase<Input, Promise
 
     return async function(request: Input): Promise<Response> {
         if(request.input.length === 0){
-            return left(Result.ko<any>('Invaid input'));
+            return left(Result.ko<any>('Invalid input'));
         }
         try {
             const { total, showcases } = await search(request.input, request.limit, request.offset);
