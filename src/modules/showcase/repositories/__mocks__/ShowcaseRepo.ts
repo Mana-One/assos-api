@@ -1,5 +1,19 @@
-import { ShowcaseList } from "../../domain";
+import { Showcase, ShowcaseList } from "../../domain";
 
+
+export const FindById = {
+    notNull: async (si: string ) => {
+        return Showcase.create({
+            id: si,
+            name: 'a showcase name',
+            email: 'a showcase email',
+            bannerUrl: 'a showcase banner',
+            presentation: 'a showcase presentation'
+        }).getValue();
+    },
+    null: async (si: string ) => null,
+    throw: async (si: string ) => { throw new Error('oopsie'); }
+}
 
 export const Search = {
     empty: async (input: string, limit: number, offset: number) => {
