@@ -14,10 +14,10 @@ export interface  ShowcaseListDto {
 }
 
 export namespace ShowcaseList {
-    export function create(props: ShowcaseListItemProps[]): Result<ShowcaseListDto> {
+    export function create(props: ShowcaseListItemProps[], total: number): Result<ShowcaseListDto> {
         return Result.ok<ShowcaseListDto>(
             Object.freeze({
-                total: props.length,
+                total,
                 showcases: props.map(elm => Object.freeze(elm))
             })
         );
