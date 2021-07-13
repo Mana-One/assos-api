@@ -1,17 +1,19 @@
 import { Op } from 'sequelize';
-import { escape } from 'mysql2';
 import { models } from "../../../../infra/sequelize";
 import { Showcase, ShowcaseDto, ShowcaseList, ShowcaseListDto } from "../../domain";
 import { ShowcaseRepo } from "../../repositories";
+import { AssociationStatus } from '../../../association/domain';
 
 
 export namespace SequelizeShowcaseRepo {
     export const findById: ShowcaseRepo.FindById = async (
         showcaseId: string
     ): Promise<ShowcaseDto | null> => {
-        const instance = await models.Association.findByPk(showcaseId, {
-            attributes: {
-                exclude: ['status', 'storeReference']
+        const instance = await models.Association.findOne({
+            attributes: { exclude: ['status', 'storeReference'] },
+            where: { 
+                id: showcaseId, 
+                status: AssociationStatus.VALID
             }
         });
         if(instance === null){
@@ -28,7 +30,10 @@ export namespace SequelizeShowcaseRepo {
     ): Promise<ShowcaseListDto> => {
         const { count: total, rows: showcases } = await models.Association.findAndCountAll({
             attributes: ['id', 'name'],
-            where: { name: { [Op.like]: `${escape(input)}%` }},
+            where: { 
+                name: { [Op.like]: `${input}%` },
+                status: AssociationStatus.VALID 
+            },
             order: [['name', 'ASC']],
             limit,
             offset

@@ -31,7 +31,7 @@ export function makeSearchShowcasesController(
                 next: resSet.nextOffset === null ? 
                     null : 
                     `${AppConfig.API_DOMAIN}showcases?input=${input}&limit=${limit}&offset=${offset + limit}`,
-                donations: resSet.data
+                showcases: resSet.data
             });
             
             return ExpressController.ok<any>(res, dto);
