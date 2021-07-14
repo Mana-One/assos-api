@@ -1,10 +1,10 @@
 import { makeCreateArticleUsecase } from '../CreateArticle';
-import { Save } from '../../repositories/__mocks__/ArticleWriteRepo';
+import { RemoveOrSave } from '../../repositories/__mocks__/ArticleWriteRepo';
 import { AppErrors } from '../../../../core/logic';
 
 
 describe('Create Article Usecase', () => {
-    const deps = { save: Save.ok };
+    const deps = { save: RemoveOrSave.ok };
     const props = {
         title: 'a title',
         content: 'some content',
@@ -36,7 +36,7 @@ describe('Create Article Usecase', () => {
     })
 
     it('should return UnexpectedError when saving article fails', async () => {
-        const usecase = makeCreateArticleUsecase({ save: Save.throw });
+        const usecase = makeCreateArticleUsecase({ save: RemoveOrSave.throw });
         const result = await usecase(props);
         if(result.isLeft()){
             expect(result.value.success).toBe(false);
