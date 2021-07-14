@@ -14,7 +14,7 @@ export const FindById = {
     throw: async (articleId: string) => { throw new Error('oopsie'); }
 }
 
-export const Save = {
+export const RemoveOrSave = {
     ok: async (article: Article) => {},
     throw: async (article: Article) => { throw new Error('oopsie'); }
 }
