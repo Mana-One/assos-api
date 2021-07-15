@@ -9,6 +9,11 @@ interface ArticleProps {
     associationId: UniqueId;
 }
 
+interface EditArticleInfoPops {
+    title?: string;
+    content?: string;
+}
+
 export class Article extends Entity<ArticleProps> {
     getId(): UniqueId {
         return this._id;
@@ -28,6 +33,24 @@ export class Article extends Entity<ArticleProps> {
 
     getAssociationId(): UniqueId {
         return this.props.associationId
+    }
+
+    editInfo(props: EditArticleInfoPops): Result<void> {
+        if(props.title !== undefined){
+            if(props.title.length === 0){
+                return Result.ko('Invalid title');
+            }
+            this.props.title = props.title;
+        }
+
+        if(props.content !== undefined){
+            if(props.content.length === 0){
+                return Result.ko('Invalid content');
+            }
+            this.props.content = props.content;
+        }
+
+        return Result.ok();
     }
 
     static create(props: ArticleProps, id?: UniqueId): Result<Article> {
