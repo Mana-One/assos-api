@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { request } from "http";
 import { UseCase } from "../../../../core/domain";
 import { ExpressController } from "../../../../core/infra";
 import { AppErrors, Guard } from "../../../../core/logic";
