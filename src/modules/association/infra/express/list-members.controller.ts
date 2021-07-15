@@ -66,16 +66,16 @@ export function makeListMembersController(
 
 function getPreviousPageUrl(associationId: string, limit: number, offset: number, role?: string): string {
     if(role === undefined){
-        return `${AppConfig.API_DOMAIN}association/${associationId}/members?limit=${limit}&offset=${offset - limit}`
+        return `${AppConfig.API_DOMAIN}associations/${associationId}/members?limit=${limit}&offset=${offset - limit}`
     }
 
-    return `${AppConfig.API_DOMAIN}association/${associationId}/members?role=${role}&limit=${limit}&offset=${offset - limit}`
+    return `${AppConfig.API_DOMAIN}associations/${associationId}/members?role=${role}&limit=${limit}&offset=${offset - limit}`
 }
 
 function getNextPageUrl(associationId: string, limit: number, offset: number, role?: string): string {
     if(role === undefined){
-        return `${AppConfig.API_DOMAIN}association/${associationId}/members?limit=${limit}&offset=${offset + limit}`
+        return `${AppConfig.API_DOMAIN}associations/${associationId}/members?limit=${limit}&offset=${offset + limit}`
     }
 
-    return `${AppConfig.API_DOMAIN}association/${associationId}/members?role=${role}&limit=${limit}&offset=${offset + limit}`
+    return `${AppConfig.API_DOMAIN}associations/${associationId}/members?role=${role}&limit=${limit}&offset=${offset + limit}`
 }
