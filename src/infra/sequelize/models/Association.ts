@@ -29,7 +29,7 @@ export function makeAssociation(sequelize: Sequelize){
 }
 
 export function associateAssociation(models: {[key: string]: ModelCtor<any>}){
-    const { Association, User, Donation, RecurringDonation } = models;
+    const { Association, User, Donation, RecurringDonation, Article } = models;
     Association.hasMany(Donation, {
         foreignKey: {
             name: "recipientId",
@@ -54,6 +54,14 @@ export function associateAssociation(models: {[key: string]: ModelCtor<any>}){
         as: 'Charity',
         foreignKey: {
             name: 'associationId'
+        }
+    });
+
+    Association.hasMany(Article, {
+        onDelete: 'CASCADE',
+        foreignKey: {
+            name: 'associationId',
+            allowNull: false
         }
     });
 }
