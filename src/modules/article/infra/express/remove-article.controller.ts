@@ -3,12 +3,12 @@ import { UseCase } from "../../../../core/domain";
 import { ExpressController } from "../../../../core/infra";
 import { AppErrors, Guard } from "../../../../core/logic";
 import { Role } from "../../../../shared/domain";
-import * as EditArticle from "../../usecases/EditArticle";
+import * as RemoveArticle from "../../usecases/RemoveArticle";
 import { ArticleErrors } from "../../usecases/errors";
 
 
-export function makeEditArticleController(
-    usecase: UseCase<EditArticle.Input, Promise<EditArticle.Response>>
+export function makeRemoveArticleController(
+    usecase: UseCase<RemoveArticle.Input, Promise<RemoveArticle.Response>>
 ){
     return async function(req: Request, res: Response){
         if(req.body.account?.role !== Role.MANAGER){
@@ -23,14 +23,9 @@ export function makeEditArticleController(
             return ExpressController.clientError(res, guard.message);
         }
 
-        const { title, content } = req.body;
-        if(title === undefined && content === undefined){
-            return ExpressController.clientError(res);
-        }
-
-        const result = await usecase({ articleId, title, content });
+        const result = await usecase({ articleId });
         if(result.isRight()){
-            return ExpressController.ok(res);
+            return ExpressController.noContent(res);
         }
 
         const error = result.value;
@@ -39,8 +34,6 @@ export function makeEditArticleController(
                 return ExpressController.notFound(res, error.getValue().message);
             case AppErrors.UnexpectedError:
                 return ExpressController.fail(res, error.getValue().message);
-            default:
-                return ExpressController.clientError(res, error.getValue());
         }
     }
 }
