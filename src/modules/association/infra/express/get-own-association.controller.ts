@@ -12,7 +12,8 @@ export function makeGetOwnAssociationController(
     usecase: UseCase<GetAssociation.Input, Promise<GetAssociation.Response>>
 ){
     return async function(req: Request, res: Response){
-        if(req.body.account?.role !== Role.MANAGER){
+        if(req.body.account?.role !== Role.MANAGER &&
+            req.body.account?.role !== Role.VOLUNTEER){
             return ExpressController.forbidden(res);
         }
 
