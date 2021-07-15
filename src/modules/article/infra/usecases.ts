@@ -6,6 +6,7 @@ import { makeRemoveArticleUsecase } from "../usecases/RemoveArticle";
 import { SequelizeArticleWriteRepo } from "./repositories";
 import { SequelizeArticleReadRepo } from "./repositories/SequelizeArticleReadRepo";
 
+
 export const createArticleUsecase = makeCreateArticleUsecase({
     save: SequelizeArticleWriteRepo.save
 });
@@ -23,7 +24,7 @@ export const listArticlesUsecase = makeListArticlesUsecase({
     listArticles: SequelizeArticleReadRepo.listByAssociation
 });
 
-export const removeArticle = makeRemoveArticleUsecase({
+export const removeArticleUsecase = makeRemoveArticleUsecase({
     findArticle: SequelizeArticleWriteRepo.findById,
     remove: SequelizeArticleWriteRepo.remove
 });

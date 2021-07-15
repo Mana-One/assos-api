@@ -6,7 +6,7 @@ import { AppErrors, getLimit, getOffset, Guard } from "../../../../core/logic";
 import * as ListArticles from "../../usecases/ListArticles";
 
 
-export function makeListArticlesController(
+export function makeListAffiliatedArticlesController(
     usecase: UseCase<ListArticles.Input, Promise<ListArticles.Response>>
 ){
     return async function(req: Request, res: Response){
