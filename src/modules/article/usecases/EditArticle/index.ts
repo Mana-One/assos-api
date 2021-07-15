@@ -12,7 +12,8 @@ export interface Input {
 
 export type Response = Either<
     AppErrors.UnexpectedError |
-    ArticleErrors.ArticleNotFound,
+    ArticleErrors.ArticleNotFound |
+    Result<any>,
 
     Result<void>
 >;
