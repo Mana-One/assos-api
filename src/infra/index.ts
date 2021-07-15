@@ -7,6 +7,7 @@ import { addDonatorRouter } from "../modules/donator/infra";
 import { addDonationRouter } from "../modules/donation/infra";
 import { addAssociationRouter } from "../modules/association/infra";
 import { addShowcaseRouter } from "../modules/showcase/infra/express";
+import { addArticleRouter } from "../modules/article/infra";
 
 
 async function run(){
@@ -18,6 +19,7 @@ async function run(){
     addDonationRouter(app);
     addAssociationRouter(app);
     addShowcaseRouter(app);
+    addArticleRouter(app);
     
     app.use("/", (req: Request, res: Response) => {
         return res.status(404).send("No endpoint");
