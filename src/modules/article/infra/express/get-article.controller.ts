@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { UseCase } from "../../../../core/domain";
 import { ExpressController } from "../../../../core/infra";
 import { AppErrors, Guard } from "../../../../core/logic";
-import { Role } from "../../../../shared/domain";
 import { ArticleDto } from "../../domain";
 import { ArticleErrors } from "../../usecases/errors";
 import * as GetArticle from "../../usecases/GetArticle";
