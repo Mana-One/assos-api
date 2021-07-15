@@ -8,7 +8,7 @@ export type ArticleListDto = Readonly<{
     articles: Array<ArticleListItemDto>;
 }>;
 
-function createArticleItemDto(props: any): ArticleListItemDto {
+export function createArticleItemDto(props: any): ArticleListItemDto {
     return Object.freeze({
         id: props.id,
         title: props.title
