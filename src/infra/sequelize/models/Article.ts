@@ -27,7 +27,7 @@ export function associateArticle(models: {[key: string]: ModelCtor<any>}){
     const { Article, Association } = models;
     Article.belongsTo(Association, {
         foreignKey: {
-            name: 'assoiationId',
+            name: 'associationId',
             allowNull: false
         }
     });
