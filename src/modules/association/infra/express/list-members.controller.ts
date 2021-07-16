@@ -48,7 +48,7 @@ export function makeListMembersController(
                 next: resSet.nextOffset === null ? 
                     null : 
                     getNextPageUrl(associationId, limit, offset, role),
-                showcases: resSet.data
+                members: resSet.data
             });
             
             return ExpressController.ok<any>(res, dto);

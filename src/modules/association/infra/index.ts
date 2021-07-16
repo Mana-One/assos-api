@@ -76,7 +76,7 @@ router.put(
 
 router.route('/:associationId')
 .all(express.json())
-.get(isAuth, getAssociationController)
+.get(getAssociationController)
 .delete(isAuth, deleteAssociationController);
 
 
