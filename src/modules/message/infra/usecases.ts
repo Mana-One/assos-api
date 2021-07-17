@@ -7,6 +7,6 @@ export const listMessagesUsecase = makeListMessagesUsecase({
     listMessages: SequelizeMessageReadRepo.listByRoom
 });
 
-export const postMessage = makePostMessageUsecase({
+export const postMessageUsecase = makePostMessageUsecase({
     save: SequelizeMessageWriteRepo.save
 });
