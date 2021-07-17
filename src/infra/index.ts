@@ -5,7 +5,7 @@ import { sequelize } from "./sequelize";
 import cors from "cors";
 import { addDonatorRouter } from "../modules/donator/infra";
 import { addDonationRouter } from "../modules/donation/infra";
-
+import { addChatBotRouter } from "../modules/chatbot/infra";
 
 async function run(){
     const app = express();
@@ -14,6 +14,7 @@ async function run(){
     addIdentityRouter(app);
     addDonatorRouter(app);
     addDonationRouter(app);
+    addChatBotRouter(app);
     app.use("/", (req: Request, res: Response) => {
         return res.status(404).send("No endpoint");
     });
