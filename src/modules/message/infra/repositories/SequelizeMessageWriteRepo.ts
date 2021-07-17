@@ -10,7 +10,7 @@ export namespace SequelizeMessageWriteRepo {
             id: message.getId().toString(),
             content: message.getContent(),
             publicationDate: message.getPublicationDate(),
-            senderId: message.getSenderId().toString(),
+            senderId: message.getSender().getId().toString(),
             roomId: message.getRoomId().toString()
         });
     }

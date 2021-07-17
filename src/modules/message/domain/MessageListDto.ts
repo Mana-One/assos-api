@@ -2,7 +2,7 @@ import { createSenderDto, SenderDto } from "./SenderDto";
 
 export type MessageListItemDto = Readonly<{
     content: string;
-    publicationDate: Date;
+    timestamp: number;
     sender: SenderDto;
 }>;
 
@@ -11,7 +11,7 @@ export type MessageListDto = Array<MessageListItemDto>;
 export function createMessageListItem(props: any): MessageListItemDto {
     return Object.freeze({
         content: props.content,
-        publicationDate: new Date(props.publicationDate),
+        timestamp: new Date(props.publicationDate).getTime(),
         sender: createSenderDto(props.Sender)
     });
 }

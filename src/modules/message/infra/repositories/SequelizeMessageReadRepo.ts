@@ -1,3 +1,4 @@
+import { fn, col } from 'sequelize';
 import { models } from "../../../../infra/sequelize";
 import { createMessageList, MessageListDto } from "../../domain";
 import { MessageReadRepo } from "../../repositories";
@@ -10,6 +11,14 @@ export namespace SequelizeMessageReadRepo {
     ): Promise<MessageListDto> => {
         const instances = await models.Message.findAll({
             where: { roomId },
+            include: [{
+                model: models.User,
+                attributes: [
+                    'id', 
+                    [fn('CONCAT', col('firstName'), ' ', col('lastName')), 'name'], 
+                    'role'
+                ]
+            }],
             order: [['publicationDate', 'DESC']],
             limit,
             offset
