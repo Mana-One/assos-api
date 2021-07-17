@@ -47,6 +47,7 @@ export function makeLoginUseCase(props: Props): UseCase<Input, Promise<Response>
             const associationId = user.getAssociationId();            
             const token = await createToken({
                 id: user.getId().toString(),
+                name: `${user.getFirstName()} ${user.getLastName()}`,
                 role: user.getRole(),
                 associationId: associationId === null ? null : associationId.toString()
             });
