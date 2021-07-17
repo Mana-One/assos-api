@@ -1,11 +1,16 @@
 import { AppErrors } from '../../../../core/logic';
+import { Role } from '../../../../shared/domain';
 import { Save } from '../../repositories/__mocks__/MessageWriteRepo';
 import { makePostMessageUsecase } from '../PostMessage';
 
 
 describe('Post Message Usecase', () => {
     const props = {
-        senderId:'a sender id',
+        sender: {
+            id: 'a sender id',
+            name: ' a name',
+            role: Role.DONATOR
+        },
         roomId: 'a room id',
         content: 'some content',
     };
@@ -18,6 +23,38 @@ describe('Post Message Usecase', () => {
             expect(result.value.success).toBe(true);
         } else {
             fail('Result should be \'right\'');
+        }
+    })
+
+    it('should return ko result when passing invalid role', async () => {
+        const usecase = makePostMessageUsecase(deps);
+        const result = await usecase({
+            ...props,
+            sender: {
+                ...props.sender,
+                role: ''
+            }
+        });
+        if(result.isLeft()){
+            expect(result.value.success).toBe(false);
+        } else {
+            fail('Result should be \'left\'');
+        }
+    })
+
+    it('should return ko result when passing invalid sender name', async () => {
+        const usecase = makePostMessageUsecase(deps);
+        const result = await usecase({
+            ...props,
+            sender: {
+                ...props.sender,
+                name: ''
+            }
+        });
+        if(result.isLeft()){
+            expect(result.value.success).toBe(false);
+        } else {
+            fail('Result should be \'left\'');
         }
     })
 
