@@ -4,10 +4,11 @@ import { associateCard, makeCard } from "./Card";
 import { associateUser, makeUser } from "./User";
 import { addAssociationHooks, addCardHooks, addUserHooks } from "../hooks";
 import { StripeStoreService } from "../../../modules/donator/infra/stripe";
-import { makeAssociation } from "./Association";
+import { associateAssociation, makeAssociation } from "./Association";
 import { associateDonation, makeDonation } from "./Donation";
 import { associateRecurringDonation, makeRecurringDonation } from "./RecurringDonation";
 import { associateArticle, makeArticle } from "./Article";
+import { associateMessage, makeMessage } from "./Message";
 
 
 const sequelize = new Sequelize({            
@@ -28,14 +29,16 @@ const models = {
     Association: makeAssociation(sequelize),
     Card: makeCard(sequelize),
     Donation: makeDonation(sequelize),
+    Message: makeMessage(sequelize),
     RecurringDonation: makeRecurringDonation(sequelize),
     User: makeUser(sequelize)
 };
 
 associateArticle(models);
-associateDonation(models);
+associateAssociation(models);
 associateCard(models);
 associateDonation(models);
+associateMessage(models);
 associateRecurringDonation(models);
 associateUser(models);
 
