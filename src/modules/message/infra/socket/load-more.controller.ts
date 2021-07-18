@@ -20,8 +20,8 @@ export function makeLoadMoreController(
         const { token, roomId, offset } = input;
         try {
             const sender = await verifyToken(token);
-            if(sender.role === Role.MANAGER && 
-                sender.role !== Role.MANAGER && 
+            if((sender.role === Role.MANAGER || 
+                sender.role === Role.VOLUNTEER) && 
                 sender.associationId !== roomId){
                 socket.emit('error', 'Forbidden');
                 return;

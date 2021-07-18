@@ -12,10 +12,6 @@ export function makeGetAssociationController(
     usecase: UseCase<GetAssociation.Input, Promise<GetAssociation.Response>>
 ){
     return async function(req: Request, res: Response){
-        if(req.body.account?.role !== Role.ADMIN){
-            return ExpressController.forbidden(res);
-        }
-
         const associationId = req.params.associationId;
         const guard = Guard.againstNullOrUndefined({
             key: 'associationId', value: associationId
