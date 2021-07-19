@@ -8,7 +8,7 @@ import { MessageWriteRepo } from "../../repositories";
 export interface Input {
     sender: {
         id: string;
-        name: string;
+        username: string;
         role: string;
     };
     roomId: string;
@@ -35,7 +35,7 @@ export function makePostMessageUsecase(dependencies: Dependencies): UseCase<Inpu
         }
 
         const senderRes = Sender.create({
-            name: request.sender.name,
+            username: request.sender.username,
             role: request.sender.role
         }, new UniqueId(request.sender.id));
         if(!senderRes.success){

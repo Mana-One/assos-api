@@ -2,7 +2,7 @@ import { Role } from "./Role";
 
 export interface TokenPayload {
     id: string;
-    name: string;
+    username: string;
     role: Role;
     associationId: string | null;
 }

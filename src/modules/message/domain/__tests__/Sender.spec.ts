@@ -5,7 +5,7 @@ import { Sender } from '../Sender';
 describe('Sender Entity', () => {
     describe('creation', ()=> {
         const props = {
-            name: 'a name',
+            username: 'a name',
             role: Role.DONATOR
         };
         const uid = new UniqueId('a sender id');
@@ -17,7 +17,7 @@ describe('Sender Entity', () => {
             const sender = res.getValue();
             expect(sender instanceof Sender).toBe(true);
             expect(sender.getId().equals(uid)).toBe(true);
-            expect(sender.getName()).toBe(props.name);
+            expect(sender.getName()).toBe(props.username);
             expect(sender.getRole()).toBe(props.role);
         })
 
@@ -28,14 +28,14 @@ describe('Sender Entity', () => {
             const sender = res.getValue();
             expect(sender instanceof Sender).toBe(true);
             expect(sender.getId()).toBeTruthy();
-            expect(sender.getName()).toBe(props.name);
+            expect(sender.getName()).toBe(props.username);
             expect(sender.getRole()).toBe(props.role);
         })
 
         it('should fail when passing an empty name', () => {
             const res = Sender.create({
                 ...props,
-                name: ''
+                username: ''
             }, uid);
             expect(res.success).toBe(false);
             expect(res.getValue()).toBe('Invalid name');

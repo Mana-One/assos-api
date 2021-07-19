@@ -17,7 +17,7 @@ export function makeMessage(sequelize: Sequelize){
     return sequelize.define<MessageInstance>("Message", {
         id: { type: DataTypes.UUID, primaryKey: true },
         content: { type: DataTypes.STRING, allowNull: false },
-        publicationDate: { type: DataTypes.DATEONLY, allowNull: false },
+        publicationDate: { type: DataTypes.DATE(3), allowNull: false },
         senderId: { type: DataTypes.UUID, allowNull: false },
         roomId: { type: DataTypes.UUID, allowNull: false }
     }, { timestamps: false });

@@ -7,7 +7,7 @@ import { Sender } from '../Sender';
 describe('Message Entity', () => {
     describe('creation', () => {
         const sender = Sender.create({
-            name: 'a name',
+            username: 'a name',
             role: Role.DONATOR
         }, new UniqueId('a sender id')).getValue();
         const props = {

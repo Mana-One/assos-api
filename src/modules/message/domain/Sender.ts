@@ -4,7 +4,7 @@ import { Role } from "../../../shared/domain";
 
 
 interface SenderProps {
-    name: string;
+    username: string;
     role: Role
 }
 
@@ -14,7 +14,7 @@ export class Sender extends Entity<SenderProps> {
     }
 
     getName(): string {
-        return this.props.name;
+        return this.props.username;
     }
 
     getRole(): Role {
@@ -23,14 +23,14 @@ export class Sender extends Entity<SenderProps> {
 
     static create(props: SenderProps, id?: UniqueId): Result<Sender> {
         const guard = Guard.bulkAgainstNullOrUndefined([
-            { key: 'name', value: props.name },
+            { key: 'name', value: props.username },
             { key: 'role', value: props.role }
         ]);
         if(!guard.success){
             return Result.ko<Sender>(guard.message)
         } 
 
-        if(props.name.length === 0){
+        if(props.username.length === 0){
             return Result.ko<Sender>('Invalid name');
         }
 

@@ -8,7 +8,7 @@ describe('Post Message Usecase', () => {
     const props = {
         sender: {
             id: 'a sender id',
-            name: ' a name',
+            username: ' a name',
             role: Role.DONATOR
         },
         roomId: 'a room id',
@@ -48,7 +48,7 @@ describe('Post Message Usecase', () => {
             ...props,
             sender: {
                 ...props.sender,
-                name: ''
+                username: ''
             }
         });
         if(result.isLeft()){

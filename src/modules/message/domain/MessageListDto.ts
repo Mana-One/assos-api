@@ -12,7 +12,7 @@ export function createMessageListItem(props: any): MessageListItemDto {
     return Object.freeze({
         content: props.content,
         timestamp: new Date(props.publicationDate).getTime(),
-        sender: createSenderDto(props.Sender)
+        sender: createSenderDto(props.User)
     });
 }
 

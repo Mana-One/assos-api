@@ -13,7 +13,7 @@ export namespace Authentication {
     export function isTokenPayload(obj: any): obj is TokenPayload {
         return !!obj === true &&
             "id" in obj && typeof obj["id"] === "string" &&
-            "name" in obj && typeof obj["name"] === "string" &&
+            "username" in obj && typeof obj["username"] === "string" &&
             "role" in obj && typeof obj["role"] === "string" &&
             "associationId" in obj && 
             (obj["associationId"] === null || typeof obj["associationId"] === "string");
