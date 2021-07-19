@@ -15,7 +15,7 @@ export namespace SequelizeMessageReadRepo {
                 model: models.User,
                 attributes: [
                     'id', 
-                    [fn('CONCAT', col('firstName'), ' ', col('lastName')), 'name'], 
+                    [fn('CONCAT', col('firstName'), ' ', col('lastName')), 'username'], 
                     'role'
                 ]
             }],
