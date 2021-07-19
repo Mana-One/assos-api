@@ -2,7 +2,6 @@ import {Bot, Message, MessageTypes} from "bard-builder";
 import {setup_flow} from "./flow"
 
 
-
 export namespace BotService {
 
      let messagesQueue: any[] = [];
