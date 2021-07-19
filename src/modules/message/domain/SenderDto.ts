@@ -7,7 +7,7 @@ export type SenderDto = Readonly<{
 export function createSenderDto(props: any): SenderDto {
     return Object.freeze({
         id: props.id,
-        username: props.username,
+        username: `${props.firstName} ${props.lastName}`,
         role: props.role
     });
 }
