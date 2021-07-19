@@ -1,21 +1,18 @@
 import { Entity, UniqueId } from "../../../core/domain";
 import { Guard, Result } from "../../../core/logic";
+import { Sender } from "./Sender";
 
 
 interface MessageProps {
-    senderId: UniqueId;
     roomId: UniqueId;
     content: string;
     publicationDate: Date;
+    sender: Sender
 }
 
 export class Message extends Entity<MessageProps> {
     getId(): UniqueId {
         return this._id;
-    }
-
-    getSenderId(): UniqueId {
-        return this.props.senderId;
     }
 
     getRoomId(): UniqueId {
@@ -30,9 +27,13 @@ export class Message extends Entity<MessageProps> {
         return this.props.publicationDate;
     }
 
+    getSender(): Sender {
+        return this.props.sender;
+    }
+
     static create(props: MessageProps, id?: UniqueId): Result<Message> {
         const guard = Guard.bulkAgainstNullOrUndefined([
-            { key: 'senderId', value: props.senderId },
+            { key: 'sender', value: props.sender },
             { key: 'roomId', value: props.roomId },
             { key: 'content', value: props.content },
             { key: 'publicationDate', value: props.publicationDate }

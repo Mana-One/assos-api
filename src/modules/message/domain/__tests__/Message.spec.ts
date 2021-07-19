@@ -1,14 +1,20 @@
 import { UniqueId } from '../../../../core/domain';
+import { Role } from '../../../../shared/domain';
 import { Message } from '../index';
+import { Sender } from '../Sender';
 
 
 describe('Message Entity', () => {
     describe('creation', () => {
+        const sender = Sender.create({
+            username: 'a name',
+            role: Role.DONATOR
+        }, new UniqueId('a sender id')).getValue();
         const props = {
-            senderId: new UniqueId('a sender id'),
             roomId: new UniqueId('a room id'),
             content: 'some content',
-            publicationDate: new Date('2020-07-15')
+            publicationDate: new Date('2020-07-15'),
+            sender
         };
         const uid = new UniqueId('a message id');
 
@@ -19,7 +25,7 @@ describe('Message Entity', () => {
             const message = res.getValue();
             expect(message instanceof Message).toBe(true);
             expect(message.getId().equals(uid)).toBe(true);
-            expect(message.getSenderId().equals(props.senderId)).toBe(true);
+            expect(message.getSender().equals(props.sender)).toBe(true);
             expect(message.getRoomId().equals(props.roomId)).toBe(true);
             expect(message.getContent()).toBe(props.content);
             expect(message.getPublicationDate().getTime()).toBe(props.publicationDate.getTime());
@@ -32,7 +38,7 @@ describe('Message Entity', () => {
             const message = res.getValue();
             expect(message instanceof Message).toBe(true);
             expect(message.getId()).toBeTruthy();
-            expect(message.getSenderId().equals(props.senderId)).toBe(true);
+            expect(message.getSender().equals(props.sender)).toBe(true);
             expect(message.getRoomId().equals(props.roomId)).toBe(true);
             expect(message.getContent()).toBe(props.content);
             expect(message.getPublicationDate().getTime()).toBe(props.publicationDate.getTime());

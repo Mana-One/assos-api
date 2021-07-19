@@ -1,15 +1,21 @@
 import { makeListMessagesUsecase } from '../ListMessages';
 import { ListByRoom } from '../../repositories/__mocks__/MessageReadRepo';
 import { AppErrors } from '../../../../core/logic';
+import { createSenderDto } from '../../domain';
+import { Role } from '../../../../shared/domain';
 
 
 describe('List Messages Usecase', () => {
     const props = { roomId: ' a room id', offset: 0 };
     const deps = { listMessages: ListByRoom.notEmpty };
     const expected = {
-        senderId: 'a sender id',
+        sender: createSenderDto({
+            id: 'a sender id',
+            username: 'a name',
+            role: Role.VOLUNTEER
+        }),
         content: 'some content',
-        publicationDate: new Date('2020-07-15')
+        timestamp: new Date('2020-07-15').getTime()
     };
 
     it('should return ok result', async () => {

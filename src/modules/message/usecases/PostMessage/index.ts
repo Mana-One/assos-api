@@ -1,11 +1,16 @@
 import { UniqueId, UseCase } from "../../../../core/domain";
 import { AppErrors, Either, left, Result, right } from "../../../../core/logic";
-import { Message } from "../../domain";
+import { isRole } from "../../../../shared/domain";
+import { Message, Sender } from "../../domain";
 import { MessageWriteRepo } from "../../repositories";
 
 
 export interface Input {
-    senderId: string;
+    sender: {
+        id: string;
+        username: string;
+        role: string;
+    };
     roomId: string;
     content: string;
 }
@@ -25,11 +30,24 @@ export function makePostMessageUsecase(dependencies: Dependencies): UseCase<Inpu
     const { save } = dependencies;
 
     return async function(request: Input): Promise<Response> {
+        if(!isRole(request.sender.role)){
+            return left(Result.ko<any>('Invalid role'));
+        }
+
+        const senderRes = Sender.create({
+            username: request.sender.username,
+            role: request.sender.role
+        }, new UniqueId(request.sender.id));
+        if(!senderRes.success){
+            return left(senderRes);
+        }
+
+
         const res = Message.create({
-            senderId: new UniqueId(request.senderId),
             roomId: new UniqueId(request.roomId),
             content: request.content,
-            publicationDate: new Date()
+            publicationDate: new Date(),
+            sender: senderRes.getValue()
         });
         if(!res.success){
             return left(res);
