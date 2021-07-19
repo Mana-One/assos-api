@@ -1,6 +1,5 @@
 import { Socket, Server } from 'socket.io';
-import { Express } from 'express';
-import { createServer } from 'http';
+import { Server as HttpServer, createServer } from 'http';
 import { 
     makeJoinRoomController, 
     makeLoadMoreController, 
@@ -10,9 +9,8 @@ import { listMessagesUsecase, postMessageUsecase } from './usecases';
 import { JWTAuthentication } from '../../../shared/infra/JWT';
 
 
-export function addSocket(app: Express){
-    const http = createServer(app);
-    const io = new Server(http, {
+export function addSocket(server: HttpServer){
+    const io = new Server(server, {
         cors: { origin: true }
     });
 
