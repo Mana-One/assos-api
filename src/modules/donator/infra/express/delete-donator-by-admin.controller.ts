@@ -2,43 +2,38 @@ import { Request, Response } from "express";
 import { UseCase } from "../../../../core/domain";
 import { ExpressController } from "../../../../core/infra";
 import { AppErrors, Guard } from "../../../../core/logic";
-import * as RemoveCard from "../../usecases/RemoveCard";
+import { Role } from "../../../../shared/domain";
+import * as DeleteDonator from "../../usecases/DeleteDonator";
 import { DonatorErrors } from "../../usecases/errors";
 
 
-export function makeRemoveCardController(
-    removeCardUsecase: UseCase<RemoveCard.Input, Promise<RemoveCard.Response>>
+export function makeDeleteDonatorByAdminController(
+    deletedonatorUsecase: UseCase<DeleteDonator.Input, Promise<DeleteDonator.Response>>
 ){
     return async function(req: Request, res: Response){
-        const donatorId = req.body.account?.id;
-        const authGuard = Guard.againstNullOrUndefined({
-            key: "donatorId", value: donatorId
-        });
-        if(!authGuard.success){
-            return ExpressController.forbidden(res, authGuard.message);
+        if(req.body.account?.role !== Role.ADMIN){
+            return ExpressController.forbidden(res);
         }
 
-        const { cardId } = req.params;
-        const guard = Guard.againstNullOrUndefined(
-            { key: "cardId", value: cardId }
-        );
+        const donatorId = req.params.donatorId;
+        const guard = Guard.againstNullOrUndefined({ 
+            key: "donatorId", value: donatorId
+        });
         if(!guard.success){
             return ExpressController.clientError(res, guard.message);
         }
 
-        const result = await removeCardUsecase({ donatorId, cardId });
+        const result = await deletedonatorUsecase({ donatorId });
         if(result.isRight()){
             return ExpressController.noContent(res);
         }
 
         const error = result.value;
         switch(error.constructor){
-            case DonatorErrors.CardNotFound:
+            case DonatorErrors.DonatorNotFound:
                 return ExpressController.notFound(res, error.getValue().message);
             case AppErrors.UnexpectedError:
                 return ExpressController.fail(res, error.getValue().message);
-            default:
-                return ExpressController.clientError(res, error.getValue());
         }
     }
 }

@@ -1,6 +1,6 @@
-import { UseCase, UniqueId } from "../../../../core/domain";
+import { UseCase } from "../../../../core/domain";
 import { Either, AppErrors, Result, left, right } from "../../../../core/logic";
-import { DonatorRepo } from "../../repositories";
+import { DonatorWriteRepo } from "../../repositories";
 import { DonatorErrors } from "../errors";
 
 
@@ -15,8 +15,8 @@ export type Response = Either<
 >;
 
 interface Props {
-    findById: DonatorRepo.FindById;
-    remove: DonatorRepo.Remove;
+    findById: DonatorWriteRepo.FindById;
+    remove: DonatorWriteRepo.Remove;
 }
 
 export function makeDeleteDonatorUseCase(props: Props): UseCase<Input, Promise<Response>> {

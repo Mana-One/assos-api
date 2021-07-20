@@ -1,2 +1,2 @@
-export * from "./SequelizeDonatorRepo";
-export * from "./SequelizeWalletRepo";
+export * from './SequelizeDonatorReadRepo';
+export * from './SequelizeDonatorWriteRepo';
