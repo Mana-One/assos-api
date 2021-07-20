@@ -1,8 +1,8 @@
 import { UseCase } from "../../../../core/domain";
 import { Either, AppErrors, Result, left, right } from "../../../../core/logic";
 import { UserName, UserEmail, UserPassword } from "../../../../shared/domain";
-import { Donator, StoreReference, Wallet } from "../../domain";
-import { DonatorRepo } from "../../repositories";
+import { Donator } from "../../domain";
+import { DonatorWriteRepo } from "../../repositories";
 import { StoreService } from "../../services";
 import { DonatorErrors } from "../errors";
 
@@ -22,9 +22,9 @@ export type Response = Either<
 >;
 
 interface Props {
-    isEmailUsed: DonatorRepo.IsEmailUsed;
+    isEmailUsed: DonatorWriteRepo.IsEmailUsed;
     register: StoreService.Register;
-    save: DonatorRepo.Save;
+    save: DonatorWriteRepo.Save;
 }
 
 export function makeCreateDonatorUseCase(props: Props): UseCase<Input, Promise<Response>> {
@@ -56,8 +56,7 @@ export function makeCreateDonatorUseCase(props: Props): UseCase<Input, Promise<R
                 lastName: lastName.getValue(), 
                 email: email.getValue(), 
                 password: password.getValue(),
-                storeReference,
-                wallet: new Wallet()
+                storeReference
             }).getValue();
 
             await save(donator);
