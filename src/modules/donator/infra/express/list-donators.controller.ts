@@ -1,16 +1,20 @@
 import { Request, Response } from "express";
 import { UseCase } from "../../../../core/domain";
 import { ExpressController } from "../../../../core/infra";
-import { AppErrors, getLimit, getOffset } from "../../../../core/logic";
+import { getLimit, getOffset } from "../../../../core/logic";
 import * as ListDonators from "../../usecases/ListDonators";
-import { DonatorErrors } from "../../usecases/errors";
 import { AppConfig } from "../../../../config";
+import { Role } from "../../../../shared/domain";
 
 
 export function makeListDonatorsController(
     createDonatorUsecase: UseCase<ListDonators.Input, Promise<ListDonators.Response>>
 ){
     return async function(req: Request, res: Response) {
+        if(req.body.account?.role !== Role.ADMIN){
+            return ExpressController.forbidden(res);
+        }
+        
         const limit = getLimit(20, String(req.query.limit));
         const offset = getOffset(String(req.query.offset));
 
