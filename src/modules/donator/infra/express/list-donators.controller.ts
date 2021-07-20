@@ -29,7 +29,7 @@ export function makeListDonatorsController(
                 next: resSet.nextOffset === null ? 
                     null : 
                     getNextPageUrl(limit, offset),
-                articles: resSet.data
+                donators: resSet.data
             });
             
             return ExpressController.ok<any>(res, dto);
