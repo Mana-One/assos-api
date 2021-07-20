@@ -1,5 +1,5 @@
 import { UserEmail } from "../../../shared/domain";
-import { Donator } from "../domain";
+import { Donator, DonatorListDto } from "../domain";
 
 export namespace DonatorWriteRepo {
     export interface IsEmailUsed {
@@ -16,5 +16,11 @@ export namespace DonatorWriteRepo {
     
     export interface Save {
         (donator: Donator): Promise<void>;
+    }
+}
+
+export namespace DonatorReadRepo {
+    export interface listDonators {
+        (limit: number, offset: number): Promise<DonatorListDto>;
     }
 }

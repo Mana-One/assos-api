@@ -1,7 +1,7 @@
 import { AppErrors, Result } from "../../../../core/logic";
 import { Donator } from "../../domain";
 import { makeCreateDonatorUseCase } from "../CreateDonator";
-import { IsEmailUsed, RemoveOrSave } from "../../repositories/__mocks__/DonatorRepo";
+import { IsEmailUsed, RemoveOrSave } from "../../repositories/__mocks__/DonatorWriteRepo";
 import { Register, RemoveDonator } from "../../services/__mocks__/StoreService";
 import { DonatorErrors } from "../errors";
 

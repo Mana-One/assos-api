@@ -1,5 +1,5 @@
 import { makeDeleteDonatorUseCase } from "../DeleteDonator";
-import { FindById, RemoveOrSave } from "../../repositories/__mocks__/DonatorRepo";
+import { FindById, RemoveOrSave } from "../../repositories/__mocks__/DonatorWriteRepo";
 import { DonatorErrors } from "../errors";
 import { AppErrors } from "../../../../core/logic";
 
