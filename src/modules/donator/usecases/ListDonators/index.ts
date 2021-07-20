@@ -14,7 +14,7 @@ export type Response = Either<
 >;
 
 interface Dependencies {
-    list: DonatorReadRepo.listDonators
+    list: DonatorReadRepo.ListDonators
 }
 
 export function makeListDonatorsUsecase(dependencies: Dependencies): UseCase<Input, Promise<Response>> {

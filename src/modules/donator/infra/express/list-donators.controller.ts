@@ -8,7 +8,7 @@ import { Role } from "../../../../shared/domain";
 
 
 export function makeListDonatorsController(
-    createDonatorUsecase: UseCase<ListDonators.Input, Promise<ListDonators.Response>>
+    usecase: UseCase<ListDonators.Input, Promise<ListDonators.Response>>
 ){
     return async function(req: Request, res: Response) {
         if(req.body.account?.role !== Role.ADMIN){
@@ -18,7 +18,7 @@ export function makeListDonatorsController(
         const limit = getLimit(20, String(req.query.limit));
         const offset = getOffset(String(req.query.offset));
 
-        const result = await createDonatorUsecase({ limit, offset });
+        const result = await usecase({ limit, offset });
         if(result.isRight()){
             const resSet = result.value.getValue();
             const dto = Object.freeze({
