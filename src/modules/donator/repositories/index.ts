@@ -20,7 +20,7 @@ export namespace DonatorWriteRepo {
 }
 
 export namespace DonatorReadRepo {
-    export interface listDonators {
+    export interface ListDonators {
         (limit: number, offset: number): Promise<DonatorListDto>;
     }
 }
