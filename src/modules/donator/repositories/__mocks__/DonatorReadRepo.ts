@@ -7,7 +7,7 @@ export const expected = {
 }
 
 export const ListDonators = {
-    empty: async (limit: number, offset: number) => [],
+    empty: async (limit: number, offset: number) => createDonatorListDto([], 0),
     notEmpty: async (limit: number, offset: number) => {
         return createDonatorListDto(
             [createDonatorListItemDto(expected)],
