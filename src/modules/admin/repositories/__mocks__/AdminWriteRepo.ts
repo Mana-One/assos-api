@@ -1,3 +1,4 @@
+import { UniqueId } from "../../../../core/domain";
 import { UserEmail, UserName, UserPassword } from "../../../../shared/domain";
 import { Admin } from "../../domain";
 
@@ -15,7 +16,7 @@ export const FindById = {
         lastName: UserName.create('a last name').getValue(),
         email: UserEmail.create('username@yahoo.com').getValue(),
         password: UserPassword.createNotHashed('azertyUIOP123$').getValue()
-    }).getValue(),
+    }, new UniqueId(id)).getValue(),
     throw: async (id: string) => { throw new Error('oopsie'); }
 }
 
