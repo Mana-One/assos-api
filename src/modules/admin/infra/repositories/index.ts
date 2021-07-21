@@ -5,7 +5,7 @@ import { Admin } from "../../domain";
 import { AdminWriteRepo } from "../../repositories";
 
 
-export namespace SequelizeAdminWrtieRepo {
+export namespace SequelizeAdminWriteRepo {
     export const findById: AdminWriteRepo.FindById = async (id: string): Promise<Admin | null> => {
         const instance = await models.User.findOne({
             where: {
