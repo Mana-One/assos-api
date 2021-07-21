@@ -4,7 +4,7 @@ import { Admin } from "../../domain";
 
 export const Exists = {
     yes: async (email: string) => true,
-    no: (email: string) => false,
+    no: async (email: string) => false,
     throw: async (email: string) => { throw new Error('oopsie'); }
 }
 
