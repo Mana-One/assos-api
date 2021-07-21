@@ -18,7 +18,7 @@ export function makeEditUserController(
             return ExpressController.clientError(res);
         }
 
-        if(req.body.account.role !== Role.ADMIN ||
+        if(req.body.account.role !== Role.ADMIN &&
             req.body.account.id !== userId){
             return ExpressController.forbidden(res);
         }
