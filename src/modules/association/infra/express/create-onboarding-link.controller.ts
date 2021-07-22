@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { StoreConfig } from "../../../../config";
 import { UseCase } from "../../../../core/domain";
 import { ExpressController } from "../../../../core/infra";
 import { AppErrors, Guard } from "../../../../core/logic";
@@ -32,7 +33,7 @@ export async function createOnboardingLinkController(req: Request, res: Response
     const link = await StripeStore.accountLinks.create({
         account: association.getStoreReference(),
         refresh_url: 'https://example.com',
-        return_url: 'https://example.com',
+        return_url: StoreConfig.ONBOARDING_RETURN_URL,
         type: 'account_onboarding'
     });
     return ExpressController.created(res, { url: link.url});
