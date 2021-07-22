@@ -1,4 +1,5 @@
 import { UniqueId } from "../../../../core/domain";
+import { Optional } from "../../../../core/logic";
 import { models } from "../../../../infra/sequelize";
 import { Role, UserEmail, UserName, UserPassword } from "../../../../shared/domain";
 import { Admin } from "../../domain";
@@ -6,7 +7,7 @@ import { AdminWriteRepo } from "../../repositories";
 
 
 export namespace SequelizeAdminWriteRepo {
-    export const findById: AdminWriteRepo.FindById = async (id: string): Promise<Admin | null> => {
+    export const findById: AdminWriteRepo.FindById = async (id: string): Promise<Optional<Admin>> => {
         const instance = await models.User.findOne({
             where: {
                 role: Role.ADMIN,
@@ -14,15 +15,15 @@ export namespace SequelizeAdminWriteRepo {
             }
         });
         if(instance === null){
-            return null;
+            return new Optional<Admin>(null);
         }
 
-        return Admin.create({
+        return new Optional<Admin>(Admin.create({
             firstName: UserName.create(instance.firstName).getValue(),
             lastName: UserName.create(instance.lastName).getValue(),
             email: UserEmail.create(instance.email).getValue(),
             password: UserPassword.createHashed(instance.password).getValue()
-        }, new UniqueId(instance.id)).getValue();
+        }, new UniqueId(instance.id)).getValue());
     }
 
     export const exists: AdminWriteRepo.Exists = async (email: string): Promise<boolean> => {

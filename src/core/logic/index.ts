@@ -2,7 +2,7 @@ export * from "./AppError";
 export * from "./Either";
 export * from "./Guard";
 export * from './None';
-export * from './Option';
+export * from './Optional';
 export * from "./Paginated";
 export * from "./Result";
 export * from "./UseCaseError";

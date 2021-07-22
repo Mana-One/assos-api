@@ -7,7 +7,7 @@ import { AdminErrors } from '../errors';
 describe('Delete Admin Usecase', () => {
     const props = { adminId: 'an admin id' };
     const deps = {
-        find: FindById.notNull,
+        find: FindById.some,
         remove: RemoveOrSave.ok
     };
     
@@ -24,7 +24,7 @@ describe('Delete Admin Usecase', () => {
     it('should return AdminNotFound if admin does not exist', async () => {
         const usecase = makeDeleteAdminUsecase({
             ...deps,
-            find: FindById.null
+            find: FindById.none
         });
         const result = await usecase(props);
         if(result.isLeft()){

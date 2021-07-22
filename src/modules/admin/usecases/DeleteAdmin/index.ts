@@ -26,11 +26,11 @@ export function makeDeleteAdminUsecase(dependencies: Dependencies): UseCase<Inpu
     return async function(request: Input): Promise<Response> {
         try {
             const admin = await find(request.adminId);
-            if(admin === null){
+            if(admin.isNone()){
                 return left(new AdminErrors.AdminNotFound());
             }
     
-            await remove(admin);
+            await remove(admin.getValue());
             return right(Result.ok());
 
         } catch(err) {

@@ -1,3 +1,4 @@
+import { Optional } from "../../../core/logic";
 import { Admin } from "../domain";
 
 
@@ -7,7 +8,7 @@ export namespace AdminWriteRepo {
     }
 
     export interface FindById {
-        (id: string): Promise<Admin | null>;
+        (id: string): Promise<Optional<Admin>>;
     }
 
     export interface Save {

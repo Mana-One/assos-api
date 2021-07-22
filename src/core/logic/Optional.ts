@@ -1,6 +1,6 @@
 import { isNone, None } from "./None";
 
-export class Option<T> {
+export class Optional<T> {
     private value: T | None;
 
     constructor(value: T | None){
@@ -15,11 +15,11 @@ export class Option<T> {
         throw new Error('NullPointerException');
     }
 
-    hasSome(): this is { value: T } {
+    isSome(): this is { value: T } {
         return !isNone(this.value);
     }
 
-    hasNone(): this is { value: None } {
+    isNone(): this is { value: None } {
         return isNone(this.value);
     }
 }
