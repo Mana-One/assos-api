@@ -1,9 +1,7 @@
 import { Entity, UniqueId } from "../../../core/domain";
 import { Guard, Result } from "../../../core/logic";
 import { UserEmail, UserName, UserPassword } from "../../../shared/domain";
-import { Card } from "./Card";
 import { StoreReference } from "./StoreReference";
-import { Wallet } from "./Wallet";
 
 interface DonatorProps {
     firstName: UserName;
@@ -11,12 +9,9 @@ interface DonatorProps {
     email: UserEmail;
     password: UserPassword;
     storeReference: StoreReference;
-    wallet: Wallet;
 }
 
 export class Donator extends Entity<DonatorProps> {
-    static readonly WALLET_CAPACITY = 5;
-
     getId(){
         return this._id;
     }
@@ -39,48 +34,6 @@ export class Donator extends Entity<DonatorProps> {
 
     getStoreReference(): StoreReference {
         return this.props.storeReference;
-    }
-
-    getWallet() {
-        return this.props.wallet.getItems();
-    }
-
-    getNewlyAddedCards() {
-        return this.props.wallet.getNewItems();
-    }
-
-    getRemovedCards() {
-        return this.props.wallet.getRemovedItems();
-    }
-
-    countCards() {
-        return this.props.wallet.countItems();
-    }
-
-    countNewlyAddedCards() {
-        return this.props.wallet.countNewItems();
-    }
-
-    countRemovedCards() {
-        return this.props.wallet.countRemovedItems();
-    }
-
-    isWalletFull(): boolean {
-        return this.props.wallet.countItems() === Donator.WALLET_CAPACITY;
-    }
-
-    addCard(card: Card): void {
-        if(this.props.wallet.countItems() < Donator.WALLET_CAPACITY){
-            this.props.wallet.add(card);
-        }
-    }
-
-    hasCard(card: Card): boolean {
-        return this.props.wallet.exists(card);
-    }
-
-    removeCard(card: Card): void {
-        this.props.wallet.remove(card);
     }
 
     static create(props: DonatorProps, id?: UniqueId): Result<Donator> {

@@ -1,12 +1,13 @@
 import { Dialect, Sequelize } from "sequelize";
 import { DatabaseConfig } from "../../../config";
-import { associateCard, makeCard } from "./Card";
 import { associateUser, makeUser } from "./User";
-import { addCardHooks, addUserHooks } from "../hooks";
+import { addAssociationHooks, addUserHooks } from "../hooks";
 import { StripeStoreService } from "../../../modules/donator/infra/stripe";
-import { makeAssociation } from "./Association";
+import { associateAssociation, makeAssociation } from "./Association";
 import { associateDonation, makeDonation } from "./Donation";
 import { associateRecurringDonation, makeRecurringDonation } from "./RecurringDonation";
+import { associateArticle, makeArticle } from "./Article";
+import { associateMessage, makeMessage } from "./Message";
 
 
 const sequelize = new Sequelize({            
@@ -23,20 +24,22 @@ const sequelize = new Sequelize({
 });
 
 const models = {
+    Article: makeArticle(sequelize),
     Association: makeAssociation(sequelize),
-    Card: makeCard(sequelize),
     Donation: makeDonation(sequelize),
+    Message: makeMessage(sequelize),
     RecurringDonation: makeRecurringDonation(sequelize),
     User: makeUser(sequelize)
 };
 
+associateArticle(models);
+associateAssociation(models);
 associateDonation(models);
-associateCard(models);
-associateDonation(models);
+associateMessage(models);
 associateRecurringDonation(models);
 associateUser(models);
 
-addCardHooks(models.Card, models.User, StripeStoreService.attachCard, StripeStoreService.removeCard);
+addAssociationHooks(models.Association);
 addUserHooks(models.User, StripeStoreService.removeDonator);
 
 export {

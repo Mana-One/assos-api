@@ -27,6 +27,7 @@ export function makeRecurringDonation(sequelize: Sequelize){
 export function associateRecurringDonation(models: {[key: string]: ModelCtor<any>}){
     const { RecurringDonation, Association, User } = models;
     RecurringDonation.belongsTo(Association, {
+        onDelete: 'CASCADE',
         foreignKey: {
             name: "recipientId",
             allowNull: false
@@ -34,6 +35,7 @@ export function associateRecurringDonation(models: {[key: string]: ModelCtor<any
     });
 
     RecurringDonation.belongsTo(User, {
+        onDelete: 'CASCADE',
         foreignKey: {
             name: "payerId",
             allowNull: false

@@ -21,13 +21,14 @@ export function makeDonation(sequelize: Sequelize){
         currency: { type: DataTypes.STRING(3), allowNull: false },
         type: { type: DataTypes.STRING(50), allowNull: false },
         payerId: { type: DataTypes.UUID, allowNull: false },
-        recipientId: { type: DataTypes.UUID, allowNull: false }
+        recipientId: { type: DataTypes.UUID }
     }, { timestamps: false });
 }
 
 export function associateDonation(models: {[key: string]: ModelCtor<any>}){
     const { Donation, User, Association } = models;
     Donation.belongsTo(User, {
+        onDelete: 'CASCADE',
         foreignKey: {
             name: "payerId",
             allowNull: false
@@ -35,6 +36,7 @@ export function associateDonation(models: {[key: string]: ModelCtor<any>}){
     });
 
     Donation.belongsTo(Association, {
+        onDelete: 'CASCADE',
         foreignKey: {
             name: "recipientId",
             allowNull: false

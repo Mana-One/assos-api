@@ -30,17 +30,10 @@ export function makeUser(sequelize: Sequelize){
 }
 
 export function associateUser(models: {[key: string]: ModelCtor<any>}){
-    const { User, Card, Association, Donation, RecurringDonation } = models;
-    User.hasMany(Card, {
-        onDelete: 'CASCADE',
-        hooks: true,
-        foreignKey: {
-            name: "donatorId",
-            allowNull: false
-        }
-    });
+    const { User, Association, Donation, RecurringDonation, Message } = models;
 
     User.hasMany(Donation, {
+        //onDelete: 'CASCADE',
         foreignKey: {
             name: "payerId",
             allowNull: false
@@ -48,14 +41,31 @@ export function associateUser(models: {[key: string]: ModelCtor<any>}){
     });
 
     User.belongsTo(Association, {
+        onDelete: 'CASCADE',
         foreignKey: {
             name: "associationId"
         }
     });
 
     User.belongsToMany(Association, {
+        //onDelete: 'CASCADE',
         foreignKey: "payerId",
         otherKey: "recipientId",
         through: RecurringDonation
-    })
+    });
+
+    /*User.belongsTo(Association, {
+        as: 'Member',
+        foreignKey: {
+            name: 'associationId'
+        }
+    });*/
+
+    User.hasMany(Message, {
+        //onDelete: 'CASCADE',
+        foreignKey: {
+            name: 'senderId',
+            allowNull: false
+        }
+    });
 }
