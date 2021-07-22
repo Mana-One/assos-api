@@ -31,7 +31,7 @@ export namespace SequelizeShowcaseRepo {
         const { count: total, rows: showcases } = await models.Association.findAndCountAll({
             attributes: ['id', 'name'],
             where: { 
-                name: { [Op.like]: `${input}%` },
+                name: { [Op.like]: `%${input}%` },
                 status: AssociationStatus.VALID 
             },
             order: [['name', 'ASC']],
