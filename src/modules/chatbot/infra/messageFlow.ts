@@ -13,9 +13,9 @@ let messagesQueue: ChatBotMessage[] = [];
 
 
 function pullProcess(): NodeJS.Timeout | NodeJS.Immediate {
-    //get message from chatbot
+
     const message = bot.pull();
-    //if error, rerun with delay
+
     if (message instanceof Error) {
         return setTimeout(() => pullProcess(), 500);
     }
@@ -24,7 +24,7 @@ function pullProcess(): NodeJS.Timeout | NodeJS.Immediate {
     console.log(message);
     messagesQueue.push(message);
 
-    // loop through this function
+
     return setImmediate(() => pullProcess());
 }
 
@@ -35,7 +35,7 @@ export function getMessages(req: Request, res: Response) {
         messagesQueue.shift();
         return ExpressController.ok<any>(res, message);
     } else {
-        return ExpressController.notFound(res);
+        return ExpressController.noContent(res);
     }
 }
 

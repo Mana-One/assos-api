@@ -1,19 +1,18 @@
-/* export a function that returns the dialog (array of functions) */
-export function rootTrailing(deps:any) {
+export function rootTrailing(deps: any) {
     return [
         (session: any, course: any) => {
-            /* get known data */
-            const is_known = session.storage.get("known_greeting");
-            /* if user already interacted, then send a different message to him */
+
+            const known_user = session.storage.get("known");
+
             let greeting_message = "Hello! I am Asso's Chatbot!";
-            if (is_known) greeting_message = "Hello again!";
+
+            if(known_user){
+                greeting_message = "Hello! Again!";
+            }
 
             session.send(greeting_message);
+            session.storage.set("known", true);
 
-            /* set known to true */
-            session.storage.set("known_greeting", true);
-
-            /* redirect interation to the faq trailing dialog */
             return course.replace("faq");
         }
     ];

@@ -1,20 +1,22 @@
 const questions_list = {
     "whoareyou?": "I am a just a chatbot, I'm here to help you out!",
-    "whatisachatbot?": "Chatbot is a applicati0n th47 coNDuc7 4 c0nv3rS47i0 i7h   um4n",
-    "what is your purpose?": "Not to pass butter, sadly."
+    "whatisachatbot?": "Chatbot is a application that conduct conversation with humans",
+    "help": "You can ask questions like \"what is assos?\" or \"who are you?\"",
+    "whatisassos": "Asso's is a platform which aims to help associations finance their projects",
+    "howareyou?": "I'm fine thank you!",
+    "whatisyourname?": "Unfortunately I don't have a name, you can call me chatbot!"
 };
 
-/* export a function that returns the dialog (array of functions) */
-export function intentIncoming(deps:any) {
+
+export function intentIncoming(deps: any) {
     return [
-        (session:any, course:any) => {
-            /* get the user input */
+        (session: any, course: any) => {
+
             const user_input = session.getMessage().data;
             if (!(user_input && user_input.length)) {
                 return course.next();
             }
 
-            /* check if user input is a valid question, if so save it in session and redirect it to the faq dialog */
             // @ts-ignore
             const answer = questions_list[user_input.toLowerCase().replace(/\s/g, "")];
             if (answer) {
@@ -22,7 +24,6 @@ export function intentIncoming(deps:any) {
                 return course.replace("faq");
             }
 
-            /* ensure interation to keep going through and reach the trailing layer */
             return course.next();
         }
     ];
