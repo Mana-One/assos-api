@@ -5,6 +5,7 @@ import { sequelize } from "./sequelize";
 import cors from "cors";
 import { addDonatorRouter } from "../modules/donator/infra";
 import { addDonationRouter } from "../modules/donation/infra";
+import { addChatBotRouter } from "../modules/chatbot/infra";
 import { addAssociationRouter } from "../modules/association/infra";
 import { addShowcaseRouter } from "../modules/showcase/infra/express";
 import { addArticleRouter } from "../modules/article/infra";
@@ -21,6 +22,7 @@ async function run(){
     addIdentityRouter(app);
     addDonatorRouter(app);
     addDonationRouter(app);
+    addChatBotRouter(app);
     addAssociationRouter(app);
     addShowcaseRouter(app);
     addArticleRouter(app);
