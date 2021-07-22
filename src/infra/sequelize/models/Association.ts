@@ -29,38 +29,47 @@ export function makeAssociation(sequelize: Sequelize){
 }
 
 export function associateAssociation(models: {[key: string]: ModelCtor<any>}){
-    const { Association, User, Donation, RecurringDonation, Article } = models;
+    const { Association, User, Donation, RecurringDonation, Article, Message } = models;
     Association.hasMany(Donation, {
+        //onDelete: 'CASCADE',
         foreignKey: {
-            name: "recipientId",
-            allowNull: false
+            name: "recipientId"
         }
     });
 
     Association.hasMany(User, {
-        onDelete: "CASCADE",
+        //onDelete: "CASCADE",
         foreignKey: {
             name: "associationId"
         }
     });
 
     Association.belongsToMany(User, {
+        //onDelete: 'CASCADE',
         foreignKey: "recipientId",
         otherKey: "payerId",
         through: RecurringDonation
     });
 
-    Association.hasMany(User, {
+    /*Association.hasMany(User, {
         as: 'Charity',
         foreignKey: {
             name: 'associationId'
         }
-    });
+    });*/
 
     Association.hasMany(Article, {
-        onDelete: 'CASCADE',
+        //onDelete: 'CASCADE',
         foreignKey: {
             name: 'associationId',
+            allowNull: false
+        }
+    });
+
+    Association.hasMany(Message, {
+        //onDelete: 'CASCADE',
+        foreignKey: {
+            name: 'roomId',
             allowNull: false
         }
     });

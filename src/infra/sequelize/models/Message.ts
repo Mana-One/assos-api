@@ -26,6 +26,7 @@ export function makeMessage(sequelize: Sequelize){
 export function associateMessage(models: {[key: string]: ModelCtor<any>}){
     const { Message, Association, User } = models;
     Message.belongsTo(Association, {
+        onDelete: 'CASCADE',
         foreignKey: {
             name: 'roomId',
             allowNull: false
@@ -33,6 +34,7 @@ export function associateMessage(models: {[key: string]: ModelCtor<any>}){
     });
 
     Message.belongsTo(User, {
+        onDelete: 'CASCADE',
         foreignKey: {
             name: 'senderId',
             allowNull: false

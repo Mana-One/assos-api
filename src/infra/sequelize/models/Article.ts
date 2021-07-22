@@ -26,6 +26,7 @@ export function makeArticle(sequelize: Sequelize){
 export function associateArticle(models: {[key: string]: ModelCtor<any>}){
     const { Article, Association } = models;
     Article.belongsTo(Association, {
+        onDelete: 'CASCADE',
         foreignKey: {
             name: 'associationId',
             allowNull: false
