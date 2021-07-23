@@ -13,10 +13,6 @@ export function faqTrailing(deps: any) {
             }
 
             const response = session.getMessage().data;
-            /* if (response === "no" || response === "n") {
-                 session.send("Alright!");
-                 return course.replace("bye");
-             }*/
             return course.wait();
         },
         (session: any, course: any) => {

@@ -20,10 +20,7 @@ function pullProcess(): NodeJS.Timeout | NodeJS.Immediate {
         return setTimeout(() => pullProcess(), 500);
     }
 
-    // send message to the messageQueue
     messagesQueue.push(message);
-
-
     return setImmediate(() => pullProcess());
 }
 

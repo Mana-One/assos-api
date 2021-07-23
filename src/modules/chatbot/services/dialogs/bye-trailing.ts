@@ -1,4 +1,3 @@
-/* export a function that returns the dialog (array of functions) */
 export function byeTrailing(deps: {}) {
     return [
         (session:any, course:any) => {

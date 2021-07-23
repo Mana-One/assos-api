@@ -48,7 +48,6 @@ export namespace ExpressController {
     }
   
     export function fail(res: Response, error: Error | string){
-        //console.error(error);
         return res.status(500).json({
             message: error.toString()
         });

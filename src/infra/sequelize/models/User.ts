@@ -33,7 +33,6 @@ export function associateUser(models: {[key: string]: ModelCtor<any>}){
     const { User, Association, Donation, RecurringDonation, Message } = models;
 
     User.hasMany(Donation, {
-        //onDelete: 'CASCADE',
         foreignKey: {
             name: "payerId",
             allowNull: false
@@ -48,21 +47,12 @@ export function associateUser(models: {[key: string]: ModelCtor<any>}){
     });
 
     User.belongsToMany(Association, {
-        //onDelete: 'CASCADE',
         foreignKey: "payerId",
         otherKey: "recipientId",
         through: RecurringDonation
     });
 
-    /*User.belongsTo(Association, {
-        as: 'Member',
-        foreignKey: {
-            name: 'associationId'
-        }
-    });*/
-
     User.hasMany(Message, {
-        //onDelete: 'CASCADE',
         foreignKey: {
             name: 'senderId',
             allowNull: false
