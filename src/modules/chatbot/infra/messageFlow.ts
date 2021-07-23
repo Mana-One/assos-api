@@ -21,7 +21,6 @@ function pullProcess(): NodeJS.Timeout | NodeJS.Immediate {
     }
 
     // send message to the messageQueue
-    console.log(message);
     messagesQueue.push(message);
 
 
